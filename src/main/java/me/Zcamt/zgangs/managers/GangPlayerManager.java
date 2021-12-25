@@ -33,7 +33,7 @@ public class GangPlayerManager {
         if(isPlayerInDB(player.getUniqueId())) {
             return getGangPlayer(player);
         }
-        GangPlayer gangPlayer = new GangPlayer(player, 0, 0, new ArrayList<>());
+        GangPlayer gangPlayer = new GangPlayer(player, 0, 0);
         addToGangPlayerCache(player.getUniqueId(), gangPlayer);
         insertNewGangPlayerIntoDB(gangPlayer);
         return gangPlayer;
@@ -51,8 +51,7 @@ public class GangPlayerManager {
                 "(" +
                 "UUID," +
                 "GANG_ID, " +
-                "GANG_RANK, " +
-                "GANG_INVITES" +
+                "GANG_RANK " +
                 ")" +
                 " " +
                 "VALUES(" +
@@ -66,7 +65,6 @@ public class GangPlayerManager {
             ps.setString(1, gangPlayer.getPlayer().getUniqueId().toString());
             ps.setInt(2, gangPlayer.getGangID());
             ps.setInt(3, gangPlayer.getGangRank());
-            ps.setString(4, gangPlayer.getSerializedGangInvitesList());
             ps.executeUpdate();
             ps.close();
         } catch (SQLException e) {
@@ -110,8 +108,7 @@ public class GangPlayerManager {
     public void updateGangPlayerInDB(GangPlayer gangPlayer){
         String query = "UPDATE " + databaseManager.getDatabase() + ".gang_players SET " +
                 "GANG_ID = ?, " +
-                "GANG_RANK = ?, " +
-                "GANG_INVITES = ?" +
+                "GANG_RANK = ? " +
                 "" +
                 "WHERE UUID = ?";
         PreparedStatement ps = databaseManager.prepareStatement(query);
@@ -121,8 +118,7 @@ public class GangPlayerManager {
                 try {
                     ps.setInt(1, gangPlayer.getGangID());
                     ps.setInt(2, gangPlayer.getGangRank());
-                    ps.setString(3, gangPlayer.getSerializedGangInvitesList());
-                    ps.setString(4, gangPlayer.getPlayer().getUniqueId().toString());
+                    ps.setString(3, gangPlayer.getPlayer().getUniqueId().toString());
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {
