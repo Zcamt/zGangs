@@ -1,0 +1,16 @@
+me\Zcamt\zgangs\helpers\ItemCreator.class
+me\Zcamt\zgangs\managers\ConfigManager.class
+me\Zcamt\zgangs\managers\GangManager.class
+me\Zcamt\zgangs\helpers\SkullCreator.class
+me\Zcamt\zgangs\helpers\Utilities.class
+me\Zcamt\zgangs\objects\CallbackGang.class
+me\Zcamt\zgangs\managers\DatabaseManager.class
+me\Zcamt\zgangs\managers\GangManager$1.class
+me\Zcamt\zgangs\ZGangs.class
+me\Zcamt\zgangs\managers\GangManager$2.class
+me\Zcamt\zgangs\managers\GangPlayerManager.class
+me\Zcamt\zgangs\api\ZGangsAPI.class
+me\Zcamt\zgangs\managers\DatabaseManager$1.class
+me\Zcamt\zgangs\objects\Gang.class
+me\Zcamt\zgangs\listeners\PlayerJoinListener.class
+me\Zcamt\zgangs\objects\GangPlayer.class
