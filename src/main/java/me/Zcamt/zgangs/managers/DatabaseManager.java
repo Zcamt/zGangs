@@ -48,7 +48,8 @@ public class DatabaseManager {
                 "(" +
                 "UUID varchar(36) NOT NULL, " +
                 "GANG_ID int(11) DEFAULT 0 NOT NULL, " +
-                "GANG_RANK int(11) DEFAULT 0 NOT NULL, " +
+                "GANG_RANK int(11) DEFAULT 0 NOT NULL," +
+                "GANG_INVITES varchar(255) NOT NULL, " +
                 "PRIMARY KEY (UUID)" +
                 ")";
         PreparedStatement ps = prepareStatement(query);
