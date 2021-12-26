@@ -101,7 +101,8 @@ public class DatabaseManager {
                     String UUID = rs.getString("UUID");
                     int gangID = rs.getInt("GANG_ID");
                     int gangRank = rs.getInt("GANG_RANK");
-                    GangPlayer gangPlayer = new GangPlayer(player, gangID, gangRank);
+                    List<Integer> gangInvites = Utilities.deSerializeStringToIntList(rs.getString("GANG_INVITES"));
+                    GangPlayer gangPlayer = new GangPlayer(player, gangID, gangRank, gangInvites);
                     ps.close();
                     rs.close();
                     callbackGangPlayer.setGangPlayer(gangPlayer);
