@@ -2,8 +2,8 @@ package me.Zcamt.zgangs.commands;
 
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
-import me.Zcamt.zgangs.helpers.Messages;
-import me.Zcamt.zgangs.helpers.Utilities;
+import me.Zcamt.zgangs.utils.Messages;
+import me.Zcamt.zgangs.utils.Utilities;
 import me.Zcamt.zgangs.managers.GangManager;
 import me.Zcamt.zgangs.managers.GangPlayerManager;
 import me.Zcamt.zgangs.objects.GangPlayer;

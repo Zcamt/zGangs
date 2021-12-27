@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.helpers;
+package me.Zcamt.zgangs.utils;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;

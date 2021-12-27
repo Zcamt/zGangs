@@ -20,6 +20,11 @@ public class ZGangs extends JavaPlugin {
 
     //Todo: Remember to close all connections to DB.
 
+    //Todo: Try and come up with a solution to the possibility of misalligned information gang -> player and vise versa.
+    // Fx. if a player is not set to be in a gang but the gang has them under members?
+
+    //Todo: Make sure empty invite-lists doesn't get messed up in serialization and de-serialization either when saved and retrieved from the DB
+
     @Override
     public void onEnable() {
         getLogger().info("zGangs");
@@ -39,7 +44,7 @@ public class ZGangs extends JavaPlugin {
 
     }
 
-    //Todo: Make onDisable
+    //Todo: Make onDisable make sure to save current cache to DB
 
     public ZGangsAPI getApi() {
         return api;

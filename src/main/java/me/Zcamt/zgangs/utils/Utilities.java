@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.helpers;
+package me.Zcamt.zgangs.utils;
 
 import me.Zcamt.zgangs.managers.ConfigManager;
 import me.Zcamt.zgangs.managers.GangManager;
@@ -83,6 +83,8 @@ public class Utilities {
         return memberMap;
     }
 
+
+    //Todo: Handle empty lists in all of these.
     public static String serializeIntListToString(List<Integer> list){
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i<list.size(); i++){
@@ -99,8 +101,6 @@ public class Utilities {
         }
         return newList;
     }
-
-
 
     public static String serializeStringListToString(List<String> list){
         StringBuilder stringBuilder = new StringBuilder();

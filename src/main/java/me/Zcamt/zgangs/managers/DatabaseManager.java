@@ -1,7 +1,7 @@
 package me.Zcamt.zgangs.managers;
 
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.helpers.Utilities;
+import me.Zcamt.zgangs.utils.Utilities;
 import me.Zcamt.zgangs.objects.CallbackGang;
 import me.Zcamt.zgangs.objects.CallbackGangPlayer;
 import me.Zcamt.zgangs.objects.Gang;

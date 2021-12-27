@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.helpers;
+package me.Zcamt.zgangs.utils;
 
 public enum DefaultFontInfo {
 
