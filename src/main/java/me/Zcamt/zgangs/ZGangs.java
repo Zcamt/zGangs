@@ -13,8 +13,8 @@ import java.sql.SQLException;
 public class ZGangs extends JavaPlugin {
 
     private final DatabaseManager databaseManager = new DatabaseManager(this);
-    private final GangManager gangManager = new GangManager(databaseManager);
     private final GangPlayerManager gangPlayerManager = new GangPlayerManager(databaseManager);
+    private final GangManager gangManager = new GangManager(databaseManager, gangPlayerManager);
     private final CommandManager commandManager = new CommandManager(gangManager, gangPlayerManager);
     private final ZGangsAPI api = new ZGangsAPI();
 

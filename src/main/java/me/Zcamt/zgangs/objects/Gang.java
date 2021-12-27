@@ -3,6 +3,7 @@ package me.Zcamt.zgangs.objects;
 import me.Zcamt.zgangs.helpers.Utilities;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class Gang {
@@ -15,9 +16,10 @@ public class Gang {
     private int bank;
     private UUID ownerUUID;
     private final HashMap<UUID, Integer> memberList;
+    private final List<String> playerInvites;
     //Todo: Add invite logic, could also be temp invites stored in cache for X min also add rivals and allies + ally invites perhaps
     
-    public Gang(int id, String name, int level, int kills, int deaths, int bank, UUID ownerUUID, HashMap<UUID, Integer> memberList) {
+    public Gang(int id, String name, int level, int kills, int deaths, int bank, UUID ownerUUID, HashMap<UUID, Integer> memberList, List<String> playerInvites) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -26,6 +28,7 @@ public class Gang {
         this.bank = bank;
         this.ownerUUID = ownerUUID;
         this.memberList = memberList;
+        this.playerInvites = playerInvites;
     }
 
     public int getId() {
@@ -95,6 +98,10 @@ public class Gang {
     /*public void setMemberList(HashMap<UUID, Integer> memberList) {
         this.memberList = memberList;
     }*/
+
+    public String getSerializedPlayerInvites(){
+        return Utilities.serializeStringListToString(playerInvites);
+    }
 
     public void addGangPlayerToGang(GangPlayer gangPlayer){
         gangPlayer.removeGangInvite(this.id);

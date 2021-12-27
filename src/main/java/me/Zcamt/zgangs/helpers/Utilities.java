@@ -100,4 +100,23 @@ public class Utilities {
         return newList;
     }
 
+
+
+    public static String serializeStringListToString(List<String> list){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i<list.size(); i++){
+            stringBuilder.append(list.get(i));
+            if(i+1 != list.size()) stringBuilder.append(";");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static List<String> deSerializeStringToStringList(String string){
+        List<String> newList = new ArrayList<>();
+        for(String s : string.split(";")){
+            newList.add(s);
+        }
+        return newList;
+    }
+
 }

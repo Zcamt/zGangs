@@ -40,6 +40,7 @@ public class DatabaseManager {
                 "BANK int(11) DEFAULT 0 NOT NULL, " +
                 "OWNER_UUID varchar(36) NOT NULL, " +
                 "MEMBERS varchar(255) NOT NULL, " +
+                "PLAYER_INVITES varchar(255) NOT NULL, " +
                 "CREATED_DATE TIMESTAMP, " +
                 "PRIMARY KEY (ID)" +
                 ")";
@@ -78,8 +79,9 @@ public class DatabaseManager {
                     int deaths = rs.getInt("DEATHS");
                     int bank = rs.getInt("BANK");
                     UUID ownerUUID = UUID.fromString(rs.getString("OWNER_UUID"));
-                    final HashMap<UUID, Integer> memberList = Utilities.deserializeGangMemberList(rs.getString("MEMBERS"));
-                    Gang gang = new Gang(gangID, gangName, level, kills, deaths, bank, ownerUUID, memberList);
+                    HashMap<UUID, Integer> memberList = Utilities.deserializeGangMemberList(rs.getString("MEMBERS"));
+                    List<String> playerInvites = Utilities.deSerializeStringToStringList(rs.getString("PLAYER_INVITES"));
+                    Gang gang = new Gang(gangID, gangName, level, kills, deaths, bank, ownerUUID, memberList, playerInvites);
                     ps.close();
                     rs.close();
                     callbackGang.setGang(gang);

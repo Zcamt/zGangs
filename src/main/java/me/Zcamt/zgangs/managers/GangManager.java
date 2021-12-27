@@ -12,6 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -19,10 +20,12 @@ import java.util.concurrent.TimeUnit;
 public class GangManager {
 
     private final DatabaseManager databaseManager;
+    private final GangPlayerManager gangPlayerManager;
     private final Cache<Integer, Gang> gangCache;
 
-    public GangManager(DatabaseManager databaseManager) {
+    public GangManager(DatabaseManager databaseManager, GangPlayerManager gangPlayerManager) {
         this.databaseManager = databaseManager;
+        this.gangPlayerManager = gangPlayerManager;
         gangCache = Caffeine.newBuilder()
                 .maximumSize(10000)
                 .expireAfterWrite(10L, TimeUnit.MINUTES)
@@ -52,11 +55,13 @@ public class GangManager {
                 "BANK, " +
                 "OWNER_UUID, " +
                 "MEMBERS, " +
+                "PLAYER_INVITES, " +
                 "CREATED_DATE" +
                 ")" +
                 " " +
                 "VALUES(" +
                 "DEFAULT," +
+                "?," +
                 "?," +
                 "?," +
                 "?," +
@@ -78,6 +83,7 @@ public class GangManager {
                     ps.setInt(5, gang.getBank());
                     ps.setString(6, gang.getOwnerUUID().toString());
                     ps.setString(7, gang.getSerializedMemberList());
+                    ps.setString(8, gang.getSerializedPlayerInvites());
 
                     ps.executeUpdate();
                     ps.close();
@@ -135,11 +141,10 @@ public class GangManager {
         }
         HashMap<UUID, Integer> memberList = new HashMap<>();
         memberList.put(gangPlayer.getPlayer().getUniqueId(), 5);
-        //Todo: Update gangplayer
         gangPlayer.setGangID(gangID);
         gangPlayer.setGangRank(5);
 
-        Gang gang = new Gang(gangID, name, 1, 0, 0, 0, gangPlayer.getPlayer().getUniqueId(), memberList);
+        Gang gang = new Gang(gangID, name, 1, 0, 0, 0, gangPlayer.getPlayer().getUniqueId(), memberList, new ArrayList<>());
         addToGangCache(gang.getId(), gang);
         insertNewGangIntoDB(gang);
         return gang;
@@ -166,7 +171,8 @@ public class GangManager {
                 "DEATHS = ?, " +
                 "BANK = ?, " +
                 "OWNER_UUID = ?, " +
-                "MEMBERS = ? " +
+                "MEMBERS = ?, " +
+                "PLAYER_INVITES = ? " +
                 "" +
                 "WHERE ID = ?";
         PreparedStatement ps = databaseManager.prepareStatement(query);
@@ -181,7 +187,8 @@ public class GangManager {
                     ps.setInt(5, gang.getBank());
                     ps.setString(6, gang.getOwnerUUID().toString());
                     ps.setString(7, gang.getSerializedMemberList());
-                    ps.setInt(8, gang.getId());
+                    ps.setString(8, gang.getSerializedPlayerInvites());
+                    ps.setInt(9, gang.getId());
 
                     ps.executeUpdate();
                     ps.close();
