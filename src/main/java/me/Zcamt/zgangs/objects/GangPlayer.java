@@ -1,6 +1,6 @@
 package me.Zcamt.zgangs.objects;
 
-import me.Zcamt.zgangs.helpers.Utilities;
+import me.Zcamt.zgangs.utils.Utilities;
 import org.bukkit.entity.Player;
 
 import java.util.List;

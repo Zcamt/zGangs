@@ -2,7 +2,7 @@ package me.Zcamt.zgangs.managers;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import me.Zcamt.zgangs.helpers.Utilities;
+import me.Zcamt.zgangs.utils.Utilities;
 import me.Zcamt.zgangs.listeners.GangCacheRemovalListener;
 import me.Zcamt.zgangs.objects.CallbackGang;
 import me.Zcamt.zgangs.objects.Gang;
@@ -143,6 +143,7 @@ public class GangManager {
         memberList.put(gangPlayer.getPlayer().getUniqueId(), 5);
         gangPlayer.setGangID(gangID);
         gangPlayer.setGangRank(5);
+        //Todo: Update player perhaps?
 
         Gang gang = new Gang(gangID, name, 1, 0, 0, 0, gangPlayer.getPlayer().getUniqueId(), memberList, new ArrayList<>());
         addToGangCache(gang.getId(), gang);
