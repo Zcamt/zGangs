@@ -95,4 +95,13 @@ public class Gang {
     /*public void setMemberList(HashMap<UUID, Integer> memberList) {
         this.memberList = memberList;
     }*/
+
+    public void addGangPlayerToGang(GangPlayer gangPlayer){
+        gangPlayer.removeGangInvite(this.id);
+        if(memberList.containsKey(gangPlayer.getPlayer().getUniqueId())) return;
+        memberList.put(gangPlayer.getPlayer().getUniqueId(), 1);
+        gangPlayer.setGangID(this.id);
+        gangPlayer.setGangRank(1);
+    }
+
 }

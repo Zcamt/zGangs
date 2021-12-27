@@ -7,6 +7,7 @@ import java.util.List;
 
 public class GangPlayer {
 
+    //Todo: Might wanna change to only use UUIDs as that allows for creation of GangPlayer object without player being online.
     private Player player;
     private int gangID;
     private int gangRank;
