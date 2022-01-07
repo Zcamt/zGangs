@@ -29,20 +29,20 @@ public class GangPlayerManager {
                 .build();
     }
 
-    private GangPlayer createNewGangPlayer(Player player){
-        if(isPlayerInDB(player.getUniqueId())) {
-            return getGangPlayer(player);
+    private GangPlayer createNewGangPlayer(UUID uuid){
+        if(isPlayerInDB(uuid)) {
+            return getGangPlayer(uuid);
         }
-        GangPlayer gangPlayer = new GangPlayer(player, 0, 0, new ArrayList<>());
-        addToGangPlayerCache(player.getUniqueId(), gangPlayer);
+        GangPlayer gangPlayer = new GangPlayer(uuid, 0, 0, new ArrayList<>());
+        addToGangPlayerCache(uuid, gangPlayer);
         insertNewGangPlayerIntoDB(gangPlayer);
         return gangPlayer;
     }
 
-    private GangPlayer createGangPlayerFromDB(Player player){
+    private GangPlayer createGangPlayerFromDB(UUID uuid){
         CallbackGangPlayer callbackGangPlayer = new CallbackGangPlayer();
-        databaseManager.getGangPlayerFromDB(player, callbackGangPlayer);
-        addToGangPlayerCache(player.getUniqueId(), callbackGangPlayer.getGangPlayer());
+        databaseManager.getGangPlayerFromDB(uuid, callbackGangPlayer);
+        addToGangPlayerCache(uuid, callbackGangPlayer.getGangPlayer());
         return callbackGangPlayer.getGangPlayer();
     }
 
@@ -63,7 +63,7 @@ public class GangPlayerManager {
                 ")";
         PreparedStatement ps = databaseManager.prepareStatement(query);
         try {
-            ps.setString(1, gangPlayer.getPlayer().getUniqueId().toString());
+            ps.setString(1, gangPlayer.getUUID().toString());
             ps.setInt(2, gangPlayer.getGangID());
             ps.setInt(3, gangPlayer.getGangRank());
             ps.setString(4, gangPlayer.getSerializedGangInvitesList());
@@ -97,13 +97,13 @@ public class GangPlayerManager {
     }
 
 
-    public GangPlayer getGangPlayer(Player player){
-        if(isPlayerInCache(player.getUniqueId())){
-            return gangPlayerCache.getIfPresent(player.getUniqueId());
-        } else if (isPlayerInDB(player.getUniqueId())){
-            return createGangPlayerFromDB(player);
+    public GangPlayer getGangPlayer(UUID uuid){
+        if(isPlayerInCache(uuid)){
+            return gangPlayerCache.getIfPresent(uuid);
+        } else if (isPlayerInDB(uuid)){
+            return createGangPlayerFromDB(uuid);
         } else {
-            return createNewGangPlayer(player);
+            return createNewGangPlayer(uuid);
         }
     }
 
@@ -122,7 +122,7 @@ public class GangPlayerManager {
                     ps.setInt(1, gangPlayer.getGangID());
                     ps.setInt(2, gangPlayer.getGangRank());
                     ps.setString(3, gangPlayer.getSerializedGangInvitesList());
-                    ps.setString(4, gangPlayer.getPlayer().getUniqueId().toString());
+                    ps.setString(4, gangPlayer.getUUID().toString());
                     ps.executeUpdate();
                     ps.close();
                 } catch (SQLException e) {

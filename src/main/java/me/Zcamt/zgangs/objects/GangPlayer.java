@@ -1,28 +1,35 @@
 package me.Zcamt.zgangs.objects;
 
 import me.Zcamt.zgangs.utils.Utilities;
-import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.util.List;
+import java.util.UUID;
 
 public class GangPlayer {
 
     //Todo: Might wanna change to only use UUIDs as that allows for creation of GangPlayer object without player being online.
-    private Player player;
+
+    //Todo: Update gangPlayer object in database during set methods
+
+    private UUID uuid;
     private int gangID;
     private int gangRank;
     private List<Integer> gangInvites;
-    //Todo: Add invite logic, could also be temp invites stored in cache for X min
 
-    public GangPlayer(Player player, int gangID, int gangRank, List<Integer> gangInvites) {
-        this.player = player;
+    public GangPlayer(UUID uuid, int gangID, int gangRank, List<Integer> gangInvites) {
+        this.uuid = uuid;
         this.gangID = gangID;
         this.gangRank = gangRank;
         this.gangInvites = gangInvites;
     }
 
-    public Player getPlayer() {
-        return player;
+    public UUID getUUID() {
+        return uuid;
+    }
+    public OfflinePlayer getOfflinePlayer(){
+        return Bukkit.getOfflinePlayer(uuid);
     }
 
     public int getGangID() {

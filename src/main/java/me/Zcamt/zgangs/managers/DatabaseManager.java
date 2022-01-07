@@ -92,20 +92,20 @@ public class DatabaseManager {
         });
     }
 
-    public void getGangPlayerFromDB(Player player, CallbackGangPlayer callbackGangPlayer){
+    public void getGangPlayerFromDB(UUID uuid, CallbackGangPlayer callbackGangPlayer){
         asyncThread(new BukkitRunnable() {
             @Override
             public void run() {
                 String query = "SELECT * FROM " + database + ".gang_players WHERE " + " UUID = ?";
                 PreparedStatement ps = prepareStatement(query);
                 try {
-                    ps.setString(1, player.getUniqueId().toString());
+                    ps.setString(1, uuid.toString());
                     ResultSet rs = ps.executeQuery();
-                    String UUID = rs.getString("UUID");
+                    String uuid = rs.getString("UUID");
                     int gangID = rs.getInt("GANG_ID");
                     int gangRank = rs.getInt("GANG_RANK");
                     List<Integer> gangInvites = Utilities.deSerializeStringToIntList(rs.getString("GANG_INVITES"));
-                    GangPlayer gangPlayer = new GangPlayer(player, gangID, gangRank, gangInvites);
+                    GangPlayer gangPlayer = new GangPlayer(UUID.fromString(uuid), gangID, gangRank, gangInvites);
                     ps.close();
                     rs.close();
                     callbackGangPlayer.setGangPlayer(gangPlayer);

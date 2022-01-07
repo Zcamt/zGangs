@@ -25,7 +25,7 @@ public class PlayerJoinListener implements Listener {
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         GangPlayer gangPlayer;
-        gangPlayer = gangPlayerManager.getGangPlayer(player);
+        gangPlayer = gangPlayerManager.getGangPlayer(player.getUniqueId());
         gangManager.createNewGang(gangPlayer, "test");
         player.sendMessage("Your gang-id is: " + gangPlayer.getGangID() + " and your gang-rank is: " + gangPlayer.getGangRank());
     }

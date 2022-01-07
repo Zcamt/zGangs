@@ -25,6 +25,8 @@ public class ZGangs extends JavaPlugin {
 
     //Todo: Make sure empty invite-lists doesn't get messed up in serialization and de-serialization either when saved and retrieved from the DB
 
+    //Todo: Need to change GangPlayer to use UUID instead of Player variable
+
     @Override
     public void onEnable() {
         getLogger().info("zGangs");

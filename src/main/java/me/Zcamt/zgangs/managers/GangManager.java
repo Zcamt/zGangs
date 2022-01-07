@@ -7,6 +7,7 @@ import me.Zcamt.zgangs.listeners.GangCacheRemovalListener;
 import me.Zcamt.zgangs.objects.CallbackGang;
 import me.Zcamt.zgangs.objects.Gang;
 import me.Zcamt.zgangs.objects.GangPlayer;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.PreparedStatement;
@@ -130,7 +131,9 @@ public class GangManager {
     public Gang createNewGang(GangPlayer gangPlayer, String name) {
         //Todo check if player is in gang
         if(!Utilities.isGangNameValid(name, this)) {
-            Utilities.sendMessage(gangPlayer.getPlayer(), "&cYou cannot call your new gang that!");
+            if(gangPlayer.getOfflinePlayer().isOnline()) {
+                Utilities.sendMessage((Player) gangPlayer.getOfflinePlayer(), "&cYou cannot call your new gang that!");
+            }
             return null;
         }
         int gangID;
@@ -140,12 +143,12 @@ public class GangManager {
             throw new RuntimeException(e);
         }
         HashMap<UUID, Integer> memberList = new HashMap<>();
-        memberList.put(gangPlayer.getPlayer().getUniqueId(), 5);
+        memberList.put(gangPlayer.getUUID(), 5);
         gangPlayer.setGangID(gangID);
         gangPlayer.setGangRank(5);
         //Todo: Update player perhaps?
 
-        Gang gang = new Gang(gangID, name, 1, 0, 0, 0, gangPlayer.getPlayer().getUniqueId(), memberList, new ArrayList<>());
+        Gang gang = new Gang(gangID, name, 1, 0, 0, 0, gangPlayer.getUUID(), memberList, new ArrayList<>());
         addToGangCache(gang.getId(), gang);
         insertNewGangIntoDB(gang);
         return gang;

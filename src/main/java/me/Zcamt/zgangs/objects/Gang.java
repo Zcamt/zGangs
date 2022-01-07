@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public class Gang {
 
+    //Todo: Update gang object in database during set methods
+
     private final int id;
     private String name;
     private int level;
@@ -17,7 +19,6 @@ public class Gang {
     private UUID ownerUUID;
     private final HashMap<UUID, Integer> memberList;
     private final List<String> playerInvites;
-    //Todo: Add invite logic, could also be temp invites stored in cache for X min also add rivals and allies + ally invites perhaps
     
     public Gang(int id, String name, int level, int kills, int deaths, int bank, UUID ownerUUID, HashMap<UUID, Integer> memberList, List<String> playerInvites) {
         this.id = id;
@@ -105,8 +106,8 @@ public class Gang {
 
     public void addGangPlayerToGang(GangPlayer gangPlayer){
         gangPlayer.removeGangInvite(this.id);
-        if(memberList.containsKey(gangPlayer.getPlayer().getUniqueId())) return;
-        memberList.put(gangPlayer.getPlayer().getUniqueId(), 1);
+        if(memberList.containsKey(gangPlayer.getUUID())) return;
+        memberList.put(gangPlayer.getUUID(), 1);
         gangPlayer.setGangID(this.id);
         gangPlayer.setGangRank(1);
     }

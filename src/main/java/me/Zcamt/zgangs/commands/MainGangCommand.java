@@ -7,7 +7,11 @@ import me.Zcamt.zgangs.utils.Utilities;
 import me.Zcamt.zgangs.managers.GangManager;
 import me.Zcamt.zgangs.managers.GangPlayerManager;
 import me.Zcamt.zgangs.objects.GangPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 
 @CommandAlias("Gang|Gangs")
@@ -44,12 +48,27 @@ public class MainGangCommand extends BaseCommand {
             Utilities.sendMessage(player, Messages.INVALID_USAGE.getMessage().replace("{usage}", "/gang create [NAME]"));
         }
         String gangName = args[0];
-        GangPlayer gangPlayer = gangPlayerManager.getGangPlayer(player);
+        GangPlayer gangPlayer = gangPlayerManager.getGangPlayer(player.getUniqueId());
         if(gangManager.createNewGang(gangPlayer, gangName) == null){
             player.sendMessage("&cError: Something went wrong when trying to create your new gang");
             return;
         }
         player.sendMessage("&aSuccessfully created your new gang '&c" + gangName + "&a'");
+    }
+
+    @Subcommand("Invite")
+    public void onInvite(Player player, String[] args){
+        GangPlayer gangPlayer = gangPlayerManager.getGangPlayer(player.getUniqueId());
+        if(gangPlayer.getGangID() == 0){
+            Utilities.sendMessage(player, Messages.NOT_IN_A_GANG.getMessage());
+            return;
+        }
+        if(args.length != 1) {
+            Utilities.sendMessage(player, Messages.INVALID_USAGE.getMessage().replace("{usage}", "/gang invite [PLAYER]"));
+        }
+        String targetName = args[0];
+        OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
+        GangPlayer gangPlayerTarget = gangPlayerManager.getGangPlayer(offlineTarget.getUniqueId());
     }
 
 }
