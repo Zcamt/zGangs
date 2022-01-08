@@ -5,7 +5,6 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import me.Zcamt.zgangs.listeners.GangPlayerCacheRemovalListener;
 import me.Zcamt.zgangs.objects.CallbackGangPlayer;
 import me.Zcamt.zgangs.objects.GangPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.PreparedStatement;
@@ -115,7 +114,7 @@ public class GangPlayerManager {
                 "" +
                 "WHERE UUID = ?";
         PreparedStatement ps = databaseManager.prepareStatement(query);
-        databaseManager.asyncThread(new BukkitRunnable() {
+        databaseManager.runFromPool(new BukkitRunnable() {
             @Override
             public void run() {
                 try {

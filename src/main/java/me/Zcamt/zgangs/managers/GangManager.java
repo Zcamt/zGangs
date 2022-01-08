@@ -73,7 +73,7 @@ public class GangManager {
                 "DEFAULT" +
                 ")";
         PreparedStatement ps = databaseManager.prepareStatement(query);
-        databaseManager.asyncThread(new BukkitRunnable() {
+        databaseManager.runFromPool(new BukkitRunnable() {
             @Override
             public void run() {
                 try {
@@ -180,7 +180,7 @@ public class GangManager {
                 "" +
                 "WHERE ID = ?";
         PreparedStatement ps = databaseManager.prepareStatement(query);
-        databaseManager.asyncThread(new BukkitRunnable() {
+        databaseManager.runFromPool(new BukkitRunnable() {
             @Override
             public void run() {
                 try {

@@ -6,13 +6,14 @@ import me.Zcamt.zgangs.objects.CallbackGang;
 import me.Zcamt.zgangs.objects.CallbackGangPlayer;
 import me.Zcamt.zgangs.objects.Gang;
 import me.Zcamt.zgangs.objects.GangPlayer;
-import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class DatabaseManager {
 
@@ -20,6 +21,7 @@ public class DatabaseManager {
     private static Connection connection;
     private String host, database, username, password;
     private int port;
+    private final ExecutorService threadPool = Executors.newCachedThreadPool();
 
     public String getDatabase() {
         return database;
@@ -55,7 +57,7 @@ public class DatabaseManager {
                 ")";
         PreparedStatement ps = prepareStatement(query);
         PreparedStatement ps2 = prepareStatement(query2);
-        asyncThread(() -> {
+        runFromPool(() -> {
                     try {
                         ps.executeUpdate();
                         ps2.executeUpdate();
@@ -66,7 +68,7 @@ public class DatabaseManager {
     }
 
     public void getGangFromDB(int gangID, CallbackGang callbackGang){
-        asyncThread(new BukkitRunnable() {
+        runFromPool(new BukkitRunnable() {
             @Override
             public void run() {
                 String query = "SELECT * FROM " + database + ".gangs WHERE " + " ID = " + gangID;
@@ -93,7 +95,7 @@ public class DatabaseManager {
     }
 
     public void getGangPlayerFromDB(UUID uuid, CallbackGangPlayer callbackGangPlayer){
-        asyncThread(new BukkitRunnable() {
+        runFromPool(new BukkitRunnable() {
             @Override
             public void run() {
                 String query = "SELECT * FROM " + database + ".gang_players WHERE " + " UUID = ?";
@@ -136,8 +138,8 @@ public class DatabaseManager {
         return ps;
     }
 
-    public void asyncThread(Runnable runnable){
-        plugin.getServer().getScheduler().runTaskAsynchronously(plugin, runnable);
+    public void runFromPool(Runnable runnable){
+        threadPool.execute(runnable);
     }
 
     public void setup() throws SQLException {
