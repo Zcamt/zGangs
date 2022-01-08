@@ -11,6 +11,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -50,10 +52,10 @@ public class MainGangCommand extends BaseCommand {
         String gangName = args[0];
         GangPlayer gangPlayer = gangPlayerManager.getGangPlayer(player.getUniqueId());
         if(gangManager.createNewGang(gangPlayer, gangName) == null){
-            player.sendMessage("&cError: Something went wrong when trying to create your new gang");
+            Utilities.sendMessage(player, "&cError: Something went wrong when trying to create your new gang");
             return;
         }
-        player.sendMessage("&aSuccessfully created your new gang '&c" + gangName + "&a'");
+        Utilities.sendMessage(player, "&aSuccessfully created your new gang '&c" + gangName + "&a'");
     }
 
     @Subcommand("Invite")
