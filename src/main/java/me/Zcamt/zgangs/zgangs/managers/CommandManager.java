@@ -1,7 +1,7 @@
-package me.Zcamt.zgangs.managers;
+package me.Zcamt.zgangs.zgangs.managers;
 
 import co.aikar.commands.PaperCommandManager;
-import me.Zcamt.zgangs.commands.MainGangCommand;
+import me.Zcamt.zgangs.zgangs.commands.MainGangCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandManager {

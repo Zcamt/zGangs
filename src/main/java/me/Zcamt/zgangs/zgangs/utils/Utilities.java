@@ -1,11 +1,15 @@
-package me.Zcamt.zgangs.utils;
+package me.Zcamt.zgangs.zgangs.utils;
 
-import me.Zcamt.zgangs.managers.ConfigManager;
-import me.Zcamt.zgangs.managers.GangManager;
+import me.Zcamt.zgangs.zgangs.managers.ConfigManager;
+import me.Zcamt.zgangs.zgangs.managers.Database;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class Utilities {
 
@@ -37,6 +41,7 @@ public class Utilities {
                     continue;
                 }else isBold = false;
             }else{
+
                 DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
                 messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
                 messagePxSize++;
@@ -55,10 +60,17 @@ public class Utilities {
         sendMessage(player, sb.toString() + message);
     }
 
-    public static boolean isGangNameValid(String name, GangManager gangManager){
+    //Todo: Could/should be moved somewhere else
+    public static boolean isGangNameValid(String name, Database database) {
         if(name.length() > 32) return false;
         if(ConfigManager.bannedGangNames.contains(name.toLowerCase())) return false;
-        if(gangManager.isGangNameInDB(name)) return false;
+        boolean nameExists;
+        try {
+            nameExists = database.getGangRepository().gangNameExists(name).get();
+        } catch (InterruptedException | ExecutionException e) {
+            nameExists = true;
+        }
+        if(nameExists) return false;
 
         //Todo: Maybe regex support?
         return true;
@@ -87,12 +99,8 @@ public class Utilities {
         return memberMap;
     }
 
-
     //Todo: Handle empty lists in all of these.
     public static String serializeIntListToString(List<Integer> list){
-        if(list.isEmpty()){
-            return "";
-        }
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i<list.size(); i++){
             stringBuilder.append(list.get(i));
@@ -110,9 +118,6 @@ public class Utilities {
     }
 
     public static String serializeStringListToString(List<String> list){
-        if(list.isEmpty()){
-            return "";
-        }
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i<list.size(); i++){
             stringBuilder.append(list.get(i));

@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.utils;
+package me.Zcamt.zgangs.zgangs.utils;
 
 public enum Messages {
     INVALID_USAGE("&cInvalid usage. Usage: {usage}"),

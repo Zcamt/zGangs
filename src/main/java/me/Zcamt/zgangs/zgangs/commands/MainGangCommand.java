@@ -1,19 +1,18 @@
-package me.Zcamt.zgangs.commands;
+package me.Zcamt.zgangs.zgangs.commands;
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.*;
-import me.Zcamt.zgangs.utils.Messages;
-import me.Zcamt.zgangs.utils.Utilities;
-import me.Zcamt.zgangs.managers.GangManager;
-import me.Zcamt.zgangs.managers.GangPlayerManager;
-import me.Zcamt.zgangs.objects.GangPlayer;
+import co.aikar.commands.annotation.CatchUnknown;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Subcommand;
+import me.Zcamt.zgangs.zgangs.managers.GangManager;
+import me.Zcamt.zgangs.zgangs.managers.GangPlayerManager;
+import me.Zcamt.zgangs.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.zgangs.utils.Messages;
+import me.Zcamt.zgangs.zgangs.utils.Utilities;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 
 @CommandAlias("Gang|Gangs")
