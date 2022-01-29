@@ -152,7 +152,7 @@
                             <!--<minimizeJar>true</minimizeJar>-->
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <finalName>${project.name}-${project.version}</finalName>
-                            <outputDirectory>E:\Minecraft Local Server 1.16.5\plugins</outputDirectory>
+                            <outputDirectory>E:\Minecraft Local Server 1.18.1\plugins</outputDirectory>
                             <relocations>
                                 <relocation>
                                     <pattern>co.aikar.commands</pattern>
