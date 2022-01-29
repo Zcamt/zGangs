@@ -1,5 +1,6 @@
 package me.Zcamt.zgangs.objects;
 
+import me.Zcamt.zgangs.managers.ConfigManager;
 import me.Zcamt.zgangs.utils.Utilities;
 import me.Zcamt.zgangs.managers.Database;
 
@@ -51,7 +52,7 @@ public class GangRepository {
     public int getNextGangID() throws SQLException {
         String query = "SELECT AUTOINC " +
                 "FROM information_schema.INNODB_SYS_TABLESTATS " +
-                "WHERE NAME = \"" + database + "/gangs\"";
+                "WHERE NAME = \"" + ConfigManager.database + "/gangs\"";
         try (Connection connection = database.getHikari().getConnection();
             PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet rs = statement.executeQuery();
