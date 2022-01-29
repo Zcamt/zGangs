@@ -9,6 +9,10 @@ import java.util.*;
 
 public class Utilities {
 
+    private Utilities(){
+
+    }
+
     public static void sendMessage(Player player, String message){
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
@@ -86,6 +90,9 @@ public class Utilities {
 
     //Todo: Handle empty lists in all of these.
     public static String serializeIntListToString(List<Integer> list){
+        if(list.isEmpty()){
+            return "";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i<list.size(); i++){
             stringBuilder.append(list.get(i));
@@ -103,6 +110,9 @@ public class Utilities {
     }
 
     public static String serializeStringListToString(List<String> list){
+        if(list.isEmpty()){
+            return "";
+        }
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i<list.size(); i++){
             stringBuilder.append(list.get(i));

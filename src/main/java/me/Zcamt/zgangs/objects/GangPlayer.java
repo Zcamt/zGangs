@@ -52,6 +52,9 @@ public class GangPlayer {
     public void removeGangInvite(int gangID) {
         gangInvites.remove(gangID);
     }
+    public boolean gangInvitesContains(int gangID) {
+        return gangInvites.contains(gangID);
+    }
 
     public String getSerializedGangInvitesList(){
         return Utilities.serializeIntListToString(gangInvites);

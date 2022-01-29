@@ -36,10 +36,6 @@ public class Gang {
         return id;
     }
 
-    /*public void setId(int id) {
-        this.id = id;
-    }*/
-
     public String getName() {
         return name;
     }
@@ -96,12 +92,17 @@ public class Gang {
         return Utilities.serializeGangMemberMap(memberList);
     }
 
-    /*public void setMemberList(HashMap<UUID, Integer> memberList) {
-        this.memberList = memberList;
-    }*/
-
     public String getSerializedPlayerInvites(){
         return Utilities.serializeStringListToString(playerInvites);
+    }
+
+    public void addPlayerToInvites(GangPlayer gangPlayer){
+        if(playerInvites.contains(gangPlayer.getUUID().toString())) return;
+        playerInvites.add(gangPlayer.getUUID().toString());
+    }
+
+    public void removePlayerFromInvites(GangPlayer gangPlayer){
+        playerInvites.remove(gangPlayer.getUUID().toString());
     }
 
     public void addGangPlayerToGang(GangPlayer gangPlayer){
