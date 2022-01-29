@@ -1,9 +1,9 @@
-package me.Zcamt.zgangs.zgangs.listeners;
+package me.Zcamt.zgangs.listeners;
 
 import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.github.benmanes.caffeine.cache.RemovalListener;
-import me.Zcamt.zgangs.zgangs.objects.GangPlayer;
-import me.Zcamt.zgangs.zgangs.objects.GangPlayerRepository;
+import me.Zcamt.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.objects.GangPlayerRepository;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.UUID;

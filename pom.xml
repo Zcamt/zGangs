@@ -139,7 +139,7 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <minimizeJar>true</minimizeJar>
+                            <!--<minimizeJar>true</minimizeJar>-->
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <finalName>${project.name}-${project.version}</finalName>
                             <outputDirectory>E:\Minecraft Local Server 1.16.5\plugins</outputDirectory>

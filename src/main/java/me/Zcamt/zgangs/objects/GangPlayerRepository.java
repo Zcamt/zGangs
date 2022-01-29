@@ -1,7 +1,7 @@
-package me.Zcamt.zgangs.zgangs.objects;
+package me.Zcamt.zgangs.objects;
 
-import me.Zcamt.zgangs.zgangs.managers.Database;
-import me.Zcamt.zgangs.zgangs.utils.Utilities;
+import me.Zcamt.zgangs.utils.Utilities;
+import me.Zcamt.zgangs.managers.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -73,7 +73,7 @@ public class GangPlayerRepository {
 
     public CompletableFuture<Boolean> uuidExistsInDB(UUID uuid){
         CompletableFuture<Boolean> booleanCompletableFuture = new CompletableFuture<>();
-        String query = "SELECT * FROM " + TABLE_NAME + " WHERE ID = ?";
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE UUID = ?";
         try (Connection connection = database.getHikari().getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, uuid.toString());

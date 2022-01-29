@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.zgangs.utils;
+package me.Zcamt.zgangs.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

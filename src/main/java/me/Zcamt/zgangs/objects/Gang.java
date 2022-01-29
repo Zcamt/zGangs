@@ -1,6 +1,6 @@
-package me.Zcamt.zgangs.zgangs.objects;
+package me.Zcamt.zgangs.objects;
 
-import me.Zcamt.zgangs.zgangs.utils.Utilities;
+import me.Zcamt.zgangs.utils.Utilities;
 
 import java.util.HashMap;
 import java.util.List;

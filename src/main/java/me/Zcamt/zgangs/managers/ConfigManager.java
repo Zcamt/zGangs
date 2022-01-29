@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.zgangs.managers;
+package me.Zcamt.zgangs.managers;
 
 import java.util.Arrays;
 import java.util.List;

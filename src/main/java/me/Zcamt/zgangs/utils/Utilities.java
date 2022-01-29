@@ -1,7 +1,7 @@
-package me.Zcamt.zgangs.zgangs.utils;
+package me.Zcamt.zgangs.utils;
 
-import me.Zcamt.zgangs.zgangs.managers.ConfigManager;
-import me.Zcamt.zgangs.zgangs.managers.Database;
+import me.Zcamt.zgangs.managers.ConfigManager;
+import me.Zcamt.zgangs.managers.Database;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

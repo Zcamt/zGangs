@@ -1,11 +1,11 @@
-package me.Zcamt.zgangs.zgangs.managers;
+package me.Zcamt.zgangs.managers;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import me.Zcamt.zgangs.zgangs.listeners.GangCacheRemovalListener;
-import me.Zcamt.zgangs.zgangs.objects.Gang;
-import me.Zcamt.zgangs.zgangs.objects.GangPlayer;
-import me.Zcamt.zgangs.zgangs.utils.Utilities;
+import me.Zcamt.zgangs.listeners.GangCacheRemovalListener;
+import me.Zcamt.zgangs.objects.Gang;
+import me.Zcamt.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.utils.Utilities;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;

@@ -1,11 +1,12 @@
-package me.Zcamt.zgangs.zgangs;
+package me.Zcamt.zgangs;
 
-import me.Zcamt.zgangs.zgangs.api.ZGangsAPI;
-import me.Zcamt.zgangs.zgangs.listeners.PlayerJoinListener;
-import me.Zcamt.zgangs.zgangs.managers.CommandManager;
-import me.Zcamt.zgangs.zgangs.managers.Database;
-import me.Zcamt.zgangs.zgangs.managers.GangManager;
-import me.Zcamt.zgangs.zgangs.managers.GangPlayerManager;
+import me.Zcamt.zgangs.listeners.PlayerJoinListener;
+import me.Zcamt.zgangs.managers.GangPlayerManager;
+import me.Zcamt.zgangs.api.ZGangsAPI;
+import me.Zcamt.zgangs.listeners.MenuListener;
+import me.Zcamt.zgangs.managers.CommandManager;
+import me.Zcamt.zgangs.managers.Database;
+import me.Zcamt.zgangs.managers.GangManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ZGangs extends JavaPlugin {
@@ -32,6 +33,7 @@ public class ZGangs extends JavaPlugin {
 
         commandManager.registerCommands(this);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(gangPlayerManager, gangManager), this);
+        getServer().getPluginManager().registerEvents(new MenuListener(), this);
 
     }
 

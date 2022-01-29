@@ -1,9 +1,9 @@
-package me.Zcamt.zgangs.zgangs.managers;
+package me.Zcamt.zgangs.managers;
 
 
 import com.zaxxer.hikari.HikariDataSource;
-import me.Zcamt.zgangs.zgangs.objects.GangPlayerRepository;
-import me.Zcamt.zgangs.zgangs.objects.GangRepository;
+import me.Zcamt.zgangs.objects.GangPlayerRepository;
+import me.Zcamt.zgangs.objects.GangRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

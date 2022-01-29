@@ -1,7 +1,7 @@
-package me.Zcamt.zgangs.zgangs.objects;
+package me.Zcamt.zgangs.objects;
 
-import me.Zcamt.zgangs.zgangs.managers.Database;
-import me.Zcamt.zgangs.zgangs.utils.Utilities;
+import me.Zcamt.zgangs.utils.Utilities;
+import me.Zcamt.zgangs.managers.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

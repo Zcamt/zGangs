@@ -1,9 +1,9 @@
-package me.Zcamt.zgangs.zgangs.managers;
+package me.Zcamt.zgangs.managers;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import me.Zcamt.zgangs.zgangs.listeners.GangPlayerCacheRemovalListener;
-import me.Zcamt.zgangs.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.listeners.GangPlayerCacheRemovalListener;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -57,14 +57,18 @@ public class GangPlayerManager {
         return gangPlayerCache.asMap().containsKey(uuid);
     }
 
-    public GangPlayer getGangPlayer(UUID uuid)  throws ExecutionException, InterruptedException {
-        //Add try catch instead of method throwing exceptions
-        if(isPlayerInCache(uuid)){
-            return gangPlayerCache.getIfPresent(uuid);
-        } else if (database.getGangPlayerRepository().uuidExistsInDB(uuid).get()){
-            return gangPlayerFromDB(uuid);
-        } else {
-            return createNewGangPlayer(uuid);
+    public GangPlayer getGangPlayer(UUID uuid){
+        try {
+            if (isPlayerInCache(uuid)) {
+                return gangPlayerCache.getIfPresent(uuid);
+            } else if (database.getGangPlayerRepository().uuidExistsInDB(uuid).get()) {
+                return gangPlayerFromDB(uuid);
+            } else {
+                return createNewGangPlayer(uuid);
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            //Todo: Add message
+            throw new RuntimeException(e);
         }
     }
 

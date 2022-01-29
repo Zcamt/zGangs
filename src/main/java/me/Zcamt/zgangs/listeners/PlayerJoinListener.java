@@ -1,9 +1,9 @@
-package me.Zcamt.zgangs.zgangs.listeners;
+package me.Zcamt.zgangs.listeners;
 
 
-import me.Zcamt.zgangs.zgangs.managers.GangManager;
-import me.Zcamt.zgangs.zgangs.managers.GangPlayerManager;
-import me.Zcamt.zgangs.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.managers.GangPlayerManager;
+import me.Zcamt.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.managers.GangManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
