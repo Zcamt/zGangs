@@ -5,9 +5,8 @@ import co.aikar.commands.annotation.CatchUnknown;
 import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
-import me.Zcamt.zgangs.guis.SomeGUI;
-import me.Zcamt.zgangs.guis.SomeOtherGUI;
 import me.Zcamt.zgangs.managers.GangPlayerManager;
+import me.Zcamt.zgangs.objects.Gang;
 import me.Zcamt.zgangs.objects.GangPlayer;
 import me.Zcamt.zgangs.utils.Messages;
 import me.Zcamt.zgangs.utils.Utilities;
@@ -41,14 +40,14 @@ public class MainGangCommand extends BaseCommand {
         Utilities.sendCenteredMessage(player, "&c<> &f= &7required arguments");
         Utilities.sendMessage(player, "");
         Utilities.sendMessage(player, "&a/gang help &f- &7Shows this menu");
-        Utilities.sendMessage(player, "&a/gang create &f- &7Used to create a gang");
+        Utilities.sendMessage(player, "&a/gang create <NAME>&f- &7Used to create a gang");
     }
 
     //Todo: Handle logic and messages, usage etc for subcommands
     @Subcommand("Create")
     public void onCreate(Player player, String[] args){
         if(args.length != 1) {
-            Utilities.sendMessage(player, Messages.INVALID_USAGE.getMessage().replace("{usage}", "/gang create [NAME]"));
+            Utilities.sendMessage(player, Messages.INVALID_USAGE.getMessage().replace("{usage}", "/gang create <NAME>"));
         }
         String gangName = args[0];
         GangPlayer gangPlayer = gangPlayerManager.getGangPlayer(player.getUniqueId());
@@ -63,7 +62,7 @@ public class MainGangCommand extends BaseCommand {
     public void onInvite(Player player, String[] args){
         GangPlayer gangPlayer = gangPlayerManager.getGangPlayer(player.getUniqueId());
         if(gangPlayer.getGangID() == 0){
-            Utilities.sendMessage(player, Messages.NOT_IN_A_GANG.getMessage());
+            Utilities.sendMessage(player, Messages.NOT_IN_A_GANG);
             return;
         }
         if(args.length != 1) {
@@ -71,7 +70,13 @@ public class MainGangCommand extends BaseCommand {
         }
         String targetName = args[0];
         OfflinePlayer offlineTarget = Bukkit.getOfflinePlayer(targetName);
-        GangPlayer gangPlayerTarget = gangPlayerManager.getGangPlayer(offlineTarget.getUniqueId());
+        if(!offlineTarget.hasPlayedBefore()){
+            Utilities.sendMessage(player, Messages.INVALID_PLAYER);
+        }
+        Gang senderGang = gangManager.getGang(gangPlayer);
+        GangPlayer targetGangPlayer = gangPlayerManager.getGangPlayer(offlineTarget.getUniqueId());
+
+        senderGang.addPlayerToInvites(targetGangPlayer);
     }
 
 }

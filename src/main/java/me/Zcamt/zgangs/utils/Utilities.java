@@ -21,6 +21,10 @@ public class Utilities {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
     }
 
+    public static void sendMessage(Player player, Messages message){
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message.getMessage()));
+    }
+
     public static void sendCenteredMessage(Player player, String message){
         final int CENTER_PX = 154;
         if(message == null || message.equals("")) sendMessage(player,"");

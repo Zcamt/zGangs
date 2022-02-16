@@ -99,10 +99,12 @@ public class Gang {
     public void addPlayerToInvites(GangPlayer gangPlayer){
         if(playerInvites.contains(gangPlayer.getUUID().toString())) return;
         playerInvites.add(gangPlayer.getUUID().toString());
+        gangPlayer.addGangInvite(this.id);
     }
 
     public void removePlayerFromInvites(GangPlayer gangPlayer){
         playerInvites.remove(gangPlayer.getUUID().toString());
+        gangPlayer.removeGangInvite(this.id);
     }
 
     public void addGangPlayerToGang(GangPlayer gangPlayer){
