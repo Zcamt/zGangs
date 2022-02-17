@@ -39,7 +39,7 @@ public class GangRepository {
                 UUID ownerUUID = UUID.fromString(rs.getString("OWNER_UUID"));
                 HashMap<UUID, Integer> memberList = Utilities.deserializeGangMemberList(rs.getString("MEMBERS"));
                 List<String> playerInvites = Utilities.deSerializeStringToStringList(rs.getString("PLAYER_INVITES"));
-                Gang gang = new Gang(gangID, gangName, level, kills, deaths, bank, ownerUUID, memberList, playerInvites);
+                Gang gang = new Gang(gangID, gangName, level, kills, deaths, bank, ownerUUID, memberList, playerInvites, this);
                 rs.close();
                 future.complete(gang);
             } catch (SQLException e) {

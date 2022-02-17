@@ -32,7 +32,7 @@ public class GangPlayerRepository {
                 int gangID = rs.getInt("GANG_ID");
                 int gangRank = rs.getInt("GANG_RANK");
                 List<Integer> gangInvites = Utilities.deSerializeStringToIntList(rs.getString("GANG_INVITES"));
-                GangPlayer gangPlayer = new GangPlayer(uuid, gangID, gangRank, gangInvites);
+                GangPlayer gangPlayer = new GangPlayer(uuid, gangID, gangRank, gangInvites, this);
                 rs.close();
                 future.complete(gangPlayer);
             } catch (SQLException e) {

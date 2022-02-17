@@ -43,7 +43,7 @@ public class GangPlayerManager {
         if(database.getGangPlayerRepository().uuidExistsInDB(uuid).get()) {
             return getGangPlayer(uuid);
         }
-        GangPlayer gangPlayer = new GangPlayer(uuid, 0, 0, new ArrayList<>());
+        GangPlayer gangPlayer = new GangPlayer(uuid, 0, 0, new ArrayList<>(), database.getGangPlayerRepository());
         addToGangPlayerCache(uuid, gangPlayer);
         database.getGangPlayerRepository().insertNewGangPlayerIntoDB(gangPlayer);
         return gangPlayer;

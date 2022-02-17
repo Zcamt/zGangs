@@ -18,11 +18,14 @@ public class GangPlayer {
     private int gangRank;
     private List<Integer> gangInvites;
 
-    public GangPlayer(UUID uuid, int gangID, int gangRank, List<Integer> gangInvites) {
+    private final GangPlayerRepository gangPlayerRepository;
+
+    public GangPlayer(UUID uuid, int gangID, int gangRank, List<Integer> gangInvites, GangPlayerRepository gangPlayerRepository) {
         this.uuid = uuid;
         this.gangID = gangID;
         this.gangRank = gangRank;
         this.gangInvites = gangInvites;
+        this.gangPlayerRepository = gangPlayerRepository;
     }
 
     public UUID getUUID() {
@@ -37,6 +40,7 @@ public class GangPlayer {
     }
     public void setGangID(int gangID) {
         this.gangID = gangID;
+        gangPlayerRepository.updateGangPlayerInDB(this);
     }
 
     public int getGangRank() {
@@ -44,13 +48,16 @@ public class GangPlayer {
     }
     public void setGangRank(int gangRank) {
         this.gangRank = gangRank;
+        gangPlayerRepository.updateGangPlayerInDB(this);
     }
 
     public void addGangInvite(int gangID) {
         gangInvites.add(gangID);
+        gangPlayerRepository.updateGangPlayerInDB(this);
     }
     public void removeGangInvite(int gangID) {
         gangInvites.remove(gangID);
+        gangPlayerRepository.updateGangPlayerInDB(this);
     }
     public boolean gangInvitesContains(int gangID) {
         return gangInvites.contains(gangID);

@@ -5,6 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import me.Zcamt.zgangs.listeners.GangCacheRemovalListener;
 import me.Zcamt.zgangs.objects.Gang;
 import me.Zcamt.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.utils.Messages;
 import me.Zcamt.zgangs.utils.Utilities;
 import org.bukkit.entity.Player;
 
@@ -54,7 +55,7 @@ public class GangManager {
         boolean gangNameValid = !Utilities.isGangNameValid(name, database);
         if(gangNameValid) {
             if(gangPlayer.getOfflinePlayer().isOnline()) {
-                Utilities.sendMessage((Player) gangPlayer.getOfflinePlayer(), "&cYou cannot call your new gang that!");
+                Utilities.sendMessage((Player) gangPlayer.getOfflinePlayer(), Messages.INVALID_GANGNAME);
             }
             return null;
         }
@@ -68,24 +69,26 @@ public class GangManager {
         memberList.put(gangPlayer.getUUID(), 5);
         gangPlayer.setGangID(gangID);
         gangPlayer.setGangRank(5);
-        //Todo: Update player perhaps?
 
-        Gang gang = new Gang(gangID, name, 1, 0, 0, 0, gangPlayer.getUUID(), memberList, new ArrayList<>());
+        Gang gang = new Gang(gangID, name, 1, 0, 0, 0, gangPlayer.getUUID(), memberList, new ArrayList<>(), database.getGangRepository());
         addToGangCache(gang.getId(), gang);
         database.getGangRepository().insertNewGangIntoDB(gang);
         return gang;
     }
 
     public Gang getGang(GangPlayer gangPlayer) throws ExecutionException, InterruptedException {
-        //Add try catch instead of method throwing exceptions
-        if(gangPlayer.getGangID() == 0) return null;
-        if(isGangInCache(gangPlayer.getGangID())) {
-            return gangCache.getIfPresent(gangPlayer.getGangID());
-        } else if (database.getGangRepository().gangIdExists(gangPlayer.getGangID()).get()){
-            Gang gang = gangFromDB(gangPlayer.getGangID());
-            return gang;
-        } else {
-            return null;
+        try {
+            if (gangPlayer.getGangID() == 0) return null;
+            if (isGangInCache(gangPlayer.getGangID())) {
+                return gangCache.getIfPresent(gangPlayer.getGangID());
+            } else if (database.getGangRepository().gangIdExists(gangPlayer.getGangID()).get()) {
+                Gang gang = gangFromDB(gangPlayer.getGangID());
+                return gang;
+            } else {
+                return null;
+            }
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException("Couldn't get gang for gangplayer with UUID '" + gangPlayer.getUUID() + "'");
         }
     }
     //Todo: Implement getGang from ID

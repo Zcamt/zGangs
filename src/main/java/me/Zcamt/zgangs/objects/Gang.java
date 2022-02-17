@@ -19,8 +19,10 @@ public class Gang {
     private UUID ownerUUID;
     private final HashMap<UUID, Integer> memberList;
     private final List<String> playerInvites;
+
+    private final GangRepository gangRepository;
     
-    public Gang(int id, String name, int level, int kills, int deaths, int bank, UUID ownerUUID, HashMap<UUID, Integer> memberList, List<String> playerInvites) {
+    public Gang(int id, String name, int level, int kills, int deaths, int bank, UUID ownerUUID, HashMap<UUID, Integer> memberList, List<String> playerInvites, GangRepository gangRepository) {
         this.id = id;
         this.name = name;
         this.level = level;
@@ -30,6 +32,7 @@ public class Gang {
         this.ownerUUID = ownerUUID;
         this.memberList = memberList;
         this.playerInvites = playerInvites;
+        this.gangRepository = gangRepository;
     }
 
     public int getId() {
@@ -42,6 +45,7 @@ public class Gang {
 
     public void setName(String name) {
         this.name = name;
+        gangRepository.updateGangInDB(this);
     }
 
     public int getLevel() {
@@ -50,6 +54,7 @@ public class Gang {
 
     public void setLevel(int level) {
         this.level = level;
+        gangRepository.updateGangInDB(this);
     }
 
     public int getKills() {
@@ -58,6 +63,7 @@ public class Gang {
 
     public void setKills(int kills) {
         this.kills = kills;
+        gangRepository.updateGangInDB(this);
     }
 
     public int getDeaths() {
@@ -66,6 +72,7 @@ public class Gang {
 
     public void setDeaths(int deaths) {
         this.deaths = deaths;
+        gangRepository.updateGangInDB(this);
     }
 
     public int getBank() {
@@ -74,6 +81,7 @@ public class Gang {
 
     public void setBank(int bank) {
         this.bank = bank;
+        gangRepository.updateGangInDB(this);
     }
 
     public UUID getOwnerUUID() {
@@ -82,6 +90,7 @@ public class Gang {
 
     public void setOwnerUUID(UUID ownerUUID) {
         this.ownerUUID = ownerUUID;
+        gangRepository.updateGangInDB(this);
     }
 
     public HashMap<UUID, Integer> getMemberList() {
@@ -100,11 +109,13 @@ public class Gang {
         if(playerInvites.contains(gangPlayer.getUUID().toString())) return;
         playerInvites.add(gangPlayer.getUUID().toString());
         gangPlayer.addGangInvite(this.id);
+        gangRepository.updateGangInDB(this);
     }
 
     public void removePlayerFromInvites(GangPlayer gangPlayer){
         playerInvites.remove(gangPlayer.getUUID().toString());
         gangPlayer.removeGangInvite(this.id);
+        gangRepository.updateGangInDB(this);
     }
 
     public void addGangPlayerToGang(GangPlayer gangPlayer){
@@ -113,6 +124,7 @@ public class Gang {
         memberList.put(gangPlayer.getUUID(), 1);
         gangPlayer.setGangID(this.id);
         gangPlayer.setGangRank(1);
+        gangRepository.updateGangInDB(this);
     }
 
 }

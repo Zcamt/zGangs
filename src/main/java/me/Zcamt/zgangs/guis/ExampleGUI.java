@@ -10,13 +10,13 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class SomeGUI extends GUI {
+public class ExampleGUI extends GUI {
     private Inventory inventory;
     private final String title = "title";
     private final int size = 54;
     private final UUID uuid;
 
-    public SomeGUI(UUID uuid) {
+    public ExampleGUI(UUID uuid) {
         this.uuid = uuid;
         inventory = super.createGUI(title, size, items());
     }
