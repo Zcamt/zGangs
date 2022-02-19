@@ -23,6 +23,7 @@ public class GangRepository {
         this.database = database;
     }
 
+    //Todo: Update table info
     public CompletableFuture<Gang> getGangFromDB(int gangID){
         CompletableFuture<Gang> future = new CompletableFuture<>();
         String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + " ID = ?";
@@ -39,7 +40,17 @@ public class GangRepository {
                 UUID ownerUUID = UUID.fromString(rs.getString("OWNER_UUID"));
                 HashMap<UUID, Integer> memberList = Utilities.deserializeGangMemberList(rs.getString("MEMBERS"));
                 List<String> playerInvites = Utilities.deSerializeStringToStringList(rs.getString("PLAYER_INVITES"));
-                Gang gang = new Gang(gangID, gangName, level, kills, deaths, bank, ownerUUID, memberList, playerInvites, this);
+                List<Integer> alliedGangs = Utilities.deSerializeStringToIntList(rs.getString("ALLIED_GANGS"));
+                List<Integer> alliedGangInvitesIncoming = Utilities.deSerializeStringToIntList(rs.getString("ALLIED_GANGS_INCOMING"));
+                List<Integer> alliedGangInvitesOutgoing = Utilities.deSerializeStringToIntList(rs.getString("ALLIED_GANGS_OUTGOING"));
+                List<Integer> rivalGangs = Utilities.deSerializeStringToIntList(rs.getString("RIVAL_GANGS"));
+                List<Integer> rivalGangsAgainst = Utilities.deSerializeStringToIntList(rs.getString("RIVAL_GANGS_AGAINST"));
+                Gang gang = new Gang(gangID, gangName,
+                        level, kills, deaths, bank,
+                        ownerUUID,
+                        memberList,
+                        playerInvites, alliedGangs, alliedGangInvitesIncoming, alliedGangInvitesOutgoing, rivalGangs, rivalGangsAgainst,
+                        this);
                 rs.close();
                 future.complete(gang);
             } catch (SQLException e) {
@@ -61,9 +72,11 @@ public class GangRepository {
         }
     }
 
+    //Todo: Update table
+
     public void insertNewGangIntoDB(Gang gang) {
-        String query = "INSERT INTO " + TABLE_NAME + " " +
-                "(" +
+        String query = "INSERT INTO " + TABLE_NAME +
+                " (" +
                 "ID," +
                 "NAME, " +
                 "LEVEL, " +
@@ -73,11 +86,20 @@ public class GangRepository {
                 "OWNER_UUID, " +
                 "MEMBERS, " +
                 "PLAYER_INVITES, " +
+                "ALLIED_GANGS, " +
+                "ALLIED_GANGS_INCOMING, " +
+                "ALLIED_GANGS_OUTGOING, " +
+                "RIVAL_GANGS, " +
+                "RIVAL_GANGS_AGAINST, " +
                 "CREATED_DATE" +
-                ")" +
-                " " +
+                ") " +
                 "VALUES(" +
                 "DEFAULT," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
+                "?," +
                 "?," +
                 "?," +
                 "?," +
@@ -135,6 +157,7 @@ public class GangRepository {
         }
     }
 
+
     public void updateGangInDB(Gang gang){
         String query = "UPDATE " + TABLE_NAME + " SET " +
                 "NAME = ?, " +
@@ -144,7 +167,12 @@ public class GangRepository {
                 "BANK = ?, " +
                 "OWNER_UUID = ?, " +
                 "MEMBERS = ?, " +
-                "PLAYER_INVITES = ? " +
+                "PLAYER_INVITES = ?, " +
+                "ALLIED_GANGS = ?, " +
+                "ALLIED_GANGS_INCOMING = ?, " +
+                "ALLIED_GANGS_OUTGOING = ?, " +
+                "RIVAL_GANGS = ?, " +
+                "RIVAL_GANGS_AGAINST = ?" +
                 "" +
                 "WHERE ID = ?";
         database.executeInPool(() -> {
@@ -158,7 +186,12 @@ public class GangRepository {
                 statement.setString(6, gang.getOwnerUUID().toString());
                 statement.setString(7, gang.getSerializedMemberList());
                 statement.setString(8, gang.getSerializedPlayerInvites());
-                statement.setInt(9, gang.getId());
+                statement.setString(9, gang.getSerializedAllyList());
+                statement.setString(10, gang.getSerializedAllyInvitesIncomingList());
+                statement.setString(11, gang.getSerializedAllyInvitesOutgoingList());
+                statement.setString(12, gang.getSerializedRivalList());
+                statement.setString(13, gang.getSerializedRivalsAgainstList());
+                statement.setInt(14, gang.getId());
                 statement.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException("Failed to update information for gang with ID '" + gang.getId() + "' " + e);

@@ -65,6 +65,11 @@ public class Database {
                 "OWNER_UUID varchar(36) NOT NULL, " +
                 "MEMBERS varchar(255) NOT NULL, " +
                 "PLAYER_INVITES varchar(255) NOT NULL, " +
+                "ALLIED_GANGS varchar(255) NOT NULL, " +
+                "ALLIED_GANGS_INCOMING varchar(255) NOT NULL, " +
+                "ALLIED_GANGS_OUTGOING varchar(255) NOT NULL, " +
+                "RIVAL_GANGS varchar(255) NOT NULL, " +
+                "RIVAL_GANGS_AGAINST varchar(255) NOT NULL, " +
                 "CREATED_DATE TIMESTAMP, " +
                 "PRIMARY KEY (ID)" +
                 ")";

@@ -70,13 +70,18 @@ public class GangManager {
         gangPlayer.setGangID(gangID);
         gangPlayer.setGangRank(5);
 
-        Gang gang = new Gang(gangID, name, 1, 0, 0, 0, gangPlayer.getUUID(), memberList, new ArrayList<>(), database.getGangRepository());
+        Gang gang = new Gang(gangID, name,
+                1, 0, 0, 0,
+                gangPlayer.getUUID(),
+                memberList,
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
+                database.getGangRepository());
         addToGangCache(gang.getId(), gang);
         database.getGangRepository().insertNewGangIntoDB(gang);
         return gang;
     }
 
-    public Gang getGang(GangPlayer gangPlayer) throws ExecutionException, InterruptedException {
+    public Gang getGang(GangPlayer gangPlayer) {
         try {
             if (gangPlayer.getGangID() == 0) return null;
             if (isGangInCache(gangPlayer.getGangID())) {
