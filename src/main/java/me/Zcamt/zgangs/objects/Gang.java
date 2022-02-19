@@ -2,6 +2,7 @@ package me.Zcamt.zgangs.objects;
 
 import me.Zcamt.zgangs.utils.Utilities;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -103,12 +104,28 @@ public class Gang {
         gangRepository.updateGangInDB(this);
     }
 
+    public List<Integer> getAlliedGangs() {
+        return Collections.unmodifiableList(alliedGangs);
+    }
+
+    public List<Integer> getRivalGangs() {
+        return Collections.unmodifiableList(rivalGangs);
+    }
+
+    public List<Integer> getRivalGangsAgainst() {
+        return Collections.unmodifiableList(rivalGangsAgainst);
+    }
+
     public void addMember(UUID uuid, Integer rank){
         memberMap.put(uuid, rank);
     }
 
     public void removeMember(UUID uuid){
         memberMap.remove(uuid);
+    }
+
+    public boolean isMember(UUID uuid){
+        return memberMap.containsKey(uuid);
     }
 
     public String getSerializedMemberList(){
@@ -150,6 +167,10 @@ public class Gang {
         }
     }
 
+    public boolean isAllied(int gangID){
+        return alliedGangs.contains(gangID);
+    }
+
     public void removeAlly(Gang gang){
         if(alliedGangs.contains(gang.getId())) {
             alliedGangs.remove(gang.getId());
@@ -164,6 +185,10 @@ public class Gang {
             gang.addAllyInviteOutgoing(this);
             gangRepository.updateGangInDB(this);
         }
+    }
+
+    public boolean allyInviteIncomingContains(int gangID){
+        return alliedGangInvitesIncoming.contains(gangID);
     }
 
     public void removeAllyInviteIncoming(Gang gang){
@@ -182,6 +207,10 @@ public class Gang {
         }
     }
 
+    public boolean allyInviteOutgoingContains(int gangID){
+        return alliedGangInvitesOutgoing.contains(gangID);
+    }
+
     public void removeAllyInviteOutgoing(Gang gang){
         if(alliedGangInvitesOutgoing.contains(gang.getId())) {
             alliedGangInvitesOutgoing.remove(gang.getId());
@@ -198,6 +227,10 @@ public class Gang {
         }
     }
 
+    public boolean isRival(int gangID){
+        return rivalGangs.contains(gangID);
+    }
+
     public void removeRival(Gang gang){
         if(rivalGangs.contains(gang.getId())){
             rivalGangs.remove(gang.getId());
@@ -211,6 +244,10 @@ public class Gang {
             rivalGangsAgainst.add(gang.getId());
             gangRepository.updateGangInDB(this);
         }
+    }
+
+    public boolean isRivalAgainst(int gangID){
+        return rivalGangsAgainst.contains(gangID);
     }
 
     public void removeRivalAgainst(Gang gang){
