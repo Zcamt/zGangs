@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.menu;
+package me.Zcamt.zgangs.guis;
 
 import me.Zcamt.zgangs.utils.ItemCreator;
 import org.bukkit.Material;

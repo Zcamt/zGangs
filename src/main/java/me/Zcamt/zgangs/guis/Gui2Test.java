@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.menu;
+package me.Zcamt.zgangs.guis;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;

@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.menu;
+package me.Zcamt.zgangs.guis;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
