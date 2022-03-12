@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.guis;
+package me.Zcamt.zgangs.menu;
 
 import me.Zcamt.zgangs.utils.ItemCreator;
 import org.bukkit.Material;
@@ -10,13 +10,13 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class ExampleGUI extends GUI {
+public class MainGUI extends GUI {
     private Inventory inventory;
-    private final String title = "title";
+    private final String title = "Main Menu";
     private final int size = 54;
     private final UUID uuid;
 
-    public ExampleGUI(UUID uuid) {
+    public MainGUI(UUID uuid) {
         this.uuid = uuid;
         inventory = super.createGUI(title, size, items());
     }
@@ -25,7 +25,6 @@ public class ExampleGUI extends GUI {
     public void onClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         player.sendMessage("you clicked the gui with the name " + title);
-        player.sendMessage("in somegui");
     }
 
     @Override

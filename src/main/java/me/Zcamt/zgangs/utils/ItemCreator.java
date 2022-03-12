@@ -147,7 +147,7 @@ public class ItemCreator {
      */
     public ItemCreator setName(String name){
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(name);
+        itemMeta.setDisplayName(Utils.CC(name));
         itemStack.setItemMeta(itemMeta);
         this.itemMeta = itemMeta;
         return this;
@@ -160,7 +160,9 @@ public class ItemCreator {
      */
     public ItemCreator addLore(List<String> lores){
         ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setLore(lores);
+        List<String> newLore = new ArrayList<>();
+        lores.forEach(s -> newLore.add(Utils.CC(s)));
+        itemMeta.setLore(newLore);
         itemStack.setItemMeta(itemMeta);
         this.itemMeta = itemMeta;
         return this;

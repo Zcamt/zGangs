@@ -1,9 +1,14 @@
 package me.Zcamt.zgangs.objects;
 
-import me.Zcamt.zgangs.utils.Utilities;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.ReplaceOptions;
+import me.Zcamt.zgangs.ZGangs;
+import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,21 +16,16 @@ public class GangPlayer {
 
     //Todo: Might wanna change to only use UUIDs as that allows for creation of GangPlayer object without player being online.
 
-    //Todo: Update gangPlayer object in database during set methods
-
     private UUID uuid;
-    private int gangID;
+    private UUID gangUUID;
     private int gangRank;
-    private List<Integer> gangInvites;
+    private List<UUID> gangInvites;
 
-    private final GangPlayerRepository gangPlayerRepository;
-
-    public GangPlayer(UUID uuid, int gangID, int gangRank, List<Integer> gangInvites, GangPlayerRepository gangPlayerRepository) {
+    public GangPlayer(UUID uuid, UUID gangUUID, int gangRank, List<UUID> gangInvites) {
         this.uuid = uuid;
-        this.gangID = gangID;
+        this.gangUUID = gangUUID;
         this.gangRank = gangRank;
         this.gangInvites = gangInvites;
-        this.gangPlayerRepository = gangPlayerRepository;
     }
 
     public UUID getUUID() {
@@ -35,12 +35,13 @@ public class GangPlayer {
         return Bukkit.getOfflinePlayer(uuid);
     }
 
-    public int getGangID() {
-        return gangID;
+    public UUID getGangUUID() {
+        return gangUUID;
     }
-    public void setGangID(int gangID) {
-        this.gangID = gangID;
-        gangPlayerRepository.updateGangPlayerInDB(this);
+
+    public void setGangID(UUID gangUUID) {
+        this.gangUUID = gangUUID;
+        serialize();
     }
 
     public int getGangRank() {
@@ -48,22 +49,43 @@ public class GangPlayer {
     }
     public void setGangRank(int gangRank) {
         this.gangRank = gangRank;
-        gangPlayerRepository.updateGangPlayerInDB(this);
+        serialize();
     }
 
-    public void addGangInvite(int gangID) {
-        gangInvites.add(gangID);
-        gangPlayerRepository.updateGangPlayerInDB(this);
-    }
-    public void removeGangInvite(int gangID) {
-        gangInvites.remove(gangID);
-        gangPlayerRepository.updateGangPlayerInDB(this);
-    }
-    public boolean gangInvitesContains(int gangID) {
-        return gangInvites.contains(gangID);
+    public List<UUID> getGangInvites() {
+        return Collections.unmodifiableList(gangInvites);
     }
 
-    public String getSerializedGangInvitesList(){
-        return Utilities.serializeIntListToString(gangInvites);
+    public void addGangInvite(UUID gangUUID) {
+        gangInvites.add(gangUUID);
+        serialize();
     }
+    public void removeGangInvite(Gang gang) {
+        if(gangInvites.contains(gang.getUUID())) {
+            gangInvites.remove(gang.getUUID());
+            gang.removePlayerFromInvites(this);
+        }
+        serialize();
+        gang.serialize();
+    }
+    public boolean gangInvitesContains(UUID gangUUID) {
+        return gangInvites.contains(gangUUID);
+    }
+
+
+    @NotNull
+    public String toJson(){
+        return ZGangs.GSON.toJson(this);
+    }
+
+    public void serialize(){
+        //Todo: Do async
+        Document document = Document.parse(toJson());
+        ZGangs.getDatabase().getGangCollection()
+                .replaceOne(Filters.eq("_id",
+                        this.uuid.toString()),
+                        document,
+                        new ReplaceOptions().upsert(true));
+    }
+
 }

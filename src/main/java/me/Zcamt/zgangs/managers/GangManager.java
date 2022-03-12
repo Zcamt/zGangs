@@ -2,99 +2,53 @@ package me.Zcamt.zgangs.managers;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import me.Zcamt.zgangs.listeners.GangCacheRemovalListener;
+import com.github.benmanes.caffeine.cache.RemovalListener;
+import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.objects.Database;
 import me.Zcamt.zgangs.objects.Gang;
-import me.Zcamt.zgangs.objects.GangPlayer;
-import me.Zcamt.zgangs.utils.Messages;
-import me.Zcamt.zgangs.utils.Utilities;
-import org.bukkit.entity.Player;
+import org.bson.Document;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.NoSuchElementException;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class GangManager {
 
     private final Database database;
-    private final Cache<Integer, Gang> gangCache;
+    private final Cache<UUID, Gang> gangCache;
 
     public GangManager(Database database) {
         this.database = database;
-        gangCache = Caffeine.newBuilder()
-                .maximumSize(10000)
+        this.gangCache = Caffeine.newBuilder()
+                .maximumSize(1000L)
                 .expireAfterWrite(10L, TimeUnit.MINUTES)
-                .removalListener(new GangCacheRemovalListener(database.getGangRepository()))
-                .build();
+                .removalListener((RemovalListener<UUID, Gang>) (uuid, gang, cause) -> {
+                    if(gang == null) return;
+                    gang.serialize();
+                }).build();
     }
 
-    private Gang gangFromDB(int gangID) {
-        CompletableFuture<Gang> gangCompletableFuture = database.getGangRepository().getGangFromDB(gangID);
-        try {
-            Gang gang = gangCompletableFuture.get();
-            addToGangCache(gangID, gang);
-            return gang;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException("Failed to retrieve gang with ID '" + gangID + "' from Database " + e);
+    //Todo: Gør alt database stuffs ASYNC
+    public Gang findById(UUID uuid){
+        if(gangCache.asMap().containsKey(uuid)){
+            return gangCache.getIfPresent(uuid);
         }
-    }
-
-    private boolean isGangInCache(int gangID) {
-        return gangCache.asMap().containsKey(gangID);
-    }
-
-    private void addToGangCache(int gangID, Gang gang){
-        gangCache.put(gangID, gang);
-    }
-
-    public Gang createNewGang(GangPlayer gangPlayer, String name) {
-        //Todo check if player is in gang
-        boolean gangNameValid = !Utilities.isGangNameValid(name, database);
-        if(gangNameValid) {
-            if(gangPlayer.getOfflinePlayer().isOnline()) {
-                Utilities.sendMessage((Player) gangPlayer.getOfflinePlayer(), Messages.INVALID_GANGNAME);
-            }
-            return null;
+        Document gangDocument = database.getGangCollection().find(new Document("_id", uuid.toString())).first();
+        if(gangDocument == null) {
+            throw new NoSuchElementException("Couldn't find gang with UUID '" + uuid + "'");
         }
-        int gangID;
-        try {
-            gangID = database.getGangRepository().getNextGangID();
-        } catch (SQLException e) {
-            throw new RuntimeException("Wasn't able to find the next gang-id available " + e);
-        }
-        HashMap<UUID, Integer> memberList = new HashMap<>();
-        memberList.put(gangPlayer.getUUID(), 5);
-        gangPlayer.setGangID(gangID);
-        gangPlayer.setGangRank(5);
-
-        Gang gang = new Gang(gangID, name,
-                1, 0, 0, 0,
-                gangPlayer.getUUID(),
-                memberList,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-                database.getGangRepository());
-        addToGangCache(gang.getId(), gang);
-        database.getGangRepository().insertNewGangIntoDB(gang);
+        Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
+        addGangToCache(uuid, gang);
         return gang;
     }
 
-    public Gang getGang(GangPlayer gangPlayer) {
-        try {
-            if (gangPlayer.getGangID() == 0) return null;
-            if (isGangInCache(gangPlayer.getGangID())) {
-                return gangCache.getIfPresent(gangPlayer.getGangID());
-            } else if (database.getGangRepository().gangIdExists(gangPlayer.getGangID()).get()) {
-                Gang gang = gangFromDB(gangPlayer.getGangID());
-                return gang;
-            } else {
-                return null;
-            }
-        } catch (ExecutionException | InterruptedException e) {
-            throw new RuntimeException("Couldn't get gang for gangplayer with UUID '" + gangPlayer.getUUID() + "'");
-        }
+    private boolean isIdInCache(UUID uuid){
+        return gangCache.asMap().containsKey(uuid);
     }
-    //Todo: Implement getGang from ID
+
+    private void addGangToCache(UUID uuid, Gang gang){
+        gangCache.put(uuid, gang);
+    }
+
+    //Todo: kig i "JavaTests"
 }

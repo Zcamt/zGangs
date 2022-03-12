@@ -1,7 +1,5 @@
 package me.Zcamt.zgangs.utils;
 
-import me.Zcamt.zgangs.managers.ConfigManager;
-import me.Zcamt.zgangs.managers.Database;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -9,26 +7,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ExecutionException;
 
-public class Utilities {
-
-    private Utilities(){
-
-    }
+public class Utils {
 
     public static void sendMessage(Player player, String message){
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        player.sendMessage(CC(message));
     }
 
     public static void sendMessage(Player player, Messages message){
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message.getMessage()));
+        player.sendMessage(CC(message.getMessage()));
     }
 
     public static void sendCenteredMessage(Player player, String message){
         final int CENTER_PX = 154;
         if(message == null || message.equals("")) sendMessage(player,"");
-        message = ChatColor.translateAlternateColorCodes('&', message);
+        message = CC(message);
 
         int messagePxSize = 0;
         boolean previousCode = false;
@@ -64,23 +57,32 @@ public class Utilities {
         sendMessage(player, sb.toString() + message);
     }
 
-    //Todo: Could/should be moved somewhere else
-    public static boolean isGangNameValid(String name, Database database) {
-        if(name.length() > 32) return false;
-        if(ConfigManager.bannedGangNames.contains(name.toLowerCase())) return false;
-        boolean nameExists;
-        try {
-            nameExists = database.getGangRepository().gangNameExists(name).get();
-        } catch (InterruptedException | ExecutionException e) {
-            nameExists = true;
-        }
-        if(nameExists) return false;
-
-        //Todo: Maybe regex support?
-        return true;
+    public static String CC(String string){
+        return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    public static String serializeGangMemberMap(HashMap<UUID, Integer> memberMap){
+    public static String uuidListToString(List<UUID> list){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < list.size(); i++) {
+            UUID uuid = list.get(i);
+            stringBuilder.append(uuid.toString());
+            if(i+1 != list.size()){
+                stringBuilder.append(";");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    public static List<UUID> uuidListFromString(String string){
+        List<UUID> uuidList = new ArrayList<>();
+        String[] uuidStringArray = string.split(";");
+        for(String uuidString : uuidStringArray){
+            uuidList.add(UUID.fromString(uuidString));
+        }
+        return uuidList;
+    }
+
+    public static String gangMemberMapToString(HashMap<UUID, Integer> memberMap){
         StringBuilder stringBuilder = new StringBuilder();
         Object[] memberMapKeyArray = memberMap.keySet().toArray();
         for(int i = 0; i<memberMapKeyArray.length; i++){
@@ -91,7 +93,7 @@ public class Utilities {
         return stringBuilder.toString();
     }
 
-    public static HashMap<UUID, Integer> deserializeGangMemberList(String members){
+    public static HashMap<UUID, Integer> stringToGangMemberMap(String members){
         HashMap<UUID, Integer> memberMap = new HashMap<>();
         String[] membersArray = members.split(";");
         for(String memberString : membersArray){
@@ -101,41 +103,6 @@ public class Utilities {
             memberMap.put(memberUUID, memberGangRank);
         }
         return memberMap;
-    }
-
-    //Todo: Handle empty lists in all of these.
-    public static String serializeIntListToString(List<Integer> list){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i<list.size(); i++){
-            stringBuilder.append(list.get(i));
-            if(i+1 != list.size()) stringBuilder.append(";");
-        }
-        return stringBuilder.toString();
-    }
-
-    public static List<Integer> deSerializeStringToIntList(String string){
-        List<Integer> newList = new ArrayList<>();
-        for(String s : string.split(";")){
-            newList.add(Integer.parseInt(s));
-        }
-        return newList;
-    }
-
-    public static String serializeStringListToString(List<String> list){
-        StringBuilder stringBuilder = new StringBuilder();
-        for(int i = 0; i<list.size(); i++){
-            stringBuilder.append(list.get(i));
-            if(i+1 != list.size()) stringBuilder.append(";");
-        }
-        return stringBuilder.toString();
-    }
-
-    public static List<String> deSerializeStringToStringList(String string){
-        List<String> newList = new ArrayList<>();
-        for(String s : string.split(";")){
-            newList.add(s);
-        }
-        return newList;
     }
 
 }

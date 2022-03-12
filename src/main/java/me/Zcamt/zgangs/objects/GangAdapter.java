@@ -1,0 +1,94 @@
+package me.Zcamt.zgangs.objects;
+
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
+import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.utils.Utils;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+public class GangAdapter extends TypeAdapter<Gang> {
+    private final Gson gson = ZGangs.GSON;
+
+    @Override
+    public void write(JsonWriter writer, Gang gang) throws IOException {
+        writer.beginObject();
+        writer.name("_id").value(gang.getUUID().toString());
+        writer.name("name").value(gang.getName());
+        writer.name("level").value(gang.getLevel());
+        writer.name("kills").value(gang.getKills());
+        writer.name("deaths").value(gang.getDeaths());
+        writer.name("bank").value(gang.getBank());
+        writer.name("ownerUUID").value(gang.getOwnerUUID().toString());
+        writer.name("members").value(Utils.gangMemberMapToString(gang.getMemberMap()));
+        writer.name("playerInvites").value(Utils.uuidListToString(gang.getPlayerInvites()));
+        writer.name("alliedGangs").value(Utils.uuidListToString(gang.getAlliedGangs()));
+        writer.name("alliedGangInvitesIncoming").value(Utils.uuidListToString(gang.getAlliedGangInvitesIncoming()));
+        writer.name("alliedGangInvitesOutgoing").value(Utils.uuidListToString(gang.getAlliedGangInvitesOutgoing()));
+        writer.name("rivalGangs").value(Utils.uuidListToString(gang.getRivalGangs()));
+        writer.name("rivalGangsAgainst").value(Utils.uuidListToString(gang.getRivalGangsAgainst()));
+        writer.endObject();
+    }
+
+    @Override
+    public Gang read(JsonReader reader) throws IOException {
+        UUID uuid = null;
+        String name = null;
+        int level = 0;
+        int kills = 0;
+        int deaths = 0;
+        int bank = 0;
+        UUID ownerUUID = null;
+        HashMap<UUID, Integer> memberMap = null;
+        List<UUID> playerInvites = null;
+        List<UUID> alliedGangs = null;
+        List<UUID> alliedGangInvitesIncoming = null;
+        List<UUID> alliedGangInvitesOutgoing = null;
+        List<UUID> rivalGangs = null;
+        List<UUID> rivalGangsAgainst = null;
+        reader.beginObject();
+
+        while (reader.hasNext()){
+            switch (reader.nextName()) {
+                case "_id" -> uuid = UUID.fromString(reader.nextString());
+                case "name" -> name = reader.nextString();
+                case "level" -> level = reader.nextInt();
+                case "kills" -> kills = reader.nextInt();
+                case "deaths" -> deaths = reader.nextInt();
+                case "bank" -> bank = reader.nextInt();
+                case "ownerUUID" -> ownerUUID = UUID.fromString(reader.nextString());
+                case "members" -> memberMap = Utils.stringToGangMemberMap(reader.nextString());
+                case "playerInvites" -> playerInvites = Utils.uuidListFromString(reader.nextString());
+                case "alliedGangs" -> alliedGangs = Utils.uuidListFromString(reader.nextString());
+                case "alliedGangInvitesIncoming" -> alliedGangInvitesIncoming = Utils.uuidListFromString(reader.nextString());
+                case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = Utils.uuidListFromString(reader.nextString());
+                case "rivalGangs" -> rivalGangs = Utils.uuidListFromString(reader.nextString());
+                case "rivalGangsAgainst" -> rivalGangsAgainst = Utils.uuidListFromString(reader.nextString());
+            }
+        }
+
+        //Todo: Maybe check for any variables being null
+
+        Gang gang = new Gang(uuid,
+                name,
+                level,
+                kills,
+                deaths,
+                bank,
+                ownerUUID,
+                memberMap,
+                playerInvites,
+                alliedGangs,
+                alliedGangInvitesIncoming,
+                alliedGangInvitesOutgoing,
+                rivalGangs,
+                rivalGangsAgainst);
+        reader.endObject();
+        return gang;
+    }
+}
