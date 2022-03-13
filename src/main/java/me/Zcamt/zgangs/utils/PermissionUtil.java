@@ -1,12 +1,13 @@
 package me.Zcamt.zgangs.utils;
 
+import me.Zcamt.zgangs.internals.Permissions;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class PermissionChecker {
+public class PermissionUtil {
 
     public static boolean hasPermissionWithMessage(@NotNull Player player, @NotNull String permission, @Nullable String denyMessage) {
         if (player.isOp()) return true;
@@ -14,7 +15,7 @@ public class PermissionChecker {
         if (player.hasPermission(Permissions.OVERRIDE.getPermission())) return true;
         boolean hasPerm = player.hasPermission(permission);
         if (!hasPerm) {
-            Utils.sendMessage(player,
+            ChatUtil.sendMessage(player,
                     denyMessage == null ? "&4Error: &cYou're not allowed to do that!" : denyMessage);
         }
         return hasPerm;

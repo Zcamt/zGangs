@@ -1,6 +1,62 @@
 package me.Zcamt.zgangs.utils;
 
-public enum DefaultFontInfo {
+import me.Zcamt.zgangs.internals.Messages;
+import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
+
+public class ChatUtil {
+
+    public static void sendMessage(Player player, String message){
+        player.sendMessage(CC(message));
+    }
+    
+    public static void sendCenteredMessage(Player player, String message){
+        final int CENTER_PX = 154;
+        if(message == null || message.equals("")) sendMessage(player,"");
+        message = CC(message);
+
+        int messagePxSize = 0;
+        boolean previousCode = false;
+        boolean isBold = false;
+
+        for(char c : message.toCharArray()){
+            if(c == '§'){
+                previousCode = true;
+                continue;
+            }else if(previousCode == true){
+                previousCode = false;
+                if(c == 'l' || c == 'L'){
+                    isBold = true;
+                    continue;
+                }else isBold = false;
+            }else{
+
+                DefaultFontInfo dFI = DefaultFontInfo.getDefaultFontInfo(c);
+                messagePxSize += isBold ? dFI.getBoldLength() : dFI.getLength();
+                messagePxSize++;
+            }
+        }
+
+        int halvedMessageSize = messagePxSize / 2;
+        int toCompensate = CENTER_PX - halvedMessageSize;
+        int spaceLength = DefaultFontInfo.SPACE.getLength() + 1;
+        int compensated = 0;
+        StringBuilder sb = new StringBuilder();
+        while(compensated < toCompensate){
+            sb.append(" ");
+            compensated += spaceLength;
+        }
+        sendMessage(player, sb.toString() + message);
+    }
+
+    public static String CC(String string){
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
+
+}
+
+
+enum DefaultFontInfo {
 
     A('A', 5),
     a('a', 5),

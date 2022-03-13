@@ -5,7 +5,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.utils.Utils;
+import me.Zcamt.zgangs.utils.ConversionUtil;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,13 +25,13 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("deaths").value(gang.getDeaths());
         writer.name("bank").value(gang.getBank());
         writer.name("ownerUUID").value(gang.getOwnerUUID().toString());
-        writer.name("members").value(Utils.gangMemberMapToString(gang.getMemberMap()));
-        writer.name("playerInvites").value(Utils.uuidListToString(gang.getPlayerInvites()));
-        writer.name("alliedGangs").value(Utils.uuidListToString(gang.getAlliedGangs()));
-        writer.name("alliedGangInvitesIncoming").value(Utils.uuidListToString(gang.getAlliedGangInvitesIncoming()));
-        writer.name("alliedGangInvitesOutgoing").value(Utils.uuidListToString(gang.getAlliedGangInvitesOutgoing()));
-        writer.name("rivalGangs").value(Utils.uuidListToString(gang.getRivalGangs()));
-        writer.name("rivalGangsAgainst").value(Utils.uuidListToString(gang.getRivalGangsAgainst()));
+        writer.name("members").value(ConversionUtil.gangMemberMapToString(gang.getMemberMap()));
+        writer.name("playerInvites").value(ConversionUtil.uuidListToString(gang.getPlayerInvites()));
+        writer.name("alliedGangs").value(ConversionUtil.uuidListToString(gang.getAlliedGangs()));
+        writer.name("alliedGangInvitesIncoming").value(ConversionUtil.uuidListToString(gang.getAlliedGangInvitesIncoming()));
+        writer.name("alliedGangInvitesOutgoing").value(ConversionUtil.uuidListToString(gang.getAlliedGangInvitesOutgoing()));
+        writer.name("rivalGangs").value(ConversionUtil.uuidListToString(gang.getRivalGangs()));
+        writer.name("rivalGangsAgainst").value(ConversionUtil.uuidListToString(gang.getRivalGangsAgainst()));
         writer.endObject();
     }
 
@@ -62,13 +62,13 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "deaths" -> deaths = reader.nextInt();
                 case "bank" -> bank = reader.nextInt();
                 case "ownerUUID" -> ownerUUID = UUID.fromString(reader.nextString());
-                case "members" -> memberMap = Utils.stringToGangMemberMap(reader.nextString());
-                case "playerInvites" -> playerInvites = Utils.uuidListFromString(reader.nextString());
-                case "alliedGangs" -> alliedGangs = Utils.uuidListFromString(reader.nextString());
-                case "alliedGangInvitesIncoming" -> alliedGangInvitesIncoming = Utils.uuidListFromString(reader.nextString());
-                case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = Utils.uuidListFromString(reader.nextString());
-                case "rivalGangs" -> rivalGangs = Utils.uuidListFromString(reader.nextString());
-                case "rivalGangsAgainst" -> rivalGangsAgainst = Utils.uuidListFromString(reader.nextString());
+                case "members" -> memberMap = ConversionUtil.stringToGangMemberMap(reader.nextString());
+                case "playerInvites" -> playerInvites = ConversionUtil.uuidListFromString(reader.nextString());
+                case "alliedGangs" -> alliedGangs = ConversionUtil.uuidListFromString(reader.nextString());
+                case "alliedGangInvitesIncoming" -> alliedGangInvitesIncoming = ConversionUtil.uuidListFromString(reader.nextString());
+                case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = ConversionUtil.uuidListFromString(reader.nextString());
+                case "rivalGangs" -> rivalGangs = ConversionUtil.uuidListFromString(reader.nextString());
+                case "rivalGangsAgainst" -> rivalGangsAgainst = ConversionUtil.uuidListFromString(reader.nextString());
             }
         }
 
