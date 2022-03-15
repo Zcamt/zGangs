@@ -1,6 +1,5 @@
 package me.Zcamt.zgangs.internals;
 
-import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,6 +17,7 @@ public class Messages {
     private static String invalidPlayer;
     private static String invalidGang;
     private static String illegalGangName;
+    private static String unknownCommand;
 
     public static String invalidUsage(String usage) {
         return invalidUsage.replace("{usage}", usage);
@@ -43,6 +43,9 @@ public class Messages {
         return illegalGangName;
     }
 
+    public static String unknownCommand() {
+        return unknownCommand;
+    }
 
     public static void reload() {
         config = YamlConfiguration.loadConfiguration(messagesFile);
@@ -53,6 +56,7 @@ public class Messages {
         invalidPlayer = ChatUtil.CC(config.getString("invalid-player"));
         invalidGang = ChatUtil.CC(config.getString("invalid-gang"));
         illegalGangName = ChatUtil.CC(config.getString("illegal-gangname"));
+        unknownCommand = ChatUtil.CC(config.getString("unknown-command"));
     }
 
 }

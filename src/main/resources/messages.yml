@@ -1,6 +1,7 @@
-invalid-usage: "&cInvalid usage. Usage: {usage}"
+invalid-usage: "&cError: Invalid usage. Usage: {usage}"
 no-perm: "&cError: You don't have permission to do that"
 not-in-gang: "&cError: You need to be in a gang to do that"
 invalid-player: "&cError: That isn't a valid player"
 invalid-gang: "&cError: That isn't a valid gang"
 illegal-gangname: "&cError: That isn't a valid name for your gang"
+unknown-command: "&cError: Unknown command"

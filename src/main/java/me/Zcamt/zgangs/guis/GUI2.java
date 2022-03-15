@@ -25,7 +25,7 @@ public abstract class GUI2 implements InventoryHolder {
         inventory.setItem(slot, stack);
     }
 
-    public void open(Player player){
+    public void openTo(Player player){
         player.openInventory(inventory);
     }
 
