@@ -1,10 +1,11 @@
-package me.Zcamt.zgangs.objects;
+package me.Zcamt.zgangs.database;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.objects.GangPlayer;
 import me.Zcamt.zgangs.utils.ConversionUtil;
 
 import java.io.IOException;

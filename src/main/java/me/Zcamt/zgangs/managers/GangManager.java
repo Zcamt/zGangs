@@ -4,7 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.objects.Database;
+import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.Gang;
 import org.bson.Document;
 
