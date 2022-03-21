@@ -14,6 +14,9 @@ import java.util.UUID;
 
 public class Gang {
 
+    //Todo: add support for limitations on member count etc.
+    //Todo: Potentially add upgradeable gang+ally damage aswell.
+    //Todo: Gang shop perhaps aswell
     private final UUID uuid;
     private String name;
     private int level;
