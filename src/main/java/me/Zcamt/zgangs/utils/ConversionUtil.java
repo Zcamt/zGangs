@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public class ConversionUtil {
 
+    //Todo: Check if empty list causes issues.
     public static String uuidListToString(List<UUID> list){
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
@@ -18,7 +19,7 @@ public class ConversionUtil {
         }
         return stringBuilder.toString();
     }
-
+    //Todo: Check if empty list causes issues.
     public static List<UUID> uuidListFromString(String string){
         List<UUID> uuidList = new ArrayList<>();
         String[] uuidStringArray = string.split(";");

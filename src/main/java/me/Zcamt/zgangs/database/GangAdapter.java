@@ -16,6 +16,7 @@ import java.util.UUID;
 public class GangAdapter extends TypeAdapter<Gang> {
     private final Gson gson = ZGangs.GSON;
 
+    //Todo: Check if empty lists/maps causes issues.
     @Override
     public void write(JsonWriter writer, Gang gang) throws IOException {
         writer.beginObject();
@@ -37,6 +38,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.endObject();
     }
 
+    //Todo: Check if empty lists/maps causes issues.
     @Override
     public Gang read(JsonReader reader) throws IOException {
         UUID uuid = null;
