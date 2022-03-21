@@ -3,7 +3,7 @@ package me.Zcamt.zgangs.managers;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
-import me.Zcamt.zgangs.objects.Database;
+import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.GangPlayer;
 
 import java.util.UUID;

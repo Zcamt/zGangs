@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects;
+package me.Zcamt.zgangs.database;
 
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
