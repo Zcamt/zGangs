@@ -21,7 +21,6 @@ public class MainCommand extends BaseCommand {
     @CatchUnknown
     public void onUnknown(Player player){
         if(!PermissionUtil.hasPermissionWithMessage(player, permission, null)) return;
-
         ChatUtil.sendMessage(player, Messages.unknownCommand());
     }
 

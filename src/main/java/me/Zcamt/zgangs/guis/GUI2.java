@@ -1,6 +1,8 @@
 package me.Zcamt.zgangs.guis;
 
+import me.Zcamt.zgangs.utils.ItemCreator;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -30,5 +32,19 @@ public abstract class GUI2 implements InventoryHolder {
     }
 
     public abstract void onClick(InventoryClickEvent event);
+
+    protected void generateGuiBorder(){
+        ItemStack filler = new ItemCreator(Material.BLACK_STAINED_GLASS_PANE).setName("").make();
+        for (int i = 0; i < 54; i++) {
+            inventory.setItem(i, filler);
+        }
+
+        ItemStack air = new ItemCreator(Material.AIR).make();
+        for (int i = 10; i < 35; i++) {
+            if (i != 17 && i != 26 && i != 18 && i != 27) {
+                inventory.setItem(i, air);
+            }
+        }
+    }
 
 }

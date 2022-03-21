@@ -1,8 +1,8 @@
 package me.Zcamt.zgangs.guis;
 
+import me.Zcamt.zgangs.utils.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
 
@@ -11,8 +11,8 @@ public class MainGui extends GUI2{
 
     public MainGui(UUID uuid) {
         super(9, "Testing");
-        setItem(0, new ItemStack(Material.STRING));
-
+        generateGuiBorder();
+        setItem(49, new ItemCreator(Material.BARRIER).setName("&cLuk").make());
         this.uuid = uuid;
     }
 

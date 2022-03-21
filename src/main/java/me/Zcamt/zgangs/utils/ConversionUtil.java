@@ -51,4 +51,29 @@ public class ConversionUtil {
         return memberMap;
     }
 
+
+    //Todo: test the two below
+    public static String gangRankPermissionMapToString(HashMap<String, Integer> permissionsMap){
+        StringBuilder stringBuilder = new StringBuilder();
+        Object[] permissionMapKeyArray = permissionsMap.keySet().toArray();
+        for(int i = 0; i<permissionMapKeyArray.length; i++){
+            String permission = (String) permissionMapKeyArray[i];
+            stringBuilder.append(permissionMapKeyArray[i]).append(":").append(permissionsMap.get(permission));
+            if(i+1 != permissionMapKeyArray.length) stringBuilder.append(";");
+        }
+        return stringBuilder.toString();
+    }
+
+    public static HashMap<String, Integer> stringToGangRankPermissionMap(String gangPermissions){
+        HashMap<String, Integer> permissionMap = new HashMap<>();
+        String[] permissionsArray = gangPermissions.split(";");
+        for(String permissionString : permissionsArray){
+            String[] permissionArray = permissionString.split(":");
+            String permission = permissionArray[0];
+            int requiredRank = Integer.parseInt(permissionArray[1]);
+            permissionMap.put(permission, requiredRank);
+        }
+        return permissionMap;
+    }
+
 }

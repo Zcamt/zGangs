@@ -28,8 +28,9 @@ public class Gang {
     private final List<UUID> alliedGangInvitesOutgoing;
     private final List<UUID> rivalGangs;
     private final List<UUID> rivalGangsAgainst;
+    private final HashMap<String, Integer> rankPermissionMap;
     
-    public Gang(UUID uuid, String name, int level, int kills, int deaths, int bank, UUID ownerUUID, HashMap<UUID, Integer> memberMap, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst) {
+    public Gang(UUID uuid, String name, int level, int kills, int deaths, int bank, UUID ownerUUID, HashMap<UUID, Integer> memberMap, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, HashMap<String, Integer> rankPermissionMap) {
         this.uuid = uuid;
         this.name = name;
         this.level = level;
@@ -44,6 +45,7 @@ public class Gang {
         this.alliedGangInvitesOutgoing = alliedGangInvitesOutgoing;
         this.rivalGangs = rivalGangs;
         this.rivalGangsAgainst = rivalGangsAgainst;
+        this.rankPermissionMap = rankPermissionMap;
     }
 
     public UUID getUUID() {
@@ -266,6 +268,13 @@ public class Gang {
             serialize();
         }
     }
+
+    public HashMap<String, Integer> getRankPermissionMap() {
+        return (HashMap<String, Integer>) Collections.unmodifiableMap(rankPermissionMap);
+    }
+
+    //Todo: add logic to interact with permission map
+
 
     @NotNull
     public String toJson(){

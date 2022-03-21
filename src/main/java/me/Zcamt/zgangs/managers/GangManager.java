@@ -28,6 +28,8 @@ public class GangManager {
                 }).build();
     }
 
+    //Todo: Create new gang
+
     //Todo: Gør alt database stuffs ASYNC
     public Gang findById(UUID uuid){
         if(gangCache.asMap().containsKey(uuid)){

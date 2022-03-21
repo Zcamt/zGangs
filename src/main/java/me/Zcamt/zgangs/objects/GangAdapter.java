@@ -32,6 +32,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("alliedGangInvitesOutgoing").value(ConversionUtil.uuidListToString(gang.getAlliedGangInvitesOutgoing()));
         writer.name("rivalGangs").value(ConversionUtil.uuidListToString(gang.getRivalGangs()));
         writer.name("rivalGangsAgainst").value(ConversionUtil.uuidListToString(gang.getRivalGangsAgainst()));
+        writer.name("rankPermissions").value(ConversionUtil.gangRankPermissionMapToString(gang.getRankPermissionMap()));
         writer.endObject();
     }
 
@@ -51,6 +52,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         List<UUID> alliedGangInvitesOutgoing = null;
         List<UUID> rivalGangs = null;
         List<UUID> rivalGangsAgainst = null;
+        HashMap<String, Integer> rankPermissions = null;
         reader.beginObject();
 
         while (reader.hasNext()){
@@ -69,6 +71,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangs" -> rivalGangs = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangsAgainst" -> rivalGangsAgainst = ConversionUtil.uuidListFromString(reader.nextString());
+                case "rankPermissions" -> rankPermissions =ConversionUtil.stringToGangRankPermissionMap(reader.nextString());
             }
         }
 
@@ -87,7 +90,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 alliedGangInvitesIncoming,
                 alliedGangInvitesOutgoing,
                 rivalGangs,
-                rivalGangsAgainst);
+                rivalGangsAgainst,
+                rankPermissions);
         reader.endObject();
         return gang;
     }
