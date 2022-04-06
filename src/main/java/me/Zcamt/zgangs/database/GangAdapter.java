@@ -26,6 +26,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("kills").value(gang.getKills());
         writer.name("deaths").value(gang.getDeaths());
         writer.name("bank").value(gang.getBank());
+        writer.name("maxMembers").value(gang.getMaxMembers());
+        writer.name("maxAllies").value(gang.getMaxAllies());
         writer.name("ownerUUID").value(gang.getOwnerUUID().toString());
         writer.name("members").value(ConversionUtil.gangMemberMapToString(gang.getMemberMap()));
         writer.name("playerInvites").value(ConversionUtil.uuidListToString(gang.getPlayerInvites()));
@@ -34,6 +36,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("alliedGangInvitesOutgoing").value(ConversionUtil.uuidListToString(gang.getAlliedGangInvitesOutgoing()));
         writer.name("rivalGangs").value(ConversionUtil.uuidListToString(gang.getRivalGangs()));
         writer.name("rivalGangsAgainst").value(ConversionUtil.uuidListToString(gang.getRivalGangsAgainst()));
+        //Todo: rank permissions should be updated to use custom object class
         writer.name("rankPermissions").value(ConversionUtil.gangRankPermissionMapToString(gang.getRankPermissionMap()));
         writer.endObject();
     }
@@ -47,6 +50,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
         int kills = 0;
         int deaths = 0;
         int bank = 0;
+        int maxMembers = 0;
+        int maxAllies = 0;
         UUID ownerUUID = null;
         HashMap<UUID, Integer> memberMap = null;
         List<UUID> playerInvites = null;
@@ -66,6 +71,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "kills" -> kills = reader.nextInt();
                 case "deaths" -> deaths = reader.nextInt();
                 case "bank" -> bank = reader.nextInt();
+                case "maxMembers" -> maxMembers = reader.nextInt();
+                case "maxAllies" -> maxAllies = reader.nextInt();
                 case "ownerUUID" -> ownerUUID = UUID.fromString(reader.nextString());
                 case "members" -> memberMap = ConversionUtil.stringToGangMemberMap(reader.nextString());
                 case "playerInvites" -> playerInvites = ConversionUtil.uuidListFromString(reader.nextString());
@@ -74,6 +81,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangs" -> rivalGangs = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangsAgainst" -> rivalGangsAgainst = ConversionUtil.uuidListFromString(reader.nextString());
+                //Todo: rank permissions should be updated to use custom object class
                 case "rankPermissions" -> rankPermissions =ConversionUtil.stringToGangRankPermissionMap(reader.nextString());
             }
         }
@@ -86,6 +94,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 kills,
                 deaths,
                 bank,
+                maxMembers,
+                maxAllies,
                 ownerUUID,
                 memberMap,
                 playerInvites,

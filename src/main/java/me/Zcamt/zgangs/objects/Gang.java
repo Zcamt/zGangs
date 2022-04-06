@@ -14,7 +14,6 @@ import java.util.UUID;
 
 public class Gang {
 
-    //Todo: add support for limitations on member count etc.
     //Todo: Potentially add upgradeable gang+ally damage aswell.
     //Todo: Gang shop perhaps aswell
     private final UUID uuid;
@@ -23,6 +22,8 @@ public class Gang {
     private int kills;
     private int deaths;
     private int bank;
+    private int maxMembers;
+    private int maxAllies;
     private UUID ownerUUID;
     private final HashMap<UUID, Integer> memberMap;
     private final List<UUID> playerInvites;
@@ -31,15 +32,18 @@ public class Gang {
     private final List<UUID> alliedGangInvitesOutgoing;
     private final List<UUID> rivalGangs;
     private final List<UUID> rivalGangsAgainst;
+    //Todo: rank permissions should be updated to use custom object class
     private final HashMap<String, Integer> rankPermissionMap;
     
-    public Gang(UUID uuid, String name, int level, int kills, int deaths, int bank, UUID ownerUUID, HashMap<UUID, Integer> memberMap, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, HashMap<String, Integer> rankPermissionMap) {
+    public Gang(UUID uuid, String name, int level, int kills, int deaths, int bank, int maxMembers, int maxAllies, UUID ownerUUID, HashMap<UUID, Integer> memberMap, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, HashMap<String, Integer> rankPermissionMap) {
         this.uuid = uuid;
         this.name = name;
         this.level = level;
         this.kills = kills;
         this.deaths = deaths;
         this.bank = bank;
+        this.maxMembers = maxMembers;
+        this.maxAllies = maxAllies;
         this.ownerUUID = ownerUUID;
         this.memberMap = memberMap;
         this.playerInvites = playerInvites;
@@ -59,9 +63,14 @@ public class Gang {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-        serialize();
+    public boolean setName(String name) {
+        if(true) { //if name is valid
+            this.name = name;
+            serialize();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public int getLevel() {
@@ -98,6 +107,22 @@ public class Gang {
     public void setBank(int bank) {
         this.bank = bank;
         serialize();
+    }
+
+    public int getMaxMembers() {
+        return maxMembers;
+    }
+
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
+    }
+
+    public int getMaxAllies() {
+        return maxAllies;
+    }
+
+    public void setMaxAllies(int maxAllies) {
+        this.maxAllies = maxAllies;
     }
 
     public UUID getOwnerUUID() {
@@ -137,8 +162,9 @@ public class Gang {
         return Collections.unmodifiableList(alliedGangInvitesOutgoing);
     }
 
-    public void addMember(UUID uuid, Integer rank){
+    public boolean addMember(UUID uuid, Integer rank){
         memberMap.put(uuid, rank);
+        return true;
     }
 
     public void removeMember(UUID uuid){
@@ -149,135 +175,158 @@ public class Gang {
         return memberMap.containsKey(uuid);
     }
 
-    public void addPlayerToInvites(GangPlayer gangPlayer){
-        if(playerInvites.contains(gangPlayer.getUUID())) return;
+    public boolean addPlayerToInvites(GangPlayer gangPlayer){
+        if(memberMap.containsKey(gangPlayer.getUUID())) return false;
+        if(playerInvites.contains(gangPlayer.getUUID())) return false;
         playerInvites.add(gangPlayer.getUUID());
         gangPlayer.addGangInvite(this.uuid);
         serialize();
+        return true;
     }
 
-    public void removePlayerFromInvites(GangPlayer gangPlayer){
-        if(playerInvites.contains(gangPlayer.getUUID())) {
-            playerInvites.remove(gangPlayer.getUUID());
-            gangPlayer.removeGangInvite(this);
-        }
-        serialize();
-    }
+    public boolean removePlayerFromInvites(GangPlayer gangPlayer){
+        if(!playerInvites.contains(gangPlayer.getUUID())) return false;
 
-    public void addGangPlayerToGang(GangPlayer gangPlayer){
         playerInvites.remove(gangPlayer.getUUID());
         gangPlayer.removeGangInvite(this);
-        if(memberMap.containsKey(gangPlayer.getUUID())) return;
-        memberMap.put(gangPlayer.getUUID(), 1);
+        serialize();
+        return true;
+    }
+
+    public boolean addGangPlayerToGang(GangPlayer gangPlayer){
+        //Todo: add check for limit
+        //removePlayerFromInvites(gangPlayer);
+        playerInvites.remove(gangPlayer.getUUID());
+        gangPlayer.removeGangInvite(this);
+        if(memberMap.containsKey(gangPlayer.getUUID())) return false;
+        if(gangPlayer.getGangUUID() != null) return false;
+        addMember(gangPlayer.getUUID(), 1);
         gangPlayer.setGangID(this.uuid);
         gangPlayer.setGangRank(1);
         serialize();
+        return true;
     }
 
-    public void addAlly(Gang gang){
-        if(!alliedGangs.contains(gang.getUUID())) {
-            alliedGangs.add(gang.getUUID());
-            gang.addAlly(this);
-            serialize();
-        }
+    public boolean addAlly(Gang gang){
+        //Todo: add check for limit
+        if(alliedGangs.contains(gang.getUUID())) return false;
+
+        alliedGangs.add(gang.getUUID());
+        gang.addAlly(this);
+        serialize();
+        return true;
     }
 
     public boolean isAllied(UUID gangUUID){
         return alliedGangs.contains(gangUUID);
     }
 
-    public void removeAlly(Gang gang){
-        if(alliedGangs.contains(gang.getUUID())) {
-            alliedGangs.remove(gang.getUUID());
-            gang.removeAlly(this);
-            serialize();
-        }
+    public boolean removeAlly(Gang gang){
+        if(!alliedGangs.contains(gang.getUUID())) return false;
+
+        alliedGangs.remove(gang.getUUID());
+        gang.removeAlly(this);
+        serialize();
+        return true;
     }
 
-    public void addAllyInviteIncoming(Gang gang){
-        if(!alliedGangInvitesIncoming.contains(gang.getUUID())) {
-            alliedGangInvitesIncoming.add(gang.getUUID());
-            gang.addAllyInviteOutgoing(this);
-            serialize();
-        }
+    public boolean addAllyInviteIncoming(Gang gang){
+        if(alliedGangInvitesIncoming.contains(gang.getUUID())) return false;
+
+        alliedGangInvitesIncoming.add(gang.getUUID());
+        gang.addAllyInviteOutgoing(this);
+        serialize();
+        return true;
     }
 
     public boolean allyInviteIncomingContains(UUID gangUUID){
         return alliedGangInvitesIncoming.contains(gangUUID);
     }
 
-    public void removeAllyInviteIncoming(Gang gang){
-        if(alliedGangInvitesIncoming.contains(gang.getUUID())) {
-            alliedGangInvitesIncoming.remove(gang.getUUID());
-            gang.removeAllyInviteOutgoing(this);
-            serialize();
-        }
+    public boolean removeAllyInviteIncoming(Gang gang){
+        if(!alliedGangInvitesIncoming.contains(gang.getUUID())) return false;
+
+        alliedGangInvitesIncoming.remove(gang.getUUID());
+        gang.removeAllyInviteOutgoing(this);
+        serialize();
+        return true;
+
     }
 
-    public void addAllyInviteOutgoing(Gang gang){
-        if(!alliedGangInvitesOutgoing.contains(gang.getUUID())) {
-            alliedGangInvitesOutgoing.add(gang.getUUID());
-            gang.addAllyInviteIncoming(this);
-            serialize();
-        }
+    public boolean addAllyInviteOutgoing(Gang gang){
+        if(alliedGangInvitesOutgoing.contains(gang.getUUID())) return false;
+
+        alliedGangInvitesOutgoing.add(gang.getUUID());
+        gang.addAllyInviteIncoming(this);
+        serialize();
+        return true;
+
     }
 
     public boolean allyInviteOutgoingContains(UUID gangUUID){
         return alliedGangInvitesOutgoing.contains(gangUUID);
     }
 
-    public void removeAllyInviteOutgoing(Gang gang){
-        if(alliedGangInvitesOutgoing.contains(gang.getUUID())) {
-            alliedGangInvitesOutgoing.remove(gang.getUUID());
-            gang.removeAllyInviteIncoming(this);
-            serialize();
-        }
+    public boolean removeAllyInviteOutgoing(Gang gang){
+        if(!alliedGangInvitesOutgoing.contains(gang.getUUID())) return false;
+
+        alliedGangInvitesOutgoing.remove(gang.getUUID());
+        gang.removeAllyInviteIncoming(this);
+        serialize();
+        return true;
     }
 
-    public void addRival(Gang gang){
-        if(!rivalGangs.contains(gang.getUUID())){
-            rivalGangs.add(gang.getUUID());
-            gang.addRivalAgainst(this);
-            serialize();
-        }
+    public boolean addRival(Gang gang){
+        if(rivalGangs.contains(gang.getUUID())) return false;
+
+        rivalGangs.add(gang.getUUID());
+        gang.addRivalAgainst(this);
+        serialize();
+        return true;
     }
 
     public boolean isRival(UUID gangUUID){
         return rivalGangs.contains(gangUUID);
     }
 
-    public void removeRival(Gang gang){
-        if(rivalGangs.contains(gang.getUUID())){
-            rivalGangs.remove(gang.getUUID());
-            gang.removeRivalAgainst(this);
-            serialize();
-        }
+    public boolean removeRival(Gang gang){
+        if(!rivalGangs.contains(gang.getUUID())) return false;
+
+        rivalGangs.remove(gang.getUUID());
+        gang.removeRivalAgainst(this);
+        serialize();
+        return true;
     }
 
-    public void addRivalAgainst(Gang gang){
-        if(!rivalGangsAgainst.contains(gang.getUUID())){
-            rivalGangsAgainst.add(gang.getUUID());
-            serialize();
-        }
+    public boolean addRivalAgainst(Gang gang){
+        if(rivalGangsAgainst.contains(gang.getUUID())) return false;
+
+        rivalGangsAgainst.add(gang.getUUID());
+        serialize();
+        return true;
     }
 
     public boolean isRivalAgainst(UUID gangUUID){
         return rivalGangsAgainst.contains(gangUUID);
     }
 
-    public void removeRivalAgainst(Gang gang){
-        if(rivalGangsAgainst.contains(gang.getUUID())){
-            rivalGangsAgainst.remove(gang.getUUID());
-            serialize();
-        }
+    public boolean removeRivalAgainst(Gang gang){
+        if(!rivalGangsAgainst.contains(gang.getUUID())) return false;
+
+        rivalGangsAgainst.remove(gang.getUUID());
+        serialize();
+        return true;
     }
 
+    //Todo: rank permissions should be updated to use custom object class
     public HashMap<String, Integer> getRankPermissionMap() {
         return (HashMap<String, Integer>) Collections.unmodifiableMap(rankPermissionMap);
     }
 
-    //Todo: add logic to interact with permission map
-
+    public boolean rankUp(){
+        //Todo: Add rankup logic
+        return true;
+    }
 
     @NotNull
     public String toJson(){

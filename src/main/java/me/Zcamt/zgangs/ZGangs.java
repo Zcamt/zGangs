@@ -13,6 +13,8 @@ import java.io.File;
 
 public class ZGangs extends JavaPlugin {
 
+    //Todo: Add "java docs" to gang and gang player methods perhaps.
+
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Gang.class, new GangAdapter())
             .registerTypeAdapter(GangPlayer.class, new GangPlayerAdapter())
@@ -32,14 +34,13 @@ public class ZGangs extends JavaPlugin {
         return database;
     }
 
-
     public void loadConfig(){
         File messagesFile = new File(this.getDataFolder(), "messages.yml");
-        if(this.getDataFolder().exists()){
+        if(!this.getDataFolder().exists()){
             this.getDataFolder().mkdir();
         }
 
-        if(messagesFile.exists()){
+        if(!messagesFile.exists()){
             saveResource("messages.yml", false);
         }
 

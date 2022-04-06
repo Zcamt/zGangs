@@ -7,6 +7,7 @@ import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,11 +18,11 @@ public class GangPlayer {
     //Todo: Might wanna change to only use UUIDs as that allows for creation of GangPlayer object without player being online.
 
     private UUID uuid;
-    private UUID gangUUID;
+    private @Nullable UUID gangUUID;
     private int gangRank;
     private List<UUID> gangInvites;
 
-    public GangPlayer(UUID uuid, UUID gangUUID, int gangRank, List<UUID> gangInvites) {
+    public GangPlayer(UUID uuid, @Nullable UUID gangUUID, int gangRank, List<UUID> gangInvites) {
         this.uuid = uuid;
         this.gangUUID = gangUUID;
         this.gangRank = gangRank;
@@ -35,6 +36,7 @@ public class GangPlayer {
         return Bukkit.getOfflinePlayer(uuid);
     }
 
+    @Nullable
     public UUID getGangUUID() {
         return gangUUID;
     }
@@ -56,18 +58,23 @@ public class GangPlayer {
         return Collections.unmodifiableList(gangInvites);
     }
 
-    public void addGangInvite(UUID gangUUID) {
+    public boolean addGangInvite(UUID gangUUID) {
+        if(gangInvites.contains(gangUUID)) return false;
+
         gangInvites.add(gangUUID);
         serialize();
+        return true;
     }
-    public void removeGangInvite(Gang gang) {
-        if(gangInvites.contains(gang.getUUID())) {
-            gangInvites.remove(gang.getUUID());
-            gang.removePlayerFromInvites(this);
-        }
+
+    public boolean removeGangInvite(Gang gang) {
+        if(!gangInvites.contains(gang.getUUID())) return false;
+
+        gangInvites.remove(gang.getUUID());
+        gang.removePlayerFromInvites(this);
         serialize();
-        gang.serialize();
+        return true;
     }
+
     public boolean gangInvitesContains(UUID gangUUID) {
         return gangInvites.contains(gangUUID);
     }
