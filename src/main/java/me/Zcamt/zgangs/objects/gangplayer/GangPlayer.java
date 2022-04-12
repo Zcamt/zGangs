@@ -1,8 +1,9 @@
-package me.Zcamt.zgangs.objects;
+package me.Zcamt.zgangs.objects.gangplayer;
 
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.objects.gang.Gang;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

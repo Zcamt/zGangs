@@ -5,7 +5,8 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.objects.Gang;
+import me.Zcamt.zgangs.objects.gang.Gang;
+import me.Zcamt.zgangs.objects.gang.GangPermissions;
 import me.Zcamt.zgangs.utils.ConversionUtil;
 
 import java.io.IOException;
@@ -36,8 +37,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("alliedGangInvitesOutgoing").value(ConversionUtil.uuidListToString(gang.getAlliedGangInvitesOutgoing()));
         writer.name("rivalGangs").value(ConversionUtil.uuidListToString(gang.getRivalGangs()));
         writer.name("rivalGangsAgainst").value(ConversionUtil.uuidListToString(gang.getRivalGangsAgainst()));
-        //Todo: rank permissions should be updated to use custom object class
-        writer.name("rankPermissions").value(ConversionUtil.gangRankPermissionMapToString(gang.getRankPermissionMap()));
+        writer.name("gangPermissions").value(ConversionUtil.gangPermissionsToString(gang.getGangPermissions().getPermissionsMap()));
         writer.endObject();
     }
 
@@ -60,7 +60,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         List<UUID> alliedGangInvitesOutgoing = null;
         List<UUID> rivalGangs = null;
         List<UUID> rivalGangsAgainst = null;
-        HashMap<String, Integer> rankPermissions = null;
+        GangPermissions gangPermissions = null;
         reader.beginObject();
 
         while (reader.hasNext()){
@@ -81,8 +81,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangs" -> rivalGangs = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangsAgainst" -> rivalGangsAgainst = ConversionUtil.uuidListFromString(reader.nextString());
-                //Todo: rank permissions should be updated to use custom object class
-                case "rankPermissions" -> rankPermissions =ConversionUtil.stringToGangRankPermissionMap(reader.nextString());
+                case "gangPermissions" -> gangPermissions =ConversionUtil.stringToGangPermissions(reader.nextString());
             }
         }
 
@@ -104,7 +103,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 alliedGangInvitesOutgoing,
                 rivalGangs,
                 rivalGangsAgainst,
-                rankPermissions);
+                gangPermissions);
         reader.endObject();
         return gang;
     }

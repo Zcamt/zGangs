@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.database.Database;
-import me.Zcamt.zgangs.objects.Gang;
+import me.Zcamt.zgangs.objects.gang.Gang;
 import org.bson.Document;
 
 import java.util.NoSuchElementException;

@@ -1,5 +1,8 @@
 package me.Zcamt.zgangs.utils;
 
+import me.Zcamt.zgangs.objects.gang.GangPermission;
+import me.Zcamt.zgangs.objects.gang.GangPermissions;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,27 +57,27 @@ public class ConversionUtil {
 
 
     //Todo: test the two below
-    public static String gangRankPermissionMapToString(HashMap<String, Integer> permissionsMap){
+    public static String gangPermissionsToString(HashMap<GangPermission, Integer> permissionsMap){
         StringBuilder stringBuilder = new StringBuilder();
         Object[] permissionMapKeyArray = permissionsMap.keySet().toArray();
         for(int i = 0; i<permissionMapKeyArray.length; i++){
-            String permission = (String) permissionMapKeyArray[i];
+            GangPermission permission = (GangPermission) permissionMapKeyArray[i];
             stringBuilder.append(permissionMapKeyArray[i]).append(":").append(permissionsMap.get(permission));
             if(i+1 != permissionMapKeyArray.length) stringBuilder.append(";");
         }
         return stringBuilder.toString();
     }
 
-    public static HashMap<String, Integer> stringToGangRankPermissionMap(String gangPermissions){
-        HashMap<String, Integer> permissionMap = new HashMap<>();
+    public static GangPermissions stringToGangPermissions(String gangPermissions){
+        HashMap<GangPermission, Integer> permissionMap = new HashMap<>();
         String[] permissionsArray = gangPermissions.split(";");
         for(String permissionString : permissionsArray){
             String[] permissionArray = permissionString.split(":");
             String permission = permissionArray[0];
             int requiredRank = Integer.parseInt(permissionArray[1]);
-            permissionMap.put(permission, requiredRank);
+            permissionMap.put(GangPermission.valueOf(permission), requiredRank);
         }
-        return permissionMap;
+        return new GangPermissions(permissionMap);
     }
 
 }

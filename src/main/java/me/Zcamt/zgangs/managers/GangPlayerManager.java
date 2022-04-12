@@ -4,7 +4,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.database.Database;
-import me.Zcamt.zgangs.objects.GangPlayer;
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;

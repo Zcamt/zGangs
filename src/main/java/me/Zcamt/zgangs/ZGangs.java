@@ -6,7 +6,8 @@ import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.database.GangAdapter;
 import me.Zcamt.zgangs.database.GangPlayerAdapter;
 import me.Zcamt.zgangs.internals.Messages;
-import me.Zcamt.zgangs.objects.*;
+import me.Zcamt.zgangs.objects.gang.Gang;
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
