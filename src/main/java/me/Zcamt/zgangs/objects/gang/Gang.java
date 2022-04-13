@@ -17,7 +17,6 @@ public class Gang {
 
     //Todo: Potentially add upgradeable gang+ally damage aswell.
     //Todo: Gang shop perhaps aswell
-    //Todo: Move getters to the bottom
     private final UUID uuid;
     private String name;
     //Todo: Add MOTD
@@ -35,7 +34,6 @@ public class Gang {
     private final List<UUID> alliedGangInvitesOutgoing;
     private final List<UUID> rivalGangs;
     private final List<UUID> rivalGangsAgainst;
-    //Todo: rank permissions should be updated to use custom object class
     private final GangPermissions gangPermissions;
 
     public Gang(UUID uuid, String name, int level, int kills, int deaths, int bank, int maxMembers, int maxAllies, UUID ownerUUID, HashMap<UUID, Integer> memberMap, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, GangPermissions gangPermissions) {
@@ -111,6 +109,12 @@ public class Gang {
     public void setOwnerUUID(UUID ownerUUID) {
         this.ownerUUID = ownerUUID;
         serialize();
+    }
+
+    //Todo: Make setOwner method that handles
+    // everything from setting new owner to demoting previous owner
+    public void setOwner(GangPlayer gangPlayer) {
+        setOwnerUUID(gangPlayer.getUUID());
     }
 
     public boolean addMember(UUID uuid, Integer rank) {
