@@ -102,21 +102,25 @@ public class Gang {
 
     public void setMaxMembers(int maxMembers) {
         this.maxMembers = maxMembers;
+        serialize();
     }
 
     public void setMaxAllies(int maxAllies) {
         this.maxAllies = maxAllies;
-    }
-
-    public void setOwnerUUID(UUID ownerUUID) {
-        this.ownerUUID = ownerUUID;
         serialize();
     }
 
     //Todo: Make setOwner method that handles
     // everything from setting new owner to demoting previous owner
-    public void setOwner(GangPlayer gangPlayer) {
-        setOwnerUUID(gangPlayer.getUUID());
+    // make it require X balance in the bank to allow for new owner
+    public boolean setOwner(GangPlayer gangPlayer) {
+        if(true) { //Has enough money
+            this.ownerUUID = gangPlayer.getUUID();
+            serialize();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean addMember(UUID uuid, Integer rank) {
@@ -126,10 +130,7 @@ public class Gang {
 
     public void removeMember(UUID uuid) {
         memberMap.remove(uuid);
-    }
-
-    public boolean isMember(UUID uuid) {
-        return memberMap.containsKey(uuid);
+        serialize();
     }
 
     public boolean addPlayerToInvites(GangPlayer gangPlayer) {
@@ -338,6 +339,10 @@ public class Gang {
 
     public HashMap<UUID, Integer> getMemberMap() {
         return (HashMap<UUID, Integer>) Collections.unmodifiableMap(memberMap);
+    }
+
+    public boolean isMember(UUID uuid) {
+        return memberMap.containsKey(uuid);
     }
 
     public List<UUID> getAlliedGangs() {
