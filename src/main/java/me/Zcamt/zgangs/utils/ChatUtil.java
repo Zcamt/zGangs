@@ -3,10 +3,24 @@ package me.Zcamt.zgangs.utils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+
 public class ChatUtil {
 
     public static void sendMessage(Player player, String message){
         player.sendMessage(CC(message));
+    }
+
+    public static void sendMessage(Player player, List<String> messages){
+        for (String message : messages) {
+            sendMessage(player, message);
+        }
+    }
+
+    public static void sendCenteredMessage(Player player, List<String> messages){
+        for (String message : messages) {
+            sendCenteredMessage(player, message);
+        }
     }
     
     public static void sendCenteredMessage(Player player, String message){

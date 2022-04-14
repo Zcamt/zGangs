@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.internals;
+package me.Zcamt.zgangs.config;
 
 import me.Zcamt.zgangs.utils.ChatUtil;
 import org.bukkit.Bukkit;

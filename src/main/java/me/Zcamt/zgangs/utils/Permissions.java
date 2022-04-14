@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.internals;
+package me.Zcamt.zgangs.utils;
 
 public enum Permissions {
     PLAYER("zGangs.player"),

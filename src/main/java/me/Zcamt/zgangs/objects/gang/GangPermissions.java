@@ -9,7 +9,7 @@ public class GangPermissions {
 
     public GangPermissions(HashMap<GangPermission, Integer> permissionMap) {
         for (GangPermission gangPermission : GangPermission.values()) {
-            setPermission(gangPermission, permissionMap.getOrDefault(gangPermission, 1));
+            setPermission(gangPermission, permissionMap.getOrDefault(gangPermission, gangPermission.getDefaultValue()));
         }
     }
 

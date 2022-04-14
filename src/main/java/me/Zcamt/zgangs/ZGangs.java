@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.database.GangAdapter;
 import me.Zcamt.zgangs.database.GangPlayerAdapter;
-import me.Zcamt.zgangs.internals.Messages;
+import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -36,11 +36,15 @@ public class ZGangs extends JavaPlugin {
     }
 
     public void loadConfig(){
+        File configFile = new File(this.getDataFolder(), "config.yml");
         File messagesFile = new File(this.getDataFolder(), "messages.yml");
         if(!this.getDataFolder().exists()){
             this.getDataFolder().mkdir();
         }
 
+        if(!configFile.exists()){
+            saveResource("config.yml", false);
+        }
         if(!messagesFile.exists()){
             saveResource("messages.yml", false);
         }

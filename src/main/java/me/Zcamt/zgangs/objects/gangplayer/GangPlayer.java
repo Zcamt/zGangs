@@ -16,8 +16,6 @@ import java.util.UUID;
 
 public class GangPlayer {
 
-    //Todo: Might wanna change to only use UUIDs as that allows for creation of GangPlayer object without player being online.
-
     private UUID uuid;
     private @Nullable UUID gangUUID;
     private int gangRank;
@@ -30,33 +28,14 @@ public class GangPlayer {
         this.gangInvites = gangInvites;
     }
 
-    public UUID getUUID() {
-        return uuid;
-    }
-    public OfflinePlayer getOfflinePlayer(){
-        return Bukkit.getOfflinePlayer(uuid);
-    }
-
-    @Nullable
-    public UUID getGangUUID() {
-        return gangUUID;
-    }
-
     public void setGangID(UUID gangUUID) {
         this.gangUUID = gangUUID;
         serialize();
     }
 
-    public int getGangRank() {
-        return gangRank;
-    }
     public void setGangRank(int gangRank) {
         this.gangRank = gangRank;
         serialize();
-    }
-
-    public List<UUID> getGangInvites() {
-        return Collections.unmodifiableList(gangInvites);
     }
 
     public boolean addGangInvite(UUID gangUUID) {
@@ -80,7 +59,6 @@ public class GangPlayer {
         return gangInvites.contains(gangUUID);
     }
 
-
     @NotNull
     public String toJson(){
         return ZGangs.GSON.toJson(this);
@@ -94,6 +72,28 @@ public class GangPlayer {
                         this.uuid.toString()),
                         document,
                         new ReplaceOptions().upsert(true));
+    }
+
+
+    public UUID getUUID() {
+        return uuid;
+    }
+
+    public OfflinePlayer getOfflinePlayer(){
+        return Bukkit.getOfflinePlayer(uuid);
+    }
+
+    @Nullable
+    public UUID getGangUUID() {
+        return gangUUID;
+    }
+
+    public int getGangRank() {
+        return gangRank;
+    }
+
+    public List<UUID> getGangInvites() {
+        return Collections.unmodifiableList(gangInvites);
     }
 
 }

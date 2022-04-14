@@ -27,6 +27,8 @@ public class Gang {
     private int maxMembers;
     private int maxAllies;
     private UUID ownerUUID;
+    //Todo: Membermap might benefit from being a custom object to ensure ranks fx. never exceed 5.
+    // Would also move a bit of the logic away from Gang object as object would handle adding and removing from the map.
     private final HashMap<UUID, Integer> memberMap;
     private final List<UUID> playerInvites;
     private final List<UUID> alliedGangs;
