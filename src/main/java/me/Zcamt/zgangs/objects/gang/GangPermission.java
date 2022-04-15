@@ -1,24 +1,24 @@
 package me.Zcamt.zgangs.objects.gang;
 
 public enum GangPermission {
-    INVITE_PLAYERS(2),
-    MANAGE_INVITES(3),
-    KICK_MEMBERS(3),
-    USE_GANGSHOP(3),
-    GANG_RANKUP(3),
-    MANAGE_MOTD(4),
-    MANAGE_ALLIES(3),
-    MANAGE_RIVALS(3),
-    MANAGE_MEMBER_RANKS(4),
-    RENAME_GANG(4);
+    INVITE_PLAYERS(GangRank.MEMBER),
+    MANAGE_INVITES(GangRank.CAPTAIN),
+    KICK_MEMBERS(GangRank.CAPTAIN),
+    USE_GANGSHOP(GangRank.CAPTAIN),
+    GANG_RANKUP(GangRank.CAPTAIN),
+    MANAGE_MOTD(GangRank.CO_OWNER),
+    MANAGE_ALLIES(GangRank.CAPTAIN),
+    MANAGE_RIVALS(GangRank.CAPTAIN),
+    MANAGE_MEMBER_RANKS(GangRank.CO_OWNER),
+    RENAME_GANG(GangRank.CO_OWNER);
 
-    private int defaultValue;
+    private final GangRank defaultRequiredRank;
 
-    GangPermission(int defaultValue) {
-        this.defaultValue = defaultValue;
+    GangPermission(GangRank defaultRequiredRank) {
+        this.defaultRequiredRank = defaultRequiredRank;
     }
 
-    public int getDefaultValue() {
-        return defaultValue;
+    public GangRank getDefaultRequiredRank() {
+        return defaultRequiredRank;
     }
 }

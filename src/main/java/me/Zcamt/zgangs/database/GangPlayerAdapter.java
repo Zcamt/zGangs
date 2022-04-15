@@ -5,6 +5,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.objects.gang.GangRank;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.utils.ConversionUtil;
 
@@ -21,7 +22,7 @@ public class GangPlayerAdapter extends TypeAdapter<GangPlayer> {
         writer.beginObject();
         writer.name("_id").value(gangPlayer.getUUID().toString());
         writer.name("gangUUID").value(gangPlayer.getUUID().toString());
-        writer.name("gangRank").value(gangPlayer.getGangRank());
+        writer.name("gangRank").value(gangPlayer.getGangRank().getID());
         writer.name("gangInvites").value(ConversionUtil.uuidListToString(gangPlayer.getGangInvites()));
         writer.endObject();
     }
@@ -31,7 +32,7 @@ public class GangPlayerAdapter extends TypeAdapter<GangPlayer> {
     public GangPlayer read(JsonReader reader) throws IOException {
         UUID uuid = null;
         UUID gangUUID = null;
-        int gangRank = 0;
+        GangRank gangRank = null;
         List<UUID> gangInvites = null;
 
         reader.beginObject();
@@ -40,10 +41,12 @@ public class GangPlayerAdapter extends TypeAdapter<GangPlayer> {
             switch (reader.nextName()) {
                 case "_id" -> uuid = UUID.fromString(reader.nextString());
                 case "gangUUID" -> gangUUID = UUID.fromString(reader.nextString());
-                case "gangRank" -> gangRank = reader.nextInt();
+                case "gangRank" -> gangRank = GangRank.getRank(reader.nextInt());
                 case "gangInvites" -> gangInvites = ConversionUtil.uuidListFromString(reader.nextString());
             }
         }
+
+        //Todo: Maybe check for any variables being null
 
         GangPlayer gangPlayer = new GangPlayer(uuid, gangUUID, gangRank, gangInvites);
         reader.endObject();

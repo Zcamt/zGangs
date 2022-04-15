@@ -4,6 +4,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
+import me.Zcamt.zgangs.objects.gang.GangRank;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -18,10 +19,10 @@ public class GangPlayer {
 
     private UUID uuid;
     private @Nullable UUID gangUUID;
-    private int gangRank;
+    private GangRank gangRank;
     private List<UUID> gangInvites;
 
-    public GangPlayer(UUID uuid, @Nullable UUID gangUUID, int gangRank, List<UUID> gangInvites) {
+    public GangPlayer(UUID uuid, @Nullable UUID gangUUID, GangRank gangRank, List<UUID> gangInvites) {
         this.uuid = uuid;
         this.gangUUID = gangUUID;
         this.gangRank = gangRank;
@@ -33,7 +34,7 @@ public class GangPlayer {
         serialize();
     }
 
-    public void setGangRank(int gangRank) {
+    public void setGangRank(GangRank gangRank) {
         this.gangRank = gangRank;
         serialize();
     }
@@ -88,7 +89,7 @@ public class GangPlayer {
         return gangUUID;
     }
 
-    public int getGangRank() {
+    public GangRank getGangRank() {
         return gangRank;
     }
 

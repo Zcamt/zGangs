@@ -123,9 +123,9 @@ public class Gang {
         }
     }
 
-    public boolean addMember(UUID uuid, Integer rank) {
+    public void addMember(UUID uuid, Integer rank) {
         memberMap.put(uuid, rank);
-        return true;
+        serialize();
     }
 
     public void removeMember(UUID uuid) {

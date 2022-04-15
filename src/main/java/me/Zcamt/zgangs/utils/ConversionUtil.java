@@ -2,6 +2,7 @@ package me.Zcamt.zgangs.utils;
 
 import me.Zcamt.zgangs.objects.gang.GangPermission;
 import me.Zcamt.zgangs.objects.gang.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.GangRank;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,24 +58,26 @@ public class ConversionUtil {
 
 
     //Todo: test the two below
-    public static String gangPermissionsToString(HashMap<GangPermission, Integer> permissionsMap){
+    public static String gangPermissionsToString(HashMap<GangPermission, GangRank> permissionsMap){
         StringBuilder stringBuilder = new StringBuilder();
         Object[] permissionMapKeyArray = permissionsMap.keySet().toArray();
         for(int i = 0; i<permissionMapKeyArray.length; i++){
             GangPermission permission = (GangPermission) permissionMapKeyArray[i];
-            stringBuilder.append(permissionMapKeyArray[i]).append(":").append(permissionsMap.get(permission));
+            GangRank rank = permissionsMap.get(permission);
+            stringBuilder.append(permissionMapKeyArray[i]).append(":").append(rank.getID());
             if(i+1 != permissionMapKeyArray.length) stringBuilder.append(";");
         }
         return stringBuilder.toString();
     }
 
     public static GangPermissions stringToGangPermissions(String gangPermissions){
-        HashMap<GangPermission, Integer> permissionMap = new HashMap<>();
+        HashMap<GangPermission, GangRank> permissionMap = new HashMap<>();
         String[] permissionsArray = gangPermissions.split(";");
         for(String permissionString : permissionsArray){
             String[] permissionArray = permissionString.split(":");
-            String permission = permissionArray[0];
-            int requiredRank = Integer.parseInt(permissionArray[1]);
+            String permission = permissionArray[0].toUpperCase();
+            int rankID = Integer.parseInt(permissionArray[1]);
+            GangRank requiredRank = GangRank.getRank(rankID);
             permissionMap.put(GangPermission.valueOf(permission), requiredRank);
         }
         return new GangPermissions(permissionMap);
