@@ -70,7 +70,7 @@ public class ConversionUtil {
         return stringBuilder.toString();
     }
 
-    public static GangPermissions stringToGangPermissions(String gangPermissions){
+    public static GangPermissions gangPermissionsFromString(String gangPermissions){
         HashMap<GangPermission, GangRank> permissionMap = new HashMap<>();
         String[] permissionsArray = gangPermissions.split(";");
         for(String permissionString : permissionsArray){

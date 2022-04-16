@@ -10,7 +10,6 @@ import me.Zcamt.zgangs.objects.gang.GangPermissions;
 import me.Zcamt.zgangs.utils.ConversionUtil;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +29,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("maxMembers").value(gang.getMaxMembers());
         writer.name("maxAllies").value(gang.getMaxAllies());
         writer.name("ownerUUID").value(gang.getOwnerUUID().toString());
-        writer.name("members").value(ConversionUtil.gangMemberMapToString(gang.getMemberMap()));
+        writer.name("members").value(ConversionUtil.uuidListToString(gang.getMemberList()));
         writer.name("playerInvites").value(ConversionUtil.uuidListToString(gang.getPlayerInvites()));
         writer.name("alliedGangs").value(ConversionUtil.uuidListToString(gang.getAlliedGangs()));
         writer.name("alliedGangInvitesIncoming").value(ConversionUtil.uuidListToString(gang.getAlliedGangInvitesIncoming()));
@@ -53,7 +52,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         int maxMembers = 0;
         int maxAllies = 0;
         UUID ownerUUID = null;
-        HashMap<UUID, Integer> memberMap = null;
+        List<UUID> memberList = null;
         List<UUID> playerInvites = null;
         List<UUID> alliedGangs = null;
         List<UUID> alliedGangInvitesIncoming = null;
@@ -74,14 +73,14 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "maxMembers" -> maxMembers = reader.nextInt();
                 case "maxAllies" -> maxAllies = reader.nextInt();
                 case "ownerUUID" -> ownerUUID = UUID.fromString(reader.nextString());
-                case "members" -> memberMap = ConversionUtil.stringToGangMemberMap(reader.nextString());
+                case "members" -> memberList = ConversionUtil.uuidListFromString(reader.nextString());
                 case "playerInvites" -> playerInvites = ConversionUtil.uuidListFromString(reader.nextString());
                 case "alliedGangs" -> alliedGangs = ConversionUtil.uuidListFromString(reader.nextString());
                 case "alliedGangInvitesIncoming" -> alliedGangInvitesIncoming = ConversionUtil.uuidListFromString(reader.nextString());
                 case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangs" -> rivalGangs = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangsAgainst" -> rivalGangsAgainst = ConversionUtil.uuidListFromString(reader.nextString());
-                case "gangPermissions" -> gangPermissions =ConversionUtil.stringToGangPermissions(reader.nextString());
+                case "gangPermissions" -> gangPermissions =ConversionUtil.gangPermissionsFromString(reader.nextString());
             }
         }
 
@@ -96,7 +95,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 maxMembers,
                 maxAllies,
                 ownerUUID,
-                memberMap,
+                memberList,
                 playerInvites,
                 alliedGangs,
                 alliedGangInvitesIncoming,

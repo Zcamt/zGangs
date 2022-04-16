@@ -11,10 +11,7 @@ import me.Zcamt.zgangs.objects.gang.GangPermissions;
 import org.bson.BsonDocument;
 import org.bson.Document;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class GangManager {
@@ -40,13 +37,11 @@ public class GangManager {
             uuid = UUID.randomUUID();
         }
 
-        //Todo: Membermap might benefit from being a custom object to ensure ranks fx. never exceed 5.
-        // Would also move a bit of the logic away from Gang object as object would handle adding and removing from the map.
-        HashMap<UUID, Integer> memberMap = new HashMap<>();
-        memberMap.put(ownerUUID, 5);
+        List<UUID> memberList = new ArrayList<>();
+        memberList.add(ownerUUID);
 
         Gang gang = new Gang(uuid, name, 1, 0, 0, 0,
-                Config.defaultMaxMembers, Config.defaultMaxAllies, ownerUUID, memberMap,
+                Config.defaultMaxMembers, Config.defaultMaxAllies, ownerUUID, memberList,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),
                 new GangPermissions(new HashMap<>()));
 
@@ -66,7 +61,7 @@ public class GangManager {
             throw new NoSuchElementException("Couldn't find gang with UUID '" + uuid + "'");
         }
         Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
-        addGangToCache(uuid, gang);
+        addGangToCache(gang.getUUID(), gang);
         return gang;
     }
 

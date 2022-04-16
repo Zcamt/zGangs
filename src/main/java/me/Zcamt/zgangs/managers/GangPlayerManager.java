@@ -3,9 +3,13 @@ package me.Zcamt.zgangs.managers;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
+import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.database.Database;
+import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
+import org.bson.Document;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +30,23 @@ public class GangPlayerManager {
     }
 
     //Todo: Gør alt database stuffs ASYNC
+    public GangPlayer findById(UUID uuid){
+        if(gangPlayerCache.asMap().containsKey(uuid)){
+            return gangPlayerCache.getIfPresent(uuid);
+        }
+        Document gangDocument = database.getGangPlayerCollection().find(new Document("_id", uuid.toString())).first();
+        if(gangDocument == null) {
+            throw new NoSuchElementException("Couldn't find gangplayer with UUID '" + uuid + "'");
+        }
+        GangPlayer gangPlayer = ZGangs.GSON.fromJson(gangDocument.toJson(), GangPlayer.class);
+        addGangPlayerToCache(gangPlayer.getUUID(), gangPlayer);
+        return gangPlayer;
+    }
+
+    private void addGangPlayerToCache(UUID uuid, GangPlayer gangPlayer){
+        gangPlayerCache.put(uuid, gangPlayer);
+    }
+
     //Todo: kig i "JavaTests"
 
 }

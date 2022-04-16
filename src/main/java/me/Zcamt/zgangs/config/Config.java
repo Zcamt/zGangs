@@ -13,7 +13,7 @@ public class Config {
 
     private static String prefix;
 
-    public static int defaultMaxMembers, defaultMaxAllies;
+    public static int defaultMaxMembers, defaultMaxAllies, transferGangCost;
 
     public static String prefix() {
         return prefix;

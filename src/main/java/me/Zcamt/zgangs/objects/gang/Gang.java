@@ -4,14 +4,12 @@ package me.Zcamt.zgangs.objects.gang;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import org.bson.Document;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class Gang {
 
@@ -27,9 +25,7 @@ public class Gang {
     private int maxMembers;
     private int maxAllies;
     private UUID ownerUUID;
-    //Todo: Membermap might benefit from being a custom object to ensure ranks fx. never exceed 5.
-    // Would also move a bit of the logic away from Gang object as object would handle adding and removing from the map.
-    private final HashMap<UUID, Integer> memberMap;
+    private final List<UUID> memberList;
     private final List<UUID> playerInvites;
     private final List<UUID> alliedGangs;
     private final List<UUID> alliedGangInvitesIncoming;
@@ -38,7 +34,7 @@ public class Gang {
     private final List<UUID> rivalGangsAgainst;
     private final GangPermissions gangPermissions;
 
-    public Gang(UUID uuid, String name, int level, int kills, int deaths, int bank, int maxMembers, int maxAllies, UUID ownerUUID, HashMap<UUID, Integer> memberMap, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, GangPermissions gangPermissions) {
+    public Gang(UUID uuid, String name, int level, int kills, int deaths, int bank, int maxMembers, int maxAllies, UUID ownerUUID, List<UUID> memberList, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, GangPermissions gangPermissions) {
         this.uuid = uuid;
         this.name = name;
         this.level = level;
@@ -48,7 +44,7 @@ public class Gang {
         this.maxMembers = maxMembers;
         this.maxAllies = maxAllies;
         this.ownerUUID = ownerUUID;
-        this.memberMap = memberMap;
+        this.memberList = memberList;
         this.playerInvites = playerInvites;
         this.alliedGangs = alliedGangs;
         this.alliedGangInvitesIncoming = alliedGangInvitesIncoming;
@@ -93,7 +89,7 @@ public class Gang {
     }
 
     public void setBank(int bank) {
-        if (bank > 0) {
+        if (bank < 0) {
             bank = 0;
         }
         this.bank = bank;
@@ -113,9 +109,16 @@ public class Gang {
     //Todo: Make setOwner method that handles
     // everything from setting new owner to demoting previous owner
     // make it require X balance in the bank to allow for new owner
-    public boolean setOwner(GangPlayer gangPlayer) {
-        if(true) { //Has enough money
-            this.ownerUUID = gangPlayer.getUUID();
+    public boolean setOwner(GangPlayer newOwner) {
+        if(!this.memberList.contains(newOwner.getUUID())) {
+            return false;
+        }
+        if(this.bank >= Config.transferGangCost) {
+            GangPlayer oldOwner = ZGangs.getGangPlayerManager().findById(this.ownerUUID);
+            oldOwner.setGangRank(GangRank.CO_OWNER);
+            newOwner.setGangRank(GangRank.OWNER);
+            this.ownerUUID = newOwner.getUUID();
+            setBank(this.bank - Config.transferGangCost);
             serialize();
             return true;
         } else {
@@ -123,18 +126,18 @@ public class Gang {
         }
     }
 
-    public void addMember(UUID uuid, Integer rank) {
-        memberMap.put(uuid, rank);
+    private void addMember(UUID uuid) {
+        memberList.add(uuid);
         serialize();
     }
 
-    public void removeMember(UUID uuid) {
-        memberMap.remove(uuid);
+    private void removeMember(UUID uuid) {
+        memberList.remove(uuid);
         serialize();
     }
 
     public boolean addPlayerToInvites(GangPlayer gangPlayer) {
-        if (memberMap.containsKey(gangPlayer.getUUID())) return false;
+        if (isMember(gangPlayer.getUUID())) return false;
         if (playerInvites.contains(gangPlayer.getUUID())) return false;
         playerInvites.add(gangPlayer.getUUID());
         gangPlayer.addGangInvite(this.uuid);
@@ -151,16 +154,17 @@ public class Gang {
         return true;
     }
 
+    //Todo: Make removeGangPlayerFromGang
     public boolean addGangPlayerToGang(GangPlayer gangPlayer) {
         //Todo: add check for limit
         //removePlayerFromInvites(gangPlayer);
         playerInvites.remove(gangPlayer.getUUID());
         gangPlayer.removeGangInvite(this);
-        if (memberMap.containsKey(gangPlayer.getUUID())) return false;
+        if (memberList.contains(gangPlayer.getUUID())) return false;
         if (gangPlayer.getGangUUID() != null) return false;
-        addMember(gangPlayer.getUUID(), 1);
+        addMember(gangPlayer.getUUID());
         gangPlayer.setGangID(this.uuid);
-        gangPlayer.setGangRank(1);
+        gangPlayer.setGangRank(GangRank.RECRUIT);
         serialize();
         return true;
     }
@@ -337,12 +341,12 @@ public class Gang {
         return ownerUUID;
     }
 
-    public HashMap<UUID, Integer> getMemberMap() {
-        return (HashMap<UUID, Integer>) Collections.unmodifiableMap(memberMap);
+    public boolean isMember(UUID uuid) {
+        return getMemberList().contains(uuid);
     }
 
-    public boolean isMember(UUID uuid) {
-        return memberMap.containsKey(uuid);
+    public List<UUID> getMemberList() {
+        return Collections.unmodifiableList(memberList);
     }
 
     public List<UUID> getAlliedGangs() {

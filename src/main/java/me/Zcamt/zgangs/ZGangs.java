@@ -6,6 +6,8 @@ import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.database.GangAdapter;
 import me.Zcamt.zgangs.database.GangPlayerAdapter;
 import me.Zcamt.zgangs.config.Messages;
+import me.Zcamt.zgangs.managers.GangManager;
+import me.Zcamt.zgangs.managers.GangPlayerManager;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,6 +27,9 @@ public class ZGangs extends JavaPlugin {
             .create();
 
     private static final Database database = new Database();
+
+    private static final GangManager GANG_MANAGER = new GangManager(database);
+    private static final GangPlayerManager GANG_PLAYER_MANAGER = new GangPlayerManager(database);
 
     @Override
     public void onEnable() {
@@ -50,6 +55,15 @@ public class ZGangs extends JavaPlugin {
         }
 
         Messages.reload();
+    }
+
+
+    public static GangManager getGangManager() {
+        return GANG_MANAGER;
+    }
+
+    public static GangPlayerManager getGangPlayerManager() {
+        return GANG_PLAYER_MANAGER;
     }
 
 }
