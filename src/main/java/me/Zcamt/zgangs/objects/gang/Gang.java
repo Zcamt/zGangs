@@ -106,9 +106,6 @@ public class Gang {
         serialize();
     }
 
-    //Todo: Make setOwner method that handles
-    // everything from setting new owner to demoting previous owner
-    // make it require X balance in the bank to allow for new owner
     public boolean setOwner(GangPlayer newOwner) {
         if(!this.memberList.contains(newOwner.getUUID())) {
             return false;
@@ -124,16 +121,6 @@ public class Gang {
         } else {
             return false;
         }
-    }
-
-    private void addMember(UUID uuid) {
-        memberList.add(uuid);
-        serialize();
-    }
-
-    private void removeMember(UUID uuid) {
-        memberList.remove(uuid);
-        serialize();
     }
 
     public boolean addPlayerToInvites(GangPlayer gangPlayer) {
@@ -154,23 +141,23 @@ public class Gang {
         return true;
     }
 
-    //Todo: Make removeGangPlayerFromGang
     public boolean addGangPlayerToGang(GangPlayer gangPlayer) {
-        //Todo: add check for limit
-        //removePlayerFromInvites(gangPlayer);
-        playerInvites.remove(gangPlayer.getUUID());
-        gangPlayer.removeGangInvite(this);
+        if(memberList.size() >= maxMembers) return false;
+
+        removePlayerFromInvites(gangPlayer);
         if (memberList.contains(gangPlayer.getUUID())) return false;
         if (gangPlayer.getGangUUID() != null) return false;
-        addMember(gangPlayer.getUUID());
+        memberList.add(uuid);
         gangPlayer.setGangID(this.uuid);
         gangPlayer.setGangRank(GangRank.RECRUIT);
         serialize();
         return true;
     }
 
+    //Todo: Make removeGangPlayerFromGang method
+
     public boolean addAlly(Gang gang) {
-        //Todo: add check for limit
+        if(alliedGangs.size() >= maxAllies) return false;
         if (alliedGangs.contains(gang.getUUID())) return false;
 
         alliedGangs.add(gang.getUUID());

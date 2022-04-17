@@ -3,7 +3,7 @@ package me.Zcamt.zgangs.utils;
 public enum Permissions {
     PLAYER("zGangs.player"),
     ADMIN("zGangs.admin"),
-    OVERRIDE("zStaffCore.*");
+    OVERRIDE("zGangs.*");
 
     private String permission;
 

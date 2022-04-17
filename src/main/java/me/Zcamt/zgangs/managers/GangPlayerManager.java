@@ -43,8 +43,17 @@ public class GangPlayerManager {
         return gangPlayer;
     }
 
+    private boolean isIdInCache(UUID uuid){
+        return gangPlayerCache.asMap().containsKey(uuid);
+    }
+
     private void addGangPlayerToCache(UUID uuid, GangPlayer gangPlayer){
         gangPlayerCache.put(uuid, gangPlayer);
+    }
+
+    private boolean idExistsInDatabase(UUID uuid){
+        long count = database.getGangPlayerCollection().countDocuments(new Document("_id", uuid.toString()));
+        return count > 0;
     }
 
     //Todo: kig i "JavaTests"

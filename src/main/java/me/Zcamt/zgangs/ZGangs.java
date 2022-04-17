@@ -27,7 +27,6 @@ public class ZGangs extends JavaPlugin {
             .create();
 
     private static final Database database = new Database();
-
     private static final GangManager GANG_MANAGER = new GangManager(database);
     private static final GangPlayerManager GANG_PLAYER_MANAGER = new GangPlayerManager(database);
 
