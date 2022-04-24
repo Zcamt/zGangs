@@ -10,6 +10,7 @@ import me.Zcamt.zgangs.managers.GangManager;
 import me.Zcamt.zgangs.utils.Permissions;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.PermissionUtil;
+import me.Zcamt.zgangs.utils.Utils;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -53,7 +54,7 @@ public class MainCommand extends BaseCommand {
         }
         String name = args[0];
 
-        if(true) { //Check if name is allowed
+        if(Utils.isNameValid(name)) {
             gangManager.createNewGang(name, player.getUniqueId());
         } else {
             ChatUtil.sendMessage(player, Messages.illegalGangName());

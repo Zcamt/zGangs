@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 
-public class MenuUtils {
+public class MenuUtil {
 
     public static HashMap<Integer, ItemStack> generateBorder(HashMap<Integer, ItemStack> map){
         ItemStack filler = new ItemCreator(Material.BLACK_STAINED_GLASS_PANE).setName("").make();

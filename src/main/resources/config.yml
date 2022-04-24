@@ -1,2 +1,9 @@
 settings:
   prefix: "[zGangs]"
+
+gangs:
+  max-name-length: 15
+  min-name-length: 3
+  banned-names:
+    - "fuck"
+  name-regex: "([A-Za-z0-9æøåÆØÅ])+"

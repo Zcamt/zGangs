@@ -12,6 +12,7 @@ public class Database {
     private final MongoDatabase database;
     private final MongoCollection<Document> gangCollection;
     private final MongoCollection<Document> gangPlayerCollection;
+    private final MongoCollection<Document> leaderboardsCollection;
 
     //Todo: Gør alt database stuffs ASYNC
     public Database() {
@@ -19,6 +20,7 @@ public class Database {
         this.database = client.getDatabase("nprison");
         this.gangCollection = database.getCollection("gangs");
         this.gangPlayerCollection = database.getCollection("gang_players");
+        this.leaderboardsCollection = database.getCollection("leaderboards");
     }
 
 

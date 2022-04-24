@@ -35,10 +35,6 @@ public class ZGangs extends JavaPlugin {
         loadConfig();
     }
 
-    public static Database getDatabase() {
-        return database;
-    }
-
     public void loadConfig(){
         File configFile = new File(this.getDataFolder(), "config.yml");
         File messagesFile = new File(this.getDataFolder(), "messages.yml");
@@ -56,6 +52,9 @@ public class ZGangs extends JavaPlugin {
         Messages.reload();
     }
 
+    public static Database getDatabase() {
+        return database;
+    }
 
     public static GangManager getGangManager() {
         return GANG_MANAGER;

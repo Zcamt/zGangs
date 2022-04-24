@@ -21,6 +21,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
     public void write(JsonWriter writer, Gang gang) throws IOException {
         writer.beginObject();
         writer.name("_id").value(gang.getUUID().toString());
+        writer.name("creationDate").value(gang.getCreationDateMillis());
         writer.name("name").value(gang.getName());
         writer.name("level").value(gang.getLevel());
         writer.name("kills").value(gang.getKills());
@@ -44,6 +45,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
     @Override
     public Gang read(JsonReader reader) throws IOException {
         UUID uuid = null;
+        long creationDateUnix = 0;
         String name = null;
         int level = 0;
         int kills = 0;
@@ -65,6 +67,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         while (reader.hasNext()){
             switch (reader.nextName()) {
                 case "_id" -> uuid = UUID.fromString(reader.nextString());
+                case "creationDate" -> creationDateUnix = reader.nextLong();
                 case "name" -> name = reader.nextString();
                 case "level" -> level = reader.nextInt();
                 case "kills" -> kills = reader.nextInt();
@@ -87,7 +90,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         //Todo: Maybe check for any variables being null
 
         Gang gang = new Gang(uuid,
-                name,
+                creationDateUnix, name,
                 level,
                 kills,
                 deaths,

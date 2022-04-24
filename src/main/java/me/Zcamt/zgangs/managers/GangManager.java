@@ -8,7 +8,6 @@ import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangPermissions;
-import org.bson.BsonDocument;
 import org.bson.Document;
 
 import java.util.*;
@@ -30,19 +29,19 @@ public class GangManager {
                 }).build();
     }
 
-    public Gang createNewGang(String name, UUID ownerUUID){
+    public Gang createNewGang(String name, UUID ownerUUID) {
         UUID uuid = UUID.randomUUID();
 
-        while (idExistsInDatabase(uuid)){
+        while (idExistsInDatabase(uuid)) {
             uuid = UUID.randomUUID();
         }
 
         List<UUID> memberList = new ArrayList<>();
         memberList.add(ownerUUID);
 
-        Gang gang = new Gang(uuid, name, 1, 0, 0, 0,
+        Gang gang = new Gang(uuid, System.currentTimeMillis(), name, 1, 0, 0, 0,
                 Config.defaultMaxMembers, Config.defaultMaxAllies, ownerUUID, memberList,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),new ArrayList<>(),new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
                 new GangPermissions(new HashMap<>()));
 
         return gang;
@@ -63,6 +62,11 @@ public class GangManager {
         Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
         addGangToCache(gang.getUUID(), gang);
         return gang;
+    }
+
+    public boolean nameExistsInDatabase(String name){
+        long count = database.getGangCollection().countDocuments(new Document("name", name));
+        return count > 0;
     }
 
     private boolean isIdInCache(UUID uuid){

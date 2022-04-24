@@ -1,23 +1,23 @@
 package me.Zcamt.zgangs.config;
 
+import com.google.common.collect.ImmutableList;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.List;
 
 public class Config {
 
     private static final File configFile = new File(Bukkit.getPluginManager().getPlugin("zGangs").getDataFolder(), "config.yml");
     public static YamlConfiguration config;
 
-    private static String prefix;
+    public static String prefix, nameRegex;
 
-    public static int defaultMaxMembers, defaultMaxAllies, transferGangCost;
+    public static int defaultMaxMembers, defaultMaxAllies, transferGangCost, maxNameLength, minNameLength;
 
-    public static String prefix() {
-        return prefix;
-    }
+    public static ImmutableList<String> bannedNames;
 
     public static void reload() {
         config = YamlConfiguration.loadConfiguration(configFile);

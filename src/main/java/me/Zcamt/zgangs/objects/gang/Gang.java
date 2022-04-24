@@ -16,6 +16,7 @@ public class Gang {
     //Todo: Potentially add upgradeable gang+ally damage aswell.
     //Todo: Gang shop perhaps aswell
     private final UUID uuid;
+    private final long creationDateMillis;
     private String name;
     //Todo: Add MOTD
     private int level;
@@ -34,8 +35,9 @@ public class Gang {
     private final List<UUID> rivalGangsAgainst;
     private final GangPermissions gangPermissions;
 
-    public Gang(UUID uuid, String name, int level, int kills, int deaths, int bank, int maxMembers, int maxAllies, UUID ownerUUID, List<UUID> memberList, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, GangPermissions gangPermissions) {
+    public Gang(UUID uuid, long creationDateMillis, String name, int level, int kills, int deaths, int bank, int maxMembers, int maxAllies, UUID ownerUUID, List<UUID> memberList, List<UUID> playerInvites, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, GangPermissions gangPermissions) {
         this.uuid = uuid;
+        this.creationDateMillis = creationDateMillis;
         this.name = name;
         this.level = level;
         this.kills = kills;
@@ -54,14 +56,10 @@ public class Gang {
         this.gangPermissions = gangPermissions;
     }
 
-    public boolean setName(String name) {
-        if (true) { //if name is valid
-            this.name = name;
-            serialize();
-            return true;
-        } else {
-            return false;
-        }
+    public void setName(String name) {
+        //Todo: Name checked before this is called
+        this.name = name;
+        serialize();
     }
 
     public void setLevel(int level) {
@@ -294,6 +292,10 @@ public class Gang {
 
     public UUID getUUID() {
         return uuid;
+    }
+
+    public long getCreationDateMillis() {
+        return creationDateMillis;
     }
 
     public String getName() {
