@@ -49,8 +49,8 @@
 
     <pluginRepositories>
         <pluginRepository>
-            <id>maven-snapshots</id>
-            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+            <id>apache.snapshots</id>
+            <url>https://repository.apache.org/snapshots/</url>
         </pluginRepository>
     </pluginRepositories>
 
@@ -135,7 +135,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0-SNAPSHOT</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -146,15 +146,15 @@
                             <!--<minimizeJar>true</minimizeJar>-->
                             <createDependencyReducedPom>false</createDependencyReducedPom>
                             <finalName>${project.name}-${project.version}</finalName>
-                            <outputDirectory>E:\Minecraft Local Server 1.18.1\plugins</outputDirectory>
+                            <outputDirectory>E:\generated-plugins</outputDirectory>
                             <relocations>
                                 <relocation>
                                     <pattern>co.aikar.commands</pattern>
-                                    <shadedPattern>main.java.me.Zcamt.acf</shadedPattern> <!-- Replace this -->
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.acf</shadedPattern> <!-- Replace this -->
                                 </relocation>
                                 <relocation>
                                     <pattern>co.aikar.locales</pattern>
-                                    <shadedPattern>main.java.me.Zcamt.locales</shadedPattern> <!-- Replace this -->
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.locales</shadedPattern> <!-- Replace this -->
                                 </relocation>
                             </relocations>
                         </configuration>

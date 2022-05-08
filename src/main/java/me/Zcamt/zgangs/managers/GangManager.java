@@ -7,7 +7,8 @@ import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gang.GangPermissions;
+import me.Zcamt.zgangs.objects.gangitems.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gangpermissions.GangPermissions;
 import org.bson.Document;
 
 import java.util.*;
@@ -22,7 +23,7 @@ public class GangManager {
         this.database = database;
         this.gangCache = Caffeine.newBuilder()
                 .maximumSize(1000L)
-                .expireAfterWrite(10L, TimeUnit.MINUTES)
+                .expireAfterAccess(3L, TimeUnit.MINUTES)
                 .removalListener((RemovalListener<UUID, Gang>) (uuid, gang, cause) -> {
                     if(gang == null) return;
                     gang.serialize();
@@ -31,6 +32,7 @@ public class GangManager {
 
     public Gang createNewGang(String name, UUID ownerUUID) {
         UUID uuid = UUID.randomUUID();
+        gangCache.estimatedSize();
 
         while (idExistsInDatabase(uuid)) {
             uuid = UUID.randomUUID();
@@ -39,10 +41,10 @@ public class GangManager {
         List<UUID> memberList = new ArrayList<>();
         memberList.add(ownerUUID);
 
-        Gang gang = new Gang(uuid, System.currentTimeMillis(), name, 1, 0, 0, 0,
+        Gang gang = new Gang(uuid, System.currentTimeMillis(), name, 1, 0, 0, 0, 0, 0,
                 Config.defaultMaxMembers, Config.defaultMaxAllies, ownerUUID, memberList,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-                new GangPermissions(new HashMap<>()));
+                new GangPermissions(new HashMap<>()), new GangItemDelivery(new HashMap<>()));
 
         return gang;
     }
@@ -64,15 +66,6 @@ public class GangManager {
         return gang;
     }
 
-    public boolean nameExistsInDatabase(String name){
-        long count = database.getGangCollection().countDocuments(new Document("name", name));
-        return count > 0;
-    }
-
-    private boolean isIdInCache(UUID uuid){
-        return gangCache.asMap().containsKey(uuid);
-    }
-
     private void addGangToCache(UUID uuid, Gang gang){
         gangCache.put(uuid, gang);
     }
@@ -80,6 +73,15 @@ public class GangManager {
     private boolean idExistsInDatabase(UUID uuid){
         long count = database.getGangCollection().countDocuments(new Document("_id", uuid.toString()));
         return count > 0;
+    }
+
+    public boolean nameExistsInDatabase(String name){
+        long count = database.getGangCollection().countDocuments(new Document("name", name));
+        return count > 0;
+    }
+
+    private boolean isIdInCache(UUID uuid){
+        return gangCache.asMap().containsKey(uuid);
     }
 
     //Todo: kig i "JavaTests"

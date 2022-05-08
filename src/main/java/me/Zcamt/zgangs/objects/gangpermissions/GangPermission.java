@@ -1,4 +1,6 @@
-package me.Zcamt.zgangs.objects.gang;
+package me.Zcamt.zgangs.objects.gangpermissions;
+
+import me.Zcamt.zgangs.objects.gang.GangRank;
 
 public enum GangPermission {
     INVITE_PLAYERS(GangRank.MEMBER),

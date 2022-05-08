@@ -1,11 +1,20 @@
 package me.Zcamt.zgangs.objects.leaderboard;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.List;
 
-public interface Leaderboard {
+public abstract class Leaderboard {
 
-    void update();
-    HashMap<UUID, Integer> getLeaderBoard();
+    private long lastUpdatedEpoch = 0;
 
+    public abstract void update();
+
+    public abstract List<GangLeaderboardEntry> getLeaderBoard();
+
+    public long getLastUpdatedEpoch() {
+        return lastUpdatedEpoch;
+    }
+
+    public void setLastUpdatedEpoch(long lastUpdatedEpoch) {
+        this.lastUpdatedEpoch = lastUpdatedEpoch;
+    }
 }

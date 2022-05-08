@@ -15,7 +15,8 @@ public class Config {
 
     public static String prefix, nameRegex;
 
-    public static int defaultMaxMembers, defaultMaxAllies, transferGangCost, maxNameLength, minNameLength;
+    public static int defaultMaxMembers, defaultMaxAllies, maxNameLength, minNameLength;
+    public static int transferGangCost, createGangCost, rankUpCost;
 
     public static ImmutableList<String> bannedNames;
 

@@ -1,5 +1,7 @@
-package me.Zcamt.zgangs.objects.gang;
+package me.Zcamt.zgangs.objects.gangpermissions;
 
+
+import me.Zcamt.zgangs.objects.gang.GangRank;
 
 import java.util.Collections;
 import java.util.HashMap;

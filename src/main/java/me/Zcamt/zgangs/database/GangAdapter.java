@@ -6,7 +6,8 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gang.GangPermissions;
+import me.Zcamt.zgangs.objects.gangitems.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.utils.ConversionUtil;
 
 import java.io.IOException;
@@ -25,6 +26,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("name").value(gang.getName());
         writer.name("level").value(gang.getLevel());
         writer.name("kills").value(gang.getKills());
+        writer.name("guardKills").value(gang.getGuardKills());
+        writer.name("officerPlusKills").value(gang.getOfficerPlusKills());
         writer.name("deaths").value(gang.getDeaths());
         writer.name("bank").value(gang.getBank());
         writer.name("maxMembers").value(gang.getMaxMembers());
@@ -38,6 +41,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("rivalGangs").value(ConversionUtil.uuidListToString(gang.getRivalGangs()));
         writer.name("rivalGangsAgainst").value(ConversionUtil.uuidListToString(gang.getRivalGangsAgainst()));
         writer.name("gangPermissions").value(ConversionUtil.gangPermissionsToString(gang.getGangPermissions().getPermissionsMap()));
+        writer.name("gangItemDelivery").value(ConversionUtil.gangItemDeliveryToString(gang.getGangItemDelivery().getDeliveredItems()));
         writer.endObject();
     }
 
@@ -49,6 +53,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
         String name = null;
         int level = 0;
         int kills = 0;
+        int guardKills = 0;
+        int officerPlusKills = 0;
         int deaths = 0;
         int bank = 0;
         int maxMembers = 0;
@@ -62,6 +68,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         List<UUID> rivalGangs = null;
         List<UUID> rivalGangsAgainst = null;
         GangPermissions gangPermissions = null;
+        GangItemDelivery gangItemDelivery = null;
         reader.beginObject();
 
         while (reader.hasNext()){
@@ -71,6 +78,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "name" -> name = reader.nextString();
                 case "level" -> level = reader.nextInt();
                 case "kills" -> kills = reader.nextInt();
+                case "guardKills" -> guardKills = reader.nextInt();
+                case "officerPlusKills" -> officerPlusKills = reader.nextInt();
                 case "deaths" -> deaths = reader.nextInt();
                 case "bank" -> bank = reader.nextInt();
                 case "maxMembers" -> maxMembers = reader.nextInt();
@@ -83,16 +92,20 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangs" -> rivalGangs = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangsAgainst" -> rivalGangsAgainst = ConversionUtil.uuidListFromString(reader.nextString());
-                case "gangPermissions" -> gangPermissions =ConversionUtil.gangPermissionsFromString(reader.nextString());
+                case "gangPermissions" -> gangPermissions = ConversionUtil.gangPermissionsFromString(reader.nextString());
+                case "gangItemDelivery" -> gangItemDelivery = ConversionUtil.gangItemDeliveryFromString(reader.nextString());
             }
         }
 
         //Todo: Maybe check for any variables being null
 
         Gang gang = new Gang(uuid,
-                creationDateUnix, name,
+                creationDateUnix,
+                name,
                 level,
                 kills,
+                guardKills,
+                officerPlusKills,
                 deaths,
                 bank,
                 maxMembers,
@@ -105,7 +118,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 alliedGangInvitesOutgoing,
                 rivalGangs,
                 rivalGangsAgainst,
-                gangPermissions);
+                gangPermissions,
+                gangItemDelivery);
         reader.endObject();
         return gang;
     }
