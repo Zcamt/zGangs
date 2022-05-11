@@ -6,13 +6,11 @@ import com.google.gson.GsonBuilder;
 import me.Zcamt.zgangs.commands.GangAdminCommand;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.config.Messages;
-import me.Zcamt.zgangs.database.Database;
-import me.Zcamt.zgangs.database.GangAdapter;
-import me.Zcamt.zgangs.database.GangAlliesAdapter;
-import me.Zcamt.zgangs.database.GangPlayerAdapter;
+import me.Zcamt.zgangs.database.*;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
 import me.Zcamt.zgangs.objects.gang.GangManager;
+import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
 import me.Zcamt.zgangs.objects.gang.Gang;
@@ -25,6 +23,7 @@ public class ZGangs extends JavaPlugin {
             .registerTypeAdapter(Gang.class, new GangAdapter())
             .registerTypeAdapter(GangPlayer.class, new GangPlayerAdapter())
             .registerTypeAdapter(GangAllies.class, new GangAlliesAdapter())
+            .registerTypeAdapter(GangRivals.class, new GangRivalsAdapter())
             .setPrettyPrinting()
             .serializeNulls()
             .disableHtmlEscaping()

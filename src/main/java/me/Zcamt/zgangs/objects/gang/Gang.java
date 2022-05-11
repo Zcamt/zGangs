@@ -10,6 +10,7 @@ import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevel;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import org.bson.Document;
@@ -28,13 +29,13 @@ public class Gang {
     private final long creationDateMillis;
     private String name;
     private int level;
+    private int bank;
 
     //Might be worth changing some of these into a stats class.
     private int kills;
     private int guardKills;
     private int officerPlusKills;
     private int deaths;
-    private int bank;
 
     //Might be worth changing all these to wrapper like classes and handle all member, ally & rival stuff in their own classes.
     private int maxMembers;
@@ -42,14 +43,19 @@ public class Gang {
     private final List<UUID> playerInvites;
 
     private final GangAllies gangAllies;
+    private final GangRivals gangRivals;
 
-    private final List<UUID> rivalGangs;
-    private final List<UUID> rivalGangsAgainst;
     //Todo: Add MOTD, could/should be a wrapper like class
     private final GangPermissions gangPermissions;
     private final GangItemDelivery gangItemDelivery;
 
-    public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int kills, int guardKills, int officerPlusKills, int deaths, int bank, int maxMembers, List<UUID> memberList, List<UUID> playerInvites, GangAllies gangAllies, List<UUID> rivalGangs, List<UUID> rivalGangsAgainst, GangPermissions gangPermissions, GangItemDelivery gangItemDelivery) {
+    public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int bank,
+                int kills, int guardKills, int officerPlusKills, int deaths,
+                int maxMembers, List<UUID> memberList, List<UUID> playerInvites,
+                GangAllies gangAllies,
+                GangRivals gangRivals,
+                GangPermissions gangPermissions,
+                GangItemDelivery gangItemDelivery) {
         this.uuid = uuid;
         this.ownerUUID = ownerUUID;
         this.creationDateMillis = creationDateMillis;
@@ -65,8 +71,8 @@ public class Gang {
         this.playerInvites = playerInvites;
         this.gangAllies = gangAllies;
         gangAllies.setGang(this);
-        this.rivalGangs = rivalGangs;
-        this.rivalGangsAgainst = rivalGangsAgainst;
+        this.gangRivals = gangRivals;
+        gangRivals.setGang(this);
         this.gangPermissions = gangPermissions;
         this.gangItemDelivery = gangItemDelivery;
     }
@@ -184,65 +190,6 @@ public class Gang {
 
     //Todo: Make removeGangPlayerFromGang method
 
-    /*public boolean addAlly(Gang ally) {
-        return this.gangAllies.addAlly(ally);
-    }
-
-    public boolean removeAlly(Gang ally) {
-        return this.gangAllies.removeAlly(ally);
-    }
-
-    public boolean addAllyInviteIncoming(Gang ally) {
-        return this.gangAllies.addAllyInviteIncoming(ally);
-    }
-
-    public boolean removeAllyInviteIncoming(Gang ally) {
-        return this.gangAllies.removeAllyInviteIncoming(ally);
-
-    }
-
-    public boolean addAllyInviteOutgoing(Gang ally) {
-        return this.gangAllies.addAllyInviteOutgoing(ally);
-    }
-
-    public boolean removeAllyInviteOutgoing(Gang ally) {
-        return this.gangAllies.removeAllyInviteOutgoing(ally);
-    }*/
-
-    public boolean addRival(Gang gang) {
-        if (rivalGangs.contains(gang.getUUID())) return false;
-
-        rivalGangs.add(gang.getUUID());
-        gang.addRivalAgainst(this);
-        serialize();
-        return true;
-    }
-
-    public boolean removeRival(Gang gang) {
-        if (!rivalGangs.contains(gang.getUUID())) return false;
-
-        rivalGangs.remove(gang.getUUID());
-        gang.removeRivalAgainst(this);
-        serialize();
-        return true;
-    }
-
-    public boolean addRivalAgainst(Gang gang) {
-        if (rivalGangsAgainst.contains(gang.getUUID())) return false;
-
-        rivalGangsAgainst.add(gang.getUUID());
-        serialize();
-        return true;
-    }
-
-    public boolean removeRivalAgainst(Gang gang) {
-        if (!rivalGangsAgainst.contains(gang.getUUID())) return false;
-
-        rivalGangsAgainst.remove(gang.getUUID());
-        serialize();
-        return true;
-    }
-
     public boolean rankUp() {
         GangLevelManager gangLevelManager = ZGangs.getGangLevelManager();
         if(this.level >= gangLevelManager.getLastLevel()){
@@ -336,24 +283,12 @@ public class Gang {
         return gangAllies;
     }
 
-    public boolean isRival(UUID gangUUID) {
-        return rivalGangs.contains(gangUUID);
-    }
-
-    public boolean isRivalAgainst(UUID gangUUID) {
-        return rivalGangsAgainst.contains(gangUUID);
+    public GangRivals getGangRivals() {
+        return gangRivals;
     }
 
     public List<UUID> getMemberList() {
         return Collections.unmodifiableList(memberList);
-    }
-
-    public List<UUID> getRivalGangs() {
-        return Collections.unmodifiableList(rivalGangs);
-    }
-
-    public List<UUID> getRivalGangsAgainst() {
-        return Collections.unmodifiableList(rivalGangsAgainst);
     }
 
     public List<UUID> getPlayerInvites() {
