@@ -1,13 +1,13 @@
 package me.Zcamt.zgangs.database;
 
-import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gangitems.GangItemDelivery;
-import me.Zcamt.zgangs.objects.gangpermissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.utils.ConversionUtil;
 
 import java.io.IOException;
@@ -15,13 +15,13 @@ import java.util.List;
 import java.util.UUID;
 
 public class GangAdapter extends TypeAdapter<Gang> {
-    private final Gson gson = ZGangs.GSON;
 
     //Todo: Check if empty lists/maps causes issues.
     @Override
     public void write(JsonWriter writer, Gang gang) throws IOException {
         writer.beginObject();
         writer.name("_id").value(gang.getUUID().toString());
+        writer.name("ownerUUID").value(gang.getOwnerUUID().toString());
         writer.name("creationDate").value(gang.getCreationDateMillis());
         writer.name("name").value(gang.getName());
         writer.name("level").value(gang.getLevel());
@@ -31,16 +31,12 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("deaths").value(gang.getDeaths());
         writer.name("bank").value(gang.getBank());
         writer.name("maxMembers").value(gang.getMaxMembers());
-        writer.name("maxAllies").value(gang.getMaxAllies());
-        writer.name("ownerUUID").value(gang.getOwnerUUID().toString());
         writer.name("members").value(ConversionUtil.uuidListToString(gang.getMemberList()));
         writer.name("playerInvites").value(ConversionUtil.uuidListToString(gang.getPlayerInvites()));
-        writer.name("alliedGangs").value(ConversionUtil.uuidListToString(gang.getAlliedGangs()));
-        writer.name("alliedGangInvitesIncoming").value(ConversionUtil.uuidListToString(gang.getAlliedGangInvitesIncoming()));
-        writer.name("alliedGangInvitesOutgoing").value(ConversionUtil.uuidListToString(gang.getAlliedGangInvitesOutgoing()));
+        writer.name("gangAllies").value(ZGangs.GSON.toJson(gang.getGangAllies()));
         writer.name("rivalGangs").value(ConversionUtil.uuidListToString(gang.getRivalGangs()));
         writer.name("rivalGangsAgainst").value(ConversionUtil.uuidListToString(gang.getRivalGangsAgainst()));
-        writer.name("gangPermissions").value(ConversionUtil.gangPermissionsToString(gang.getGangPermissions().getPermissionsMap()));
+        writer.name("gangPermissions").value(ZGangs.GSON.toJson(gang.getGangPermissions()));
         writer.name("gangItemDelivery").value(ConversionUtil.gangItemDeliveryToString(gang.getGangItemDelivery().getDeliveredItems()));
         writer.endObject();
     }
@@ -49,6 +45,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
     @Override
     public Gang read(JsonReader reader) throws IOException {
         UUID uuid = null;
+        UUID ownerUUID = null;
         long creationDateUnix = 0;
         String name = null;
         int level = 0;
@@ -59,12 +56,9 @@ public class GangAdapter extends TypeAdapter<Gang> {
         int bank = 0;
         int maxMembers = 0;
         int maxAllies = 0;
-        UUID ownerUUID = null;
         List<UUID> memberList = null;
         List<UUID> playerInvites = null;
-        List<UUID> alliedGangs = null;
-        List<UUID> alliedGangInvitesIncoming = null;
-        List<UUID> alliedGangInvitesOutgoing = null;
+        GangAllies gangAllies = null;
         List<UUID> rivalGangs = null;
         List<UUID> rivalGangsAgainst = null;
         GangPermissions gangPermissions = null;
@@ -74,6 +68,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         while (reader.hasNext()){
             switch (reader.nextName()) {
                 case "_id" -> uuid = UUID.fromString(reader.nextString());
+                case "ownerUUID" -> ownerUUID = UUID.fromString(reader.nextString());
                 case "creationDate" -> creationDateUnix = reader.nextLong();
                 case "name" -> name = reader.nextString();
                 case "level" -> level = reader.nextInt();
@@ -84,15 +79,12 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "bank" -> bank = reader.nextInt();
                 case "maxMembers" -> maxMembers = reader.nextInt();
                 case "maxAllies" -> maxAllies = reader.nextInt();
-                case "ownerUUID" -> ownerUUID = UUID.fromString(reader.nextString());
                 case "members" -> memberList = ConversionUtil.uuidListFromString(reader.nextString());
                 case "playerInvites" -> playerInvites = ConversionUtil.uuidListFromString(reader.nextString());
-                case "alliedGangs" -> alliedGangs = ConversionUtil.uuidListFromString(reader.nextString());
-                case "alliedGangInvitesIncoming" -> alliedGangInvitesIncoming = ConversionUtil.uuidListFromString(reader.nextString());
-                case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = ConversionUtil.uuidListFromString(reader.nextString());
+                case "gangAllies" -> gangAllies = ZGangs.GSON.fromJson(reader.nextString(), GangAllies.class);
                 case "rivalGangs" -> rivalGangs = ConversionUtil.uuidListFromString(reader.nextString());
                 case "rivalGangsAgainst" -> rivalGangsAgainst = ConversionUtil.uuidListFromString(reader.nextString());
-                case "gangPermissions" -> gangPermissions = ConversionUtil.gangPermissionsFromString(reader.nextString());
+                case "gangPermissions" -> gangPermissions = ZGangs.GSON.fromJson(reader.nextString(), GangPermissions.class);
                 case "gangItemDelivery" -> gangItemDelivery = ConversionUtil.gangItemDeliveryFromString(reader.nextString());
             }
         }
@@ -100,6 +92,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         //Todo: Maybe check for any variables being null
 
         Gang gang = new Gang(uuid,
+                ownerUUID,
                 creationDateUnix,
                 name,
                 level,
@@ -109,13 +102,9 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 deaths,
                 bank,
                 maxMembers,
-                maxAllies,
-                ownerUUID,
                 memberList,
                 playerInvites,
-                alliedGangs,
-                alliedGangInvitesIncoming,
-                alliedGangInvitesOutgoing,
+                gangAllies,
                 rivalGangs,
                 rivalGangsAgainst,
                 gangPermissions,

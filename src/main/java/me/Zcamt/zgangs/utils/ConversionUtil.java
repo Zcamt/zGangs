@@ -1,15 +1,12 @@
 package me.Zcamt.zgangs.utils;
 
-import me.Zcamt.zgangs.objects.gangitems.GangDeliveryItem;
-import me.Zcamt.zgangs.objects.gangitems.GangItemDelivery;
-import me.Zcamt.zgangs.objects.gangpermissions.GangPermission;
-import me.Zcamt.zgangs.objects.gangpermissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangDeliveryItem;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermission;
+import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.GangRank;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class ConversionUtil {
 
@@ -39,7 +36,7 @@ public class ConversionUtil {
 
 
     //Todo: Alle herunder skal testes
-    public static String gangMemberMapToString(HashMap<UUID, Integer> memberMap){
+    public static String gangMemberMapToString(Map<UUID, Integer> memberMap){
         if(memberMap.size() == 0) return "";
         StringBuilder stringBuilder = new StringBuilder();
         Object[] memberMapKeyArray = memberMap.keySet().toArray();
@@ -51,8 +48,8 @@ public class ConversionUtil {
         return stringBuilder.toString();
     }
 
-    public static HashMap<UUID, Integer> stringToGangMemberMap(String members){
-        HashMap<UUID, Integer> memberMap = new HashMap<>();
+    public static Map<UUID, Integer> stringToGangMemberMap(String members){
+        Map<UUID, Integer> memberMap = new HashMap<>();
         if(members.length() == 0) return memberMap;
         String[] membersArray = members.split(";");
         for(String memberString : membersArray){
@@ -65,7 +62,7 @@ public class ConversionUtil {
     }
 
 
-    public static String gangPermissionsToString(HashMap<GangPermission, GangRank> permissionsMap){
+    public static String gangPermissionsToString(Map<GangPermission, GangRank> permissionsMap){
         if(permissionsMap.size() == 0) return "";
         StringBuilder stringBuilder = new StringBuilder();
         Object[] permissionMapKeyArray = permissionsMap.keySet().toArray();
@@ -79,7 +76,7 @@ public class ConversionUtil {
     }
 
     public static GangPermissions gangPermissionsFromString(String gangPermissions){
-        HashMap<GangPermission, GangRank> permissionMap = new HashMap<>();
+        Map<GangPermission, GangRank> permissionMap = new HashMap<>();
         if(gangPermissions.length() == 0) return new GangPermissions(permissionMap);
         String[] permissionsArray = gangPermissions.split(";");
         for(String permissionString : permissionsArray){
@@ -93,7 +90,7 @@ public class ConversionUtil {
     }
 
 
-    public static String gangItemDeliveryToString(HashMap<GangDeliveryItem, Integer> deliveredItems){
+    public static String gangItemDeliveryToString(Map<GangDeliveryItem, Integer> deliveredItems){
         if(deliveredItems.size() == 0) return "";
         StringBuilder stringBuilder = new StringBuilder();
         Object[] itemsDeliveredKeyArray = deliveredItems.keySet().toArray();

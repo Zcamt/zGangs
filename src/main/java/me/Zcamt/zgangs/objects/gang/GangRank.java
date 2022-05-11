@@ -2,7 +2,7 @@ package me.Zcamt.zgangs.objects.gang;
 
 import com.google.common.collect.Maps;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public enum GangRank {
     OWNER(5),
@@ -12,7 +12,7 @@ public enum GangRank {
     RECRUIT(1);
 
     private final int ID;
-    private static final Map<Integer, GangRank> BY_ID = Maps.newHashMap();
+    private static final HashMap<Integer, GangRank> BY_ID = new HashMap<>();
     GangRank(int id) {
         ID = id;
     }

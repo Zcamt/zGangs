@@ -1,7 +1,8 @@
-package me.Zcamt.zgangs.objects.gangitems;
+package me.Zcamt.zgangs.objects.gang.gangitem;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class GangItemDelivery {
 
@@ -31,7 +32,7 @@ public class GangItemDelivery {
         return deliveredItems.getOrDefault(gangDeliveryItem, 0);
     }
 
-    public HashMap<GangDeliveryItem, Integer> getDeliveredItems() {
-        return (HashMap<GangDeliveryItem, Integer>) Collections.unmodifiableMap(deliveredItems);
+    public Map<GangDeliveryItem, Integer> getDeliveredItems() {
+        return (Map<GangDeliveryItem, Integer>) Collections.unmodifiableMap(deliveredItems);
     }
 }

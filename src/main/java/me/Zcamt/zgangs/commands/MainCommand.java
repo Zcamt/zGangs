@@ -6,7 +6,7 @@ import co.aikar.commands.annotation.CommandAlias;
 import co.aikar.commands.annotation.Default;
 import co.aikar.commands.annotation.Subcommand;
 import me.Zcamt.zgangs.config.Messages;
-import me.Zcamt.zgangs.managers.GangManager;
+import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.utils.Permissions;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.PermissionUtil;

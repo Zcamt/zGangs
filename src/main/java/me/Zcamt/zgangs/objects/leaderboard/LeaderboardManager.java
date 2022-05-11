@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.managers;
+package me.Zcamt.zgangs.objects.leaderboard;
 
 import me.Zcamt.zgangs.objects.leaderboard.KillsLeaderboard;
 

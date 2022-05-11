@@ -1,7 +1,7 @@
-package me.Zcamt.zgangs.objects.ganglevels;
+package me.Zcamt.zgangs.objects.gang.ganglevel;
 
 import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gangitems.GangDeliveryItem;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangDeliveryItem;
 
 import java.util.HashMap;
 import java.util.List;

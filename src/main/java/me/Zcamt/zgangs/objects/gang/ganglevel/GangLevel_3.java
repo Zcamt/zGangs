@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.ganglevels;
+package me.Zcamt.zgangs.objects.gang.ganglevel;
 
 import java.util.Arrays;
 import java.util.HashMap;

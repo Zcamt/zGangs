@@ -8,22 +8,23 @@ import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.database.GangAdapter;
+import me.Zcamt.zgangs.database.GangAlliesAdapter;
 import me.Zcamt.zgangs.database.GangPlayerAdapter;
-import me.Zcamt.zgangs.managers.GangLevelManager;
-import me.Zcamt.zgangs.managers.GangManager;
-import me.Zcamt.zgangs.managers.GangPlayerManager;
-import me.Zcamt.zgangs.managers.LeaderboardManager;
+import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
+import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
+import me.Zcamt.zgangs.objects.gang.GangManager;
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
+import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 
 public class ZGangs extends JavaPlugin {
 
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Gang.class, new GangAdapter())
             .registerTypeAdapter(GangPlayer.class, new GangPlayerAdapter())
+            .registerTypeAdapter(GangAllies.class, new GangAlliesAdapter())
             .setPrettyPrinting()
             .serializeNulls()
             .disableHtmlEscaping()

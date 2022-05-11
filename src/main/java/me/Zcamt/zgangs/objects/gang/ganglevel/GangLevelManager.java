@@ -1,8 +1,4 @@
-package me.Zcamt.zgangs.managers;
-
-import me.Zcamt.zgangs.objects.ganglevels.GangLevel;
-import me.Zcamt.zgangs.objects.ganglevels.GangLevel_2;
-import me.Zcamt.zgangs.objects.ganglevels.GangLevel_3;
+package me.Zcamt.zgangs.objects.gang.ganglevel;
 
 public class GangLevelManager {
 

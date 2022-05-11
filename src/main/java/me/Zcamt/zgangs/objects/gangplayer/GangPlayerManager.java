@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.managers;
+package me.Zcamt.zgangs.objects.gangplayer;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;

@@ -38,21 +38,13 @@
     <version>1.0.0</version>
 
     <properties>
-
         <main.class>me.Zcamt.zgangs.ZGangs</main.class>
 
         <java.version>16</java.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
     </properties>
 
-    <pluginRepositories>
-        <pluginRepository>
-            <id>apache.snapshots</id>
-            <url>https://repository.apache.org/snapshots/</url>
-        </pluginRepository>
-    </pluginRepositories>
 
     <repositories>
         <repository>
@@ -102,16 +94,19 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
             <version>3.0.5</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongo-java-driver</artifactId>
             <version>3.12.10</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.9</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -148,6 +143,18 @@
                             <finalName>${project.name}-${project.version}</finalName>
                             <outputDirectory>E:\generated-plugins</outputDirectory>
                             <relocations>
+                                <relocation>
+                                    <pattern>com.google.code.com.github.ben-manes.caffeine</pattern>
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.caffeine</shadedPattern> <!-- Replace this -->
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.mongodb</pattern>
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.mongo</shadedPattern> <!-- Replace this -->
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.code.gson</pattern>
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.gson</shadedPattern> <!-- Replace this -->
+                                </relocation>
                                 <relocation>
                                     <pattern>co.aikar.commands</pattern>
                                     <shadedPattern>main.java.me.Zcamt.zgangs.acf</shadedPattern> <!-- Replace this -->

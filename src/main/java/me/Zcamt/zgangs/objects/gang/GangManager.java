@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.managers;
+package me.Zcamt.zgangs.objects.gang;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
@@ -6,9 +6,9 @@ import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.database.Database;
-import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gangitems.GangItemDelivery;
-import me.Zcamt.zgangs.objects.gangpermissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import org.bson.Document;
 
 import java.util.*;
@@ -32,7 +32,6 @@ public class GangManager {
 
     public Gang createNewGang(String name, UUID ownerUUID) {
         UUID uuid = UUID.randomUUID();
-        gangCache.estimatedSize();
 
         while (idExistsInDatabase(uuid)) {
             uuid = UUID.randomUUID();
@@ -41,10 +40,12 @@ public class GangManager {
         List<UUID> memberList = new ArrayList<>();
         memberList.add(ownerUUID);
 
-        Gang gang = new Gang(uuid, System.currentTimeMillis(), name, 1, 0, 0, 0, 0, 0,
-                Config.defaultMaxMembers, Config.defaultMaxAllies, ownerUUID, memberList,
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-                new GangPermissions(new HashMap<>()), new GangItemDelivery(new HashMap<>()));
+        Gang gang = new Gang(uuid, ownerUUID, System.currentTimeMillis(), name, 1, 0, 0, 0, 0, 0,
+                Config.defaultMaxMembers, memberList, new ArrayList<>(),
+                new GangAllies(Config.defaultMaxAllies, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
+                new ArrayList<>(), new ArrayList<>(),
+                new GangPermissions(new HashMap<>()),
+                new GangItemDelivery(new HashMap<>()));
 
         return gang;
     }

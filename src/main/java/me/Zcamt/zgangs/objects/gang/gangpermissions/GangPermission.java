@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.gangpermissions;
+package me.Zcamt.zgangs.objects.gang.gangpermissions;
 
 import me.Zcamt.zgangs.objects.gang.GangRank;
 
