@@ -8,7 +8,9 @@ import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import org.bson.Document;
 
 import java.util.*;
@@ -40,10 +42,11 @@ public class GangManager {
         List<UUID> memberList = new ArrayList<>();
         memberList.add(ownerUUID);
 
-        Gang gang = new Gang(uuid, ownerUUID, System.currentTimeMillis(), name, 1, 0, 0, 0, 0, 0,
-                Config.defaultMaxMembers, memberList, new ArrayList<>(),
+        Gang gang = new Gang(uuid, ownerUUID, System.currentTimeMillis(), name, 1, 0,
+                0, 0, 0, 0,
+                new GangMembers(Config.defaultMaxMembers, memberList, new ArrayList<>()),
                 new GangAllies(Config.defaultMaxAllies, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
-                new ArrayList<>(), new ArrayList<>(),
+                new GangRivals(new ArrayList<>(), new ArrayList<>()),
                 new GangPermissions(new HashMap<>()),
                 new GangItemDelivery(new HashMap<>()));
 

@@ -7,10 +7,16 @@ import me.Zcamt.zgangs.commands.GangAdminCommand;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.database.*;
+import me.Zcamt.zgangs.objects.gang.GangAdapter;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
+import me.Zcamt.zgangs.objects.gang.gangallies.GangAlliesAdapter;
 import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
 import me.Zcamt.zgangs.objects.gang.GangManager;
+import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
+import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembersAdapter;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
+import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivalsAdapter;
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayerAdapter;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
 import me.Zcamt.zgangs.objects.gang.Gang;
@@ -24,6 +30,7 @@ public class ZGangs extends JavaPlugin {
             .registerTypeAdapter(GangPlayer.class, new GangPlayerAdapter())
             .registerTypeAdapter(GangAllies.class, new GangAlliesAdapter())
             .registerTypeAdapter(GangRivals.class, new GangRivalsAdapter())
+            .registerTypeAdapter(GangMembers.class, new GangMembersAdapter())
             .setPrettyPrinting()
             .serializeNulls()
             .disableHtmlEscaping()

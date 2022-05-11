@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.database;
+package me.Zcamt.zgangs.objects.gang;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -7,6 +7,7 @@ import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.utils.ConversionUtil;
@@ -31,13 +32,11 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("guardKills").value(gang.getGuardKills());
         writer.name("officerPlusKills").value(gang.getOfficerPlusKills());
         writer.name("deaths").value(gang.getDeaths());
-        writer.name("maxMembers").value(gang.getMaxMembers());
-        writer.name("members").value(ConversionUtil.uuidListToString(gang.getMemberList()));
-        writer.name("playerInvites").value(ConversionUtil.uuidListToString(gang.getPlayerInvites()));
+        writer.name("gangMembers").value(ZGangs.GSON.toJson(gang.getGangMembers()));
         writer.name("gangAllies").value(ZGangs.GSON.toJson(gang.getGangAllies()));
         writer.name("gangRivals").value(ZGangs.GSON.toJson(gang.getGangRivals()));
         writer.name("gangPermissions").value(ZGangs.GSON.toJson(gang.getGangPermissions()));
-        writer.name("gangItemDelivery").value(ConversionUtil.gangItemDeliveryToString(gang.getGangItemDelivery().getDeliveredItems()));
+        writer.name("gangItemDelivery").value(ZGangs.GSON.toJson(gang.getGangItemDelivery()));
         writer.endObject();
     }
 
@@ -54,13 +53,10 @@ public class GangAdapter extends TypeAdapter<Gang> {
         int guardKills = 0;
         int officerPlusKills = 0;
         int deaths = 0;
-        int maxMembers = 0;
         int maxAllies = 0;
-        List<UUID> memberList = null;
-        List<UUID> playerInvites = null;
+        GangMembers gangMembers = null;
         GangAllies gangAllies = null;
         GangRivals gangRivals = null;
-        List<UUID> rivalGangsAgainst = null;
         GangPermissions gangPermissions = null;
         GangItemDelivery gangItemDelivery = null;
         reader.beginObject();
@@ -77,14 +73,12 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "guardKills" -> guardKills = reader.nextInt();
                 case "officerPlusKills" -> officerPlusKills = reader.nextInt();
                 case "deaths" -> deaths = reader.nextInt();
-                case "maxMembers" -> maxMembers = reader.nextInt();
                 case "maxAllies" -> maxAllies = reader.nextInt();
-                case "members" -> memberList = ConversionUtil.uuidListFromString(reader.nextString());
-                case "playerInvites" -> playerInvites = ConversionUtil.uuidListFromString(reader.nextString());
+                case "gangMembers" -> gangMembers = ZGangs.GSON.fromJson(reader.nextString(), GangMembers.class);
                 case "gangAllies" -> gangAllies = ZGangs.GSON.fromJson(reader.nextString(), GangAllies.class);
                 case "gangRivals" -> gangRivals = ZGangs.GSON.fromJson(reader.nextString(), GangRivals.class);
                 case "gangPermissions" -> gangPermissions = ZGangs.GSON.fromJson(reader.nextString(), GangPermissions.class);
-                case "gangItemDelivery" -> gangItemDelivery = ConversionUtil.gangItemDeliveryFromString(reader.nextString());
+                case "gangItemDelivery" -> gangItemDelivery = ZGangs.GSON.fromJson(reader.nextString(), GangItemDelivery.class);
             }
         }
 
@@ -100,9 +94,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 guardKills,
                 officerPlusKills,
                 deaths,
-                maxMembers,
-                memberList,
-                playerInvites,
+                gangMembers,
                 gangAllies,
                 gangRivals,
                 gangPermissions,

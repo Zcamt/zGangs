@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.database;
+package me.Zcamt.zgangs.objects.gangplayer;
 
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

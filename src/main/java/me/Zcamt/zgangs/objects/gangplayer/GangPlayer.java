@@ -51,7 +51,7 @@ public class GangPlayer {
         if(!gangInvites.contains(gang.getUUID())) return false;
 
         gangInvites.remove(gang.getUUID());
-        gang.removePlayerFromInvites(this);
+        gang.getGangMembers().removePlayerFromInvites(this);
         serialize();
         return true;
     }
