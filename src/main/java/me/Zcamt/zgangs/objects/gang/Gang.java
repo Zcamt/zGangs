@@ -12,6 +12,7 @@ import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevel;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
+import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import org.bson.Document;
@@ -21,10 +22,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-@SuppressWarnings("jol")
 public class Gang {
-
     //Todo: Potentially add upgradeable gang+ally damage aswell.
+    //Todo: Add MOTD, could/should be a wrapper like class
+
+    //Could make this into "ganginfo"
     private final UUID uuid;
     private UUID ownerUUID;
     private final long creationDateMillis;
@@ -32,21 +34,17 @@ public class Gang {
     private int level;
     private int bank;
 
-    //Move these into a wrapper stats class
-    private int kills;
-    private int guardKills;
-    private int officerPlusKills;
-    private int deaths;
-
+    private final GangStats gangStats;
     private final GangMembers gangMembers;
     private final GangAllies gangAllies;
     private final GangRivals gangRivals;
-    //Todo: Add MOTD, could/should be a wrapper like class
+
+    //Todo: add adapters and "gang" variable to perms and itemDelivery
     private final GangPermissions gangPermissions;
     private final GangItemDelivery gangItemDelivery;
 
     public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int bank,
-                int kills, int guardKills, int officerPlusKills, int deaths,
+                GangStats gangStats,
                 GangMembers gangMembers,
                 GangAllies gangAllies,
                 GangRivals gangRivals,
@@ -57,11 +55,8 @@ public class Gang {
         this.creationDateMillis = creationDateMillis;
         this.name = name;
         this.level = level;
-        this.kills = kills;
-        this.guardKills = guardKills;
-        this.officerPlusKills = officerPlusKills;
-        this.deaths = deaths;
         this.bank = bank;
+        this.gangStats = gangStats;
         this.gangMembers = gangMembers;
         gangMembers.setGang(this);
         this.gangAllies = gangAllies;
@@ -94,39 +89,6 @@ public class Gang {
         serialize();
     }
 
-    public void setKills(int kills) {
-        if (kills > 0) {
-            kills = 0;
-        }
-        this.kills = kills;
-        serialize();
-    }
-
-    public void setGuardKills(int guardKills) {
-        if (guardKills > 0) {
-            guardKills = 0;
-        }
-        this.guardKills = guardKills;
-        serialize();
-    }
-
-    public void setOfficerPlusKills(int officerPlusKills) {
-        if (officerPlusKills > 0) {
-            officerPlusKills = 0;
-        }
-        this.officerPlusKills = officerPlusKills;
-        serialize();
-    }
-
-    public void setDeaths(int deaths) {
-        if (deaths > 0) {
-            deaths = 0;
-        }
-        this.deaths = deaths;
-        serialize();
-    }
-
-
     public boolean setOwner(GangPlayer newOwner) {
         if(!this.getGangMembers().isMember(newOwner.getUUID())) {
             return false;
@@ -143,8 +105,6 @@ public class Gang {
             return false;
         }
     }
-
-    //Todo: Make removeGangPlayerFromGang method
 
     public boolean rankUp() {
         GangLevelManager gangLevelManager = ZGangs.getGangLevelManager();
@@ -209,20 +169,8 @@ public class Gang {
         return bank;
     }
 
-    public int getKills() {
-        return kills;
-    }
-
-    public int getGuardKills() {
-        return guardKills;
-    }
-
-    public int getOfficerPlusKills() {
-        return officerPlusKills;
-    }
-
-    public int getDeaths() {
-        return deaths;
+    public GangStats getGangStats() {
+        return gangStats;
     }
 
     public GangMembers getGangMembers() {

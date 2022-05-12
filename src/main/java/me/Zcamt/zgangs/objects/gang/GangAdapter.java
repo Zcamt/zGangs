@@ -4,16 +4,14 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
-import me.Zcamt.zgangs.utils.ConversionUtil;
+import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 
 public class GangAdapter extends TypeAdapter<Gang> {
@@ -28,10 +26,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("name").value(gang.getName());
         writer.name("level").value(gang.getLevel());
         writer.name("bank").value(gang.getBank());
-        writer.name("kills").value(gang.getKills());
-        writer.name("guardKills").value(gang.getGuardKills());
-        writer.name("officerPlusKills").value(gang.getOfficerPlusKills());
-        writer.name("deaths").value(gang.getDeaths());
+        writer.name("gangStats").value(ZGangs.GSON.toJson(gang.getGangStats()));
         writer.name("gangMembers").value(ZGangs.GSON.toJson(gang.getGangMembers()));
         writer.name("gangAllies").value(ZGangs.GSON.toJson(gang.getGangAllies()));
         writer.name("gangRivals").value(ZGangs.GSON.toJson(gang.getGangRivals()));
@@ -49,11 +44,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         String name = null;
         int level = 0;
         int bank = 0;
-        int kills = 0;
-        int guardKills = 0;
-        int officerPlusKills = 0;
-        int deaths = 0;
-        int maxAllies = 0;
+        GangStats gangStats = null;
         GangMembers gangMembers = null;
         GangAllies gangAllies = null;
         GangRivals gangRivals = null;
@@ -69,11 +60,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "name" -> name = reader.nextString();
                 case "level" -> level = reader.nextInt();
                 case "bank" -> bank = reader.nextInt();
-                case "kills" -> kills = reader.nextInt();
-                case "guardKills" -> guardKills = reader.nextInt();
-                case "officerPlusKills" -> officerPlusKills = reader.nextInt();
-                case "deaths" -> deaths = reader.nextInt();
-                case "maxAllies" -> maxAllies = reader.nextInt();
+                case "gangStats" -> gangStats = ZGangs.GSON.fromJson(reader.nextString(), GangStats.class);
                 case "gangMembers" -> gangMembers = ZGangs.GSON.fromJson(reader.nextString(), GangMembers.class);
                 case "gangAllies" -> gangAllies = ZGangs.GSON.fromJson(reader.nextString(), GangAllies.class);
                 case "gangRivals" -> gangRivals = ZGangs.GSON.fromJson(reader.nextString(), GangRivals.class);
@@ -83,17 +70,13 @@ public class GangAdapter extends TypeAdapter<Gang> {
         }
 
         //Todo: Maybe check for any variables being null
-
         Gang gang = new Gang(uuid,
                 ownerUUID,
                 creationDateUnix,
                 name,
                 level,
                 bank,
-                kills,
-                guardKills,
-                officerPlusKills,
-                deaths,
+                gangStats,
                 gangMembers,
                 gangAllies,
                 gangRivals,

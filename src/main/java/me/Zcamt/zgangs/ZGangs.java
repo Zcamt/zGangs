@@ -16,6 +16,8 @@ import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembersAdapter;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivalsAdapter;
+import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
+import me.Zcamt.zgangs.objects.gang.gangstats.GangStatsAdapter;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerAdapter;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
@@ -31,6 +33,7 @@ public class ZGangs extends JavaPlugin {
             .registerTypeAdapter(GangAllies.class, new GangAlliesAdapter())
             .registerTypeAdapter(GangRivals.class, new GangRivalsAdapter())
             .registerTypeAdapter(GangMembers.class, new GangMembersAdapter())
+            .registerTypeAdapter(GangStats.class, new GangStatsAdapter())
             .setPrettyPrinting()
             .serializeNulls()
             .disableHtmlEscaping()

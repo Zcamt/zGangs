@@ -51,6 +51,8 @@ public class GangMembers {
         return true;
     }
 
+    //Todo: Make removeGangPlayerFromGang method
+
     public List<UUID> getMemberList() {
         return Collections.unmodifiableList(memberList);
     }
@@ -73,6 +75,8 @@ public class GangMembers {
     }
 
     public void setGang(Gang gang) {
-        this.gang = gang;
+        if(gang != null) {
+            this.gang = gang;
+        }
     }
 }
