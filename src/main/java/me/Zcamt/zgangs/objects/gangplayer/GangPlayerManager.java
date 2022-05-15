@@ -5,8 +5,6 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.database.Database;
-import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import org.bson.Document;
 
 import java.util.NoSuchElementException;
@@ -27,6 +25,10 @@ public class GangPlayerManager {
                     if(gangPlayer == null) return;
                     gangPlayer.serialize();
                 }).build();
+    }
+
+    public GangPlayer createNewGangPlayer(){
+
     }
 
     //Todo: Gør alt database stuffs ASYNC

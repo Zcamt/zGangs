@@ -1,11 +1,15 @@
 package me.Zcamt.zgangs.objects.gang.gangstats;
 
+import me.Zcamt.zgangs.objects.gang.Gang;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 public class GangStats {
 
+    //Todo: Should be able to serialize after setting. Should be doable by copying the setup from GangAllies fx.
+    private Gang gang;
     private final Map<GangStat, Integer> stats = new HashMap<>();
 
     public GangStats(Map<GangStat, Integer> statsMap) {
@@ -19,6 +23,7 @@ public class GangStats {
             amount = 1;
         }
         stats.put(gangStat, amount);
+        gang.serialize();
     }
 
     public int getStatAmount(GangStat gangStat) {
@@ -29,4 +34,10 @@ public class GangStats {
         return Collections.unmodifiableMap(stats);
     }
 
+
+    public void setGang(Gang gang) {
+        if(this.gang == null) {
+            this.gang = gang;
+        }
+    }
 }

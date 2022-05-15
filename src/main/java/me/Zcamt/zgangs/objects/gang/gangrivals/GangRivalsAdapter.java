@@ -3,8 +3,6 @@ package me.Zcamt.zgangs.objects.gang.gangrivals;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
-import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.utils.ConversionUtil;
 
 import java.io.IOException;

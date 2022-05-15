@@ -10,10 +10,14 @@ import me.Zcamt.zgangs.database.*;
 import me.Zcamt.zgangs.objects.gang.GangAdapter;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAlliesAdapter;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDeliveryAdapter;
 import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
 import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembersAdapter;
+import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissionsAdapter;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivalsAdapter;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
@@ -34,6 +38,8 @@ public class ZGangs extends JavaPlugin {
             .registerTypeAdapter(GangRivals.class, new GangRivalsAdapter())
             .registerTypeAdapter(GangMembers.class, new GangMembersAdapter())
             .registerTypeAdapter(GangStats.class, new GangStatsAdapter())
+            .registerTypeAdapter(GangPermissions.class, new GangPermissionsAdapter())
+            .registerTypeAdapter(GangItemDelivery.class, new GangItemDeliveryAdapter())
             .setPrettyPrinting()
             .serializeNulls()
             .disableHtmlEscaping()

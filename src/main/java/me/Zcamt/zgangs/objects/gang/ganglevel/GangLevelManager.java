@@ -1,31 +1,43 @@
 package me.Zcamt.zgangs.objects.gang.ganglevel;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+
 public class GangLevelManager {
 
-    private final GangLevel_2 gangLevel_2;
-    private final GangLevel_3 gangLevel_3;
-    private final int lastLevel = 3;
+    private final Map<Integer, GangLevel> gangLevels = new HashMap<>();
 
     public GangLevelManager() {
-        this.gangLevel_2 = new GangLevel_2();
-        this.gangLevel_3 = new GangLevel_3();
+        gangLevels.put(1, new GangLevel(
+                1, 3, 1,
+                false, false, false,
+                Arrays.asList(
+                "Adgang til 3 medlemmer og 1 allieret fra start"),
+                new GangLevelRequirements())
+        );
+
+        gangLevels.put(2, new GangLevel(
+                2, 4, 2,
+                false, false, false,
+                Arrays.asList(
+                        "Køb adgang op til 4 medlemmer",
+                        "Køb adgang op til 2 allierede"),
+                new GangLevelRequirements(
+                        new GangLevelRequirement(GangLevelRequirementType.BANK_BALANCE, 5000),
+                        new GangLevelRequirement(GangLevelRequirementType.MEMBER_COUNT, 2)
+                ))
+        );
     }
 
-    public GangLevel getLevelFromInt(int level) {
-        if (level <= 1) level = 2;
-        if (level > lastLevel) level = lastLevel;
-        return switch (level) {
-            case 2 -> gangLevel_2;
-            case 3 -> gangLevel_3;
-            default -> throw new IllegalStateException("Unexpected value: " + level);
-        };
+    public GangLevel getGangLevelFromInt(int lvl) {
+        return gangLevels.get(lvl);
     }
 
-    public GangLevel_2 getGangLevel_2() {
-        return gangLevel_2;
+    public int getLastLevelInt(){
+        return gangLevels.keySet().stream().sorted(Comparator.reverseOrder()).toList().get(0);
     }
 
-    public int getLastLevel() {
-        return lastLevel;
-    }
+
 }

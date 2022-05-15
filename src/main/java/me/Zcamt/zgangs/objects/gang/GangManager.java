@@ -7,11 +7,11 @@ import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
-import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import org.bson.Document;
 
 import java.util.*;

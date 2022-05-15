@@ -1,7 +1,5 @@
 package me.Zcamt.zgangs.objects.gang;
 
-import com.google.common.collect.Maps;
-
 import java.util.HashMap;
 
 public enum GangRank {

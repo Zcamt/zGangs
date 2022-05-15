@@ -5,6 +5,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
+import me.Zcamt.zgangs.objects.gang.gangstats.GangStat;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class KillsLeaderboard extends Leaderboard {
                         gang.getUUID(),
                         gang.getOwnerUUID(),
                         LeaderboardType.KILLS,
-                        gang.getKills()
+                        gang.getGangStats().getStatAmount(GangStat.KILLS)
                 );
                 leaderboard.add(gangEntry);
             }

@@ -68,7 +68,7 @@ public class GangPlayer {
     public void serialize(){
         //Todo: Do async
         Document document = Document.parse(toJson());
-        ZGangs.getDatabase().getGangCollection()
+        ZGangs.getDatabase().getGangPlayerCollection()
                 .replaceOne(Filters.eq("_id",
                         this.uuid.toString()),
                         document,

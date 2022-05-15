@@ -1,8 +1,8 @@
 package me.Zcamt.zgangs.objects.gang.gangmembers;
 
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangRank;
-import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,6 +51,14 @@ public class GangMembers {
         return true;
     }
 
+    public boolean removeGangPlayerFromGang(GangPlayer gangPlayer) {
+        gangPlayer.setGangRank(GangRank.RECRUIT);
+        gangPlayer.setGangID(null);
+        memberList.remove(gangPlayer.getUUID());
+        removePlayerFromInvites(gangPlayer);
+        gang.serialize();
+        return true;
+    }
     //Todo: Make removeGangPlayerFromGang method
 
     public List<UUID> getMemberList() {

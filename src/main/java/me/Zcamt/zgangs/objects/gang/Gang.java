@@ -6,7 +6,6 @@ import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
-import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevel;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
@@ -14,6 +13,7 @@ import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
+import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -26,21 +26,22 @@ public class Gang {
     //Todo: Potentially add upgradeable gang+ally damage aswell.
     //Todo: Add MOTD, could/should be a wrapper like class
 
-    //Could make this into "ganginfo"
+    //Could make this into a gang info wrapper
     private final UUID uuid;
     private UUID ownerUUID;
     private final long creationDateMillis;
     private String name;
-    private int level;
+    private int level; //Todo: Could change to GangLevel object
     private int bank;
 
+    //Todo: Check that all wrapper classes saves/serializes after setting something for the gang
     private final GangStats gangStats;
     private final GangMembers gangMembers;
     private final GangAllies gangAllies;
     private final GangRivals gangRivals;
+    private final GangPermissions gangPermissions;
 
     //Todo: add adapters and "gang" variable to perms and itemDelivery
-    private final GangPermissions gangPermissions;
     private final GangItemDelivery gangItemDelivery;
 
     public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int bank,
@@ -57,6 +58,7 @@ public class Gang {
         this.level = level;
         this.bank = bank;
         this.gangStats = gangStats;
+        gangStats.setGang(this);
         this.gangMembers = gangMembers;
         gangMembers.setGang(this);
         this.gangAllies = gangAllies;
@@ -64,7 +66,9 @@ public class Gang {
         this.gangRivals = gangRivals;
         gangRivals.setGang(this);
         this.gangPermissions = gangPermissions;
+        gangPermissions.setGang(this);
         this.gangItemDelivery = gangItemDelivery;
+        gangItemDelivery.setGang(this);
     }
 
     public void setName(String name) {
@@ -108,10 +112,10 @@ public class Gang {
 
     public boolean rankUp() {
         GangLevelManager gangLevelManager = ZGangs.getGangLevelManager();
-        if(this.level >= gangLevelManager.getLastLevel()){
+        if(this.level >= gangLevelManager.getLastLevelInt()){
             return false;
         }
-        GangLevel gangLevel = gangLevelManager.getLevelFromInt(this.level+1);
+        GangLevel gangLevel = gangLevelManager.getGangLevelFromInt(this.level+1);
         if(gangLevel.requirementsMet(this)){
             //Todo: Add rankup logic
             this.level = this.level+1;

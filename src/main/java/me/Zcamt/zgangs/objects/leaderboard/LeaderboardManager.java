@@ -1,7 +1,5 @@
 package me.Zcamt.zgangs.objects.leaderboard;
 
-import me.Zcamt.zgangs.objects.leaderboard.KillsLeaderboard;
-
 public class LeaderboardManager {
 
     private final KillsLeaderboard killsLeaderboard;
