@@ -23,7 +23,11 @@ public class GangStats {
             amount = 1;
         }
         stats.put(gangStat, amount);
-        gang.serialize();
+
+        //Todo: possibly slightly dangerous, might need changing
+        if(gang != null) {
+            gang.serialize();
+        }
     }
 
     public int getStatAmount(GangStat gangStat) {

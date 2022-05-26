@@ -1,19 +1,28 @@
 package me.Zcamt.zgangs;
 
+import co.aikar.commands.BukkitCommandIssuer;
+import co.aikar.commands.ConditionFailedException;
 import co.aikar.commands.PaperCommandManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.Zcamt.zgangs.chatinput.ChatInputManager;
 import me.Zcamt.zgangs.commands.GangAdminCommand;
+import me.Zcamt.zgangs.commands.MainCommand;
+import me.Zcamt.zgangs.commands.MenuCommand;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.config.Messages;
-import me.Zcamt.zgangs.database.*;
+import me.Zcamt.zgangs.database.Database;
+import me.Zcamt.zgangs.listeners.ChatInputListener;
+import me.Zcamt.zgangs.listeners.InventoryListener;
+import me.Zcamt.zgangs.listeners.PlayerListener;
+import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangAdapter;
+import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAlliesAdapter;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDeliveryAdapter;
 import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
-import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembersAdapter;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
@@ -22,11 +31,13 @@ import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivalsAdapter;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStatsAdapter;
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerAdapter;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
-import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
+import me.Zcamt.zgangs.utils.ChatUtil;
+import net.kyori.adventure.text.Component;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ZGangs extends JavaPlugin {
@@ -50,15 +61,19 @@ public class ZGangs extends JavaPlugin {
     private static final GangPlayerManager GANG_PLAYER_MANAGER = new GangPlayerManager(DATABASE);
     private static final LeaderboardManager LEADERBOARD_MANAGER = new LeaderboardManager();
     private static final GangLevelManager GANG_LEVEL_MANAGER = new GangLevelManager();
+    private static final ChatInputManager CHAT_INPUT_MANAGER = new ChatInputManager();
 
     @Override
     public void onEnable() {
         loadConfig();
-        PaperCommandManager commandManager = new PaperCommandManager(this);
-        commandManager.registerCommand(new GangAdminCommand());
+        registerCommands();
+        registerListeners();
     }
 
-
+    @Override
+    public void onDisable() {
+        super.onDisable();
+    }
 
     private void loadConfig(){
         if(!this.getDataFolder().exists()){
@@ -70,6 +85,40 @@ public class ZGangs extends JavaPlugin {
 
         Config.reload();
         Messages.reload();
+    }
+
+    private void registerCommands() {
+        PaperCommandManager commandManager = new PaperCommandManager(this);
+        commandManager.registerCommand(new GangAdminCommand());
+        commandManager.registerCommand(new MainCommand());
+        commandManager.registerCommand(new MenuCommand());
+
+        commandManager.getCommandConditions().addCondition("no-gang", context -> {
+            BukkitCommandIssuer issuer = context.getIssuer();
+            Player player = issuer.getPlayer();
+            GangPlayer gangPlayer = getGangPlayerManager().findById(player.getUniqueId());
+            if(gangPlayer.isInGang()){
+                ChatUtil.sendMessage(player, Messages.cantWhileInGang);
+                throw new ConditionFailedException();
+            }
+        });
+
+        commandManager.getCommandConditions().addCondition("in-gang", context -> {
+            BukkitCommandIssuer issuer = context.getIssuer();
+            Player player = issuer.getPlayer();
+            GangPlayer gangPlayer = getGangPlayerManager().findById(player.getUniqueId());
+            if(!gangPlayer.isInGang()){
+                ChatUtil.sendMessage(player, Messages.notInGang);
+                throw new ConditionFailedException();
+            }
+        });
+
+    }
+
+    private void registerListeners() {
+        getServer().getPluginManager().registerEvents(new InventoryListener(), this);
+        getServer().getPluginManager().registerEvents(new ChatInputListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
     public static Database getDatabase() {
@@ -90,5 +139,9 @@ public class ZGangs extends JavaPlugin {
 
     public static GangLevelManager getGangLevelManager() {
         return GANG_LEVEL_MANAGER;
+    }
+
+    public static ChatInputManager getChatInputManager() {
+        return CHAT_INPUT_MANAGER;
     }
 }

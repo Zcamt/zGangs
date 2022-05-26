@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class GangPermissions {
 
-    //Todo: Should be able to serialize after setting. Should be doable by copying the setup from GangAllies fx.
     private Gang gang;
     private final Map<GangPermission, GangRank> permissions = new HashMap<>();
 
@@ -29,9 +28,12 @@ public class GangPermissions {
             rankID = 1;
         }
         rankRequired = GangRank.getRank(rankID);
-
         permissions.put(gangPermission, rankRequired);
-        gang.serialize();
+
+        //Todo: possibly slightly dangerous, might need changing
+        if(gang != null) {
+            gang.serialize();
+        }
     }
 
     public GangRank getRankRequired(GangPermission gangPermission) {

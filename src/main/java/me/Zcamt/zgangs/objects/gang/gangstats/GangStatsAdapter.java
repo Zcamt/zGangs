@@ -28,9 +28,9 @@ public class GangStatsAdapter extends TypeAdapter<GangStats> {
                 case "stats" -> stats = ZGangs.GSON.fromJson(reader.nextString(), gangStatsMapType);
             }
         }
-
         //Todo: Maybe check for any variables being null
         GangStats gangStats = new GangStats(stats);
+        reader.endObject();
         return gangStats;
     }
 }

@@ -8,7 +8,6 @@ import java.util.Map;
 
 public class GangItemDelivery {
 
-    //Todo: Should be able to serialize after setting. Should be doable by copying the setup from GangAllies fx.
     private Gang gang;
     private final Map<GangDeliveryItem, Integer> deliveredItems = new HashMap<>();
 
@@ -30,7 +29,11 @@ public class GangItemDelivery {
             amount = 0;
         }
         deliveredItems.put(gangDeliveryItem, amount);
-        gang.serialize();
+
+        //Todo: possibly slightly dangerous, might need changing
+        if(gang != null) {
+            gang.serialize();
+        }
     }
 
     public int getDeliveryAmount (GangDeliveryItem gangDeliveryItem){

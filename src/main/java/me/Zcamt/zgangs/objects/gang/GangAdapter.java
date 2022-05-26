@@ -1,5 +1,7 @@
 package me.Zcamt.zgangs.objects.gang;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -9,9 +11,15 @@ import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
+import me.Zcamt.zgangs.objects.gang.gangstats.GangStat;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class GangAdapter extends TypeAdapter<Gang> {
@@ -22,7 +30,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.beginObject();
         writer.name("_id").value(gang.getUUID().toString());
         writer.name("ownerUUID").value(gang.getOwnerUUID().toString());
-        writer.name("creationDate").value(gang.getCreationDateMillis());
+        writer.name("creationDate").value(String.valueOf(gang.getCreationDateMillis()));
         writer.name("name").value(gang.getName());
         writer.name("level").value(gang.getLevel());
         writer.name("bank").value(gang.getBank());
@@ -42,7 +50,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         UUID ownerUUID = null;
         long creationDateUnix = 0;
         String name = null;
-        int level = 0;
+        int level = 1;
         int bank = 0;
         GangStats gangStats = null;
         GangMembers gangMembers = null;
@@ -56,7 +64,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
             switch (reader.nextName()) {
                 case "_id" -> uuid = UUID.fromString(reader.nextString());
                 case "ownerUUID" -> ownerUUID = UUID.fromString(reader.nextString());
-                case "creationDate" -> creationDateUnix = reader.nextLong();
+                case "creationDate" -> creationDateUnix = Long.parseLong(reader.nextString());
                 case "name" -> name = reader.nextString();
                 case "level" -> level = reader.nextInt();
                 case "bank" -> bank = reader.nextInt();
@@ -69,7 +77,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
             }
         }
 
-        //Todo: Maybe check for any variables being null
+        //Todo: Throw error if any is null
         Gang gang = new Gang(uuid,
                 ownerUUID,
                 creationDateUnix,

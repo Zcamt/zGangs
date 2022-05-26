@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 public class Config {
@@ -15,15 +16,23 @@ public class Config {
 
     public static String prefix, nameRegex;
 
-    public static int defaultMaxMembers, defaultMaxAllies, maxNameLength, minNameLength;
-    public static int transferGangCost, createGangCost, rankUpCost;
+    public static int maxNameLength, minNameLength;
+    public static int transferGangCost, createGangCost;
 
     public static ImmutableList<String> bannedNames;
 
     public static void reload() {
         config = YamlConfiguration.loadConfiguration(configFile);
 
-        prefix = ChatUtil.CC(config.getString("prefix"));
+        prefix = ChatUtil.CC(config.getString("settings.prefix"));
+        nameRegex = config.getString("gangs.name-regex");
+
+        maxNameLength = config.getInt("gangs.max-name-length");
+        minNameLength = config.getInt("gangs.min-name-length");
+        transferGangCost = config.getInt("gangs.gang-transfer-cost");
+        createGangCost = config.getInt("gangs.gang-create-cost");
+
+        bannedNames = ImmutableList.copyOf(config.getStringList("gangs.banned-names"));
     }
 
 }

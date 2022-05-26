@@ -20,7 +20,7 @@ public class Database {
         this.database = client.getDatabase("nprison");
         this.gangCollection = database.getCollection("gangs");
         this.gangPlayerCollection = database.getCollection("gang_players");
-        this.leaderboardsCollection = database.getCollection("leaderboards");
+        this.leaderboardsCollection = database.getCollection("gang_leaderboards");
     }
 
 
@@ -38,5 +38,9 @@ public class Database {
 
     public MongoCollection<Document> getGangPlayerCollection() {
         return gangPlayerCollection;
+    }
+
+    public MongoCollection<Document> getLeaderboardsCollection() {
+        return leaderboardsCollection;
     }
 }

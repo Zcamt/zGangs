@@ -29,9 +29,9 @@ public class GangPermissionsAdapter extends TypeAdapter<GangPermissions> {
                 case "permissions" -> permissions = ZGangs.GSON.fromJson(reader.nextString(), gangPermissionsMapType);
             }
         }
-
         //Todo: Maybe check for any variables being null
         GangPermissions gangPermissions = new GangPermissions(permissions);
+        reader.endObject();
         return gangPermissions;
     }
 }

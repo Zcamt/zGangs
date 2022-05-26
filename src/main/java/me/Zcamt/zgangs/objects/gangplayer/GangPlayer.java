@@ -39,10 +39,11 @@ public class GangPlayer {
         serialize();
     }
 
-    public boolean addGangInvite(UUID gangUUID) {
-        if(gangInvites.contains(gangUUID)) return false;
+    public boolean addGangInvite(Gang gang) {
+        if(gangInvites.contains(gang.getUUID())) return false;
 
-        gangInvites.add(gangUUID);
+        gangInvites.add(gang.getUUID());
+        gang.getGangMembers().addPlayerToInvites(this);
         serialize();
         return true;
     }
@@ -56,9 +57,6 @@ public class GangPlayer {
         return true;
     }
 
-    public boolean gangInvitesContains(UUID gangUUID) {
-        return gangInvites.contains(gangUUID);
-    }
 
     @NotNull
     public String toJson(){
@@ -95,6 +93,14 @@ public class GangPlayer {
 
     public List<UUID> getGangInvites() {
         return Collections.unmodifiableList(gangInvites);
+    }
+
+    public boolean gangInvitesContains(UUID gangUUID) {
+        return gangInvites.contains(gangUUID);
+    }
+
+    public boolean isInGang(){
+        return this.gangUUID != null;
     }
 
 }

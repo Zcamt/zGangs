@@ -1,5 +1,5 @@
 settings:
-  prefix: "[zGangs]"
+  prefix: "&6&l[zGangs]&r"
 
 gangs:
   max-name-length: 15
@@ -7,3 +7,5 @@ gangs:
   banned-names:
     - "fuck"
   name-regex: "([A-Za-z0-9æøåÆØÅ])+"
+  gang-transfer-cost: 50000
+  gang-create-cost: 5000

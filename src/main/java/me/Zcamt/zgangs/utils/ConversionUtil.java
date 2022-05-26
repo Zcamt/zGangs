@@ -13,11 +13,12 @@ public class ConversionUtil {
 
     public static String uuidListToString(List<UUID> list){
         if(list.size() == 0) return "";
+        //list.removeIf(uuid -> uuid == null);
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < list.size(); i++) {
             UUID uuid = list.get(i);
             stringBuilder.append(uuid.toString());
-            if(i+1 != list.size()){
+            if(i+1 < list.size()){
                 stringBuilder.append(";");
             }
         }
@@ -35,7 +36,7 @@ public class ConversionUtil {
     }
 
 
-    //Todo: Alle herunder skal testes
+    //Todo: Everything underneath shouldn't be needed anymore
     public static String gangMemberMapToString(Map<UUID, Integer> memberMap){
         if(memberMap.size() == 0) return "";
         StringBuilder stringBuilder = new StringBuilder();
@@ -60,7 +61,6 @@ public class ConversionUtil {
         }
         return memberMap;
     }
-
 
     public static String gangPermissionsToString(Map<GangPermission, GangRank> permissionsMap){
         if(permissionsMap.size() == 0) return "";
@@ -89,7 +89,6 @@ public class ConversionUtil {
         return new GangPermissions(permissionMap);
     }
 
-
     public static String gangItemDeliveryToString(Map<GangDeliveryItem, Integer> deliveredItems){
         if(deliveredItems.size() == 0) return "";
         StringBuilder stringBuilder = new StringBuilder();
@@ -101,7 +100,6 @@ public class ConversionUtil {
         }
         return stringBuilder.toString();
     }
-
 
     public static GangItemDelivery gangItemDeliveryFromString(String deliveredItems){
         HashMap<GangDeliveryItem, Integer> deliveredItemsMap = new HashMap<>();

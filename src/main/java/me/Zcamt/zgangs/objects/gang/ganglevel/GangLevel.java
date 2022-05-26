@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GangLevel {
-    //Todo: Implement "limits" such as how many members you can upgrade to at each level
 
     private final int level;
     private final int maxMemberLimit;

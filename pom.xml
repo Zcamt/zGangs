@@ -4,34 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!--
-       We use Maven to build our plugin and Maven uses pom.xml to configure
-       itself.
-
-       This file is the heart and matter of everything that has to do
-       with how your plugin connects with other libraries and exports itself
-       when you want to publish it.
-
-       Please only edit options below, as the above declaration is machine
-       generated and not intended for user changes.
-   -->
-
-    <!-- ############################################################################### -->
-    <!-- Basic plugin configuration, start here -->
-    <!-- ############################################################################### -->
-
-    <!--
-       The Group ID represents the main package of your plugin
-
-       The Artifact ID represents the name of your plugin.
-       Traditionally, it is suggested to keep this name lowercase.
-       If your plugin uses spaces, please replace them with dashes (-) instead.
-
-       The Name represents the full name of your plugin
-
-       The Version is current version of your plugin. You want to update this continuously
-   -->
-
     <groupId>me.Zcamt</groupId>
     <artifactId>zgangs</artifactId>
     <name>zGangs</name>
@@ -72,9 +44,15 @@
 
 
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-api</artifactId>
+            <version>1.16.5-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>-->
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
             <version>1.16.5-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
@@ -106,6 +84,12 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.8.9</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-plain</artifactId>
+            <version>4.7.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -145,23 +129,23 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.google.code.com.github.ben-manes.caffeine</pattern>
-                                    <shadedPattern>main.java.me.Zcamt.zgangs.caffeine</shadedPattern> <!-- Replace this -->
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.caffeine</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.mongodb</pattern>
-                                    <shadedPattern>main.java.me.Zcamt.zgangs.mongo</shadedPattern> <!-- Replace this -->
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.mongo</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.google.code.gson</pattern>
-                                    <shadedPattern>main.java.me.Zcamt.zgangs.gson</shadedPattern> <!-- Replace this -->
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.gson</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>co.aikar.commands</pattern>
-                                    <shadedPattern>main.java.me.Zcamt.zgangs.acf</shadedPattern> <!-- Replace this -->
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.acf</shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>co.aikar.locales</pattern>
-                                    <shadedPattern>main.java.me.Zcamt.zgangs.locales</shadedPattern> <!-- Replace this -->
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.locales</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

@@ -35,7 +35,7 @@ public class KillsLeaderboard extends Leaderboard {
             }
         }
 
-        leaderboard.removeIf(entry -> !entry.getLeaderboardType().equals(LeaderboardType.KILLS));
+        leaderboard.removeIf(entry -> entry.getLeaderboardType() != LeaderboardType.KILLS);
         setLastUpdatedEpoch(System.currentTimeMillis());
         leaderboard.sort(Comparator.comparing(GangLeaderboardEntry::getAmount));
         this.leaderboard.clear();

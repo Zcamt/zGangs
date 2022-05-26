@@ -31,6 +31,7 @@ public class GangItemDeliveryAdapter extends TypeAdapter<GangItemDelivery> {
 
         //Todo: Maybe check for any variables being null
         GangItemDelivery gangItemDelivery = new GangItemDelivery(itemDeliveryMap);
+        reader.endObject();
         return gangItemDelivery;
     }
 }

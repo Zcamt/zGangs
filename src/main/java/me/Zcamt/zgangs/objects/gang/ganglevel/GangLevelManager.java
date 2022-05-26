@@ -1,5 +1,7 @@
 package me.Zcamt.zgangs.objects.gang.ganglevel;
 
+import me.Zcamt.zgangs.config.Config;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -32,6 +34,11 @@ public class GangLevelManager {
     }
 
     public GangLevel getGangLevelFromInt(int lvl) {
+        if(lvl < 1) {
+            lvl = 1;
+        } else if(lvl > getLastLevelInt()) {
+            lvl = getLastLevelInt();
+        }
         return gangLevels.get(lvl);
     }
 

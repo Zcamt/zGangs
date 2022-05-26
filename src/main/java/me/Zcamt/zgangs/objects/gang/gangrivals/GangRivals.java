@@ -38,6 +38,7 @@ public class GangRivals {
         if (rivalGangsAgainst.contains(rival.getUUID())) return false;
 
         rivalGangsAgainst.add(rival.getUUID());
+        rival.getGangRivals().addRival(gang);
         gang.serialize();
         return true;
     }
@@ -46,6 +47,7 @@ public class GangRivals {
         if (!rivalGangsAgainst.contains(rival.getUUID())) return false;
 
         rivalGangsAgainst.remove(rival.getUUID());
+        rival.getGangRivals().removeRival(rival);
         gang.serialize();
         return true;
     }

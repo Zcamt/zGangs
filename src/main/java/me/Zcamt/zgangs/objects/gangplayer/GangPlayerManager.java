@@ -5,8 +5,10 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.database.Database;
+import me.Zcamt.zgangs.objects.gang.GangRank;
 import org.bson.Document;
 
+import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -27,8 +29,11 @@ public class GangPlayerManager {
                 }).build();
     }
 
-    public GangPlayer createNewGangPlayer(){
-
+    public GangPlayer createNewGangPlayer(UUID uuid){
+        GangPlayer gangPlayer = new GangPlayer(uuid, null, GangRank.RECRUIT, new ArrayList<>());
+        addGangPlayerToCache(uuid, gangPlayer);
+        gangPlayer.serialize();
+        return gangPlayer;
     }
 
     //Todo: Gør alt database stuffs ASYNC
@@ -53,11 +58,8 @@ public class GangPlayerManager {
         gangPlayerCache.put(uuid, gangPlayer);
     }
 
-    private boolean idExistsInDatabase(UUID uuid){
+    public boolean idExistsInDatabase(UUID uuid){
         long count = database.getGangPlayerCollection().countDocuments(new Document("_id", uuid.toString()));
         return count > 0;
     }
-
-    //Todo: kig i "JavaTests"
-
 }

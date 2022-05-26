@@ -2,6 +2,7 @@ package me.Zcamt.zgangs.objects.gang;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
@@ -12,6 +13,8 @@ import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import org.bson.Document;
 
 import java.util.*;
@@ -28,12 +31,12 @@ public class GangManager {
                 .maximumSize(1000L)
                 .expireAfterAccess(3L, TimeUnit.MINUTES)
                 .removalListener((RemovalListener<UUID, Gang>) (uuid, gang, cause) -> {
-                    if(gang == null) return;
+                    if (gang == null) return;
                     gang.serialize();
                 }).build();
     }
 
-    public Gang createNewGang(String name, UUID ownerUUID) {
+    public Gang createNewGang(String name, GangPlayer gangOwner) {
         UUID uuid = UUID.randomUUID();
 
         while (idExistsInDatabase(uuid)) {
@@ -41,29 +44,67 @@ public class GangManager {
         }
 
         List<UUID> memberList = new ArrayList<>();
-        memberList.add(ownerUUID);
+        memberList.add(gangOwner.getUUID());
 
-        Gang gang = new Gang(uuid, ownerUUID, System.currentTimeMillis(), name, 1, 0,
+        int memberLimitForLvl1 = ZGangs.getGangLevelManager().getGangLevelFromInt(1).getMaxMemberLimit();
+        int allyLimitForLvl1 = ZGangs.getGangLevelManager().getGangLevelFromInt(1).getMaxAllyLimit();
+
+        Gang gang = new Gang(uuid, gangOwner.getUUID(), System.currentTimeMillis(), name, 1, 0,
                 new GangStats(new HashMap<>()),
-                new GangMembers(Config.defaultMaxMembers, memberList, new ArrayList<>()),
-                new GangAllies(Config.defaultMaxAllies, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
+                new GangMembers(memberLimitForLvl1, memberList, new ArrayList<>()),
+                new GangAllies(allyLimitForLvl1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
                 new GangRivals(new ArrayList<>(), new ArrayList<>()),
                 new GangPermissions(new HashMap<>()),
                 new GangItemDelivery(new HashMap<>()));
-
+        addGangToCache(uuid, gang);
+        gang.serialize();
+        gangOwner.setGangID(gang.getUUID());
+        gangOwner.setGangRank(GangRank.OWNER);
+        gangOwner.serialize();
         return gang;
     }
 
-    //Todo: Delete gang method
-    // Tjek på om den er tom - så man kun kan slette en bande hvis man er alene i den
+    public boolean deleteGang(Gang gang) {
+        if (gang.getGangMembers().getMemberCount() != 1) {
+            return false;
+        }
+        UUID gangUUID = gang.getUUID();
+
+        clearMembersForGang(gang);
+        clearAlliesForGang(gang);
+        clearRivalsForGang(gang);
+
+        if (isIdInCache(gangUUID)) {
+            gangCache.invalidate(gangUUID);
+        }
+        database.getGangCollection().deleteOne(new Document("_id", gangUUID.toString()));
+        return true;
+    }
+
+    public boolean forceDeleteGang(Gang gang) {
+        UUID gangUUID = gang.getUUID();
+
+        clearMembersForGang(gang);
+        clearAlliesForGang(gang);
+        clearRivalsForGang(gang);
+
+        if (isIdInCache(gangUUID)) {
+            gangCache.invalidate(gangUUID);
+        }
+        database.getGangCollection().deleteOne(new Document("_id", gangUUID.toString()));
+        return true;
+    }
 
     //Todo: Gør alt database stuffs ASYNC
-    public Gang findById(UUID uuid){
-        if(gangCache.asMap().containsKey(uuid)){
+    public Gang findById(UUID uuid) {
+        if(uuid == null) {
+            return null;
+        }
+        if (gangCache.asMap().containsKey(uuid)) {
             return gangCache.getIfPresent(uuid);
         }
         Document gangDocument = database.getGangCollection().find(new Document("_id", uuid.toString())).first();
-        if(gangDocument == null) {
+        if (gangDocument == null) {
             throw new NoSuchElementException("Couldn't find gang with UUID '" + uuid + "'");
         }
         Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
@@ -71,23 +112,68 @@ public class GangManager {
         return gang;
     }
 
-    private void addGangToCache(UUID uuid, Gang gang){
+    private void addGangToCache(UUID uuid, Gang gang) {
         gangCache.put(uuid, gang);
     }
 
-    private boolean idExistsInDatabase(UUID uuid){
+    private boolean idExistsInDatabase(UUID uuid) {
         long count = database.getGangCollection().countDocuments(new Document("_id", uuid.toString()));
         return count > 0;
     }
 
-    public boolean nameExistsInDatabase(String name){
+    public boolean nameExistsInDatabase(String name) {
         long count = database.getGangCollection().countDocuments(new Document("name", name));
         return count > 0;
     }
 
-    private boolean isIdInCache(UUID uuid){
+    private boolean isIdInCache(UUID uuid) {
         return gangCache.asMap().containsKey(uuid);
     }
 
-    //Todo: kig i "JavaTests"
+    private void clearMembersForGang(Gang gang) {
+        GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
+        for (UUID memberUUID : gang.getGangMembers().getMemberList()) {
+            GangPlayer gangPlayer = gangPlayerManager.findById(memberUUID);
+            gang.getGangMembers().removeGangPlayerFromGang(gangPlayer);
+        }
+
+        for (UUID invitedUUID : gang.getGangMembers().getPlayerInvites()) {
+            GangPlayer gangPlayer = gangPlayerManager.findById(invitedUUID);
+            gang.getGangMembers().removePlayerFromInvites(gangPlayer);
+        }
+    }
+
+    private void clearAlliesForGang(Gang gang) {
+        for (UUID allyUUID : gang.getGangAllies().getAlliedGangs()) {
+            Gang alliedGang = findById(allyUUID);
+            gang.getGangAllies().removeAlly(alliedGang);
+        }
+
+        for (UUID outgoingInviteUUID : gang.getGangAllies().getAlliedGangInvitesOutgoing()) {
+            Gang outgoingInviteGang = findById(outgoingInviteUUID);
+            gang.getGangAllies().removeAllyInviteOutgoing(outgoingInviteGang);
+        }
+
+        for (UUID incomingInviteUUID : gang.getGangAllies().getAlliedGangInvitesIncoming()) {
+            Gang incomingInviteGang = findById(incomingInviteUUID);
+            gang.getGangAllies().removeAllyInviteOutgoing(incomingInviteGang);
+        }
+    }
+
+    private void clearRivalsForGang(Gang gang) {
+        for (UUID rivalUUID : gang.getGangRivals().getRivalGangs()) {
+            Gang rivalGang = findById(rivalUUID);
+            gang.getGangRivals().removeRival(rivalGang);
+        }
+
+        for (UUID rivalAgainstUUID : gang.getGangRivals().getRivalGangsAgainst()) {
+            Gang rivalAgainstGang = findById(rivalAgainstUUID);
+            gang.getGangRivals().removeRivalAgainst(rivalAgainstGang);
+        }
+    }
+
+    public void invalidateCache() {
+        gangCache.invalidateAll();
+    }
+
 }

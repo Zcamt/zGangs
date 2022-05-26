@@ -24,9 +24,12 @@ public class GangMembers {
         if (isMember(gangPlayer.getUUID())) return false;
         if (playerInvites.contains(gangPlayer.getUUID())) return false;
         playerInvites.add(gangPlayer.getUUID());
-        gangPlayer.addGangInvite(gang.getUUID());
-        gang.serialize();
-        return true;
+        if(gangPlayer.addGangInvite(gang)) {
+            gang.serialize();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean removePlayerFromInvites(GangPlayer gangPlayer) {
@@ -59,7 +62,7 @@ public class GangMembers {
         gang.serialize();
         return true;
     }
-    //Todo: Make removeGangPlayerFromGang method
+
 
     public List<UUID> getMemberList() {
         return Collections.unmodifiableList(memberList);
@@ -80,6 +83,10 @@ public class GangMembers {
 
     public boolean isMember(UUID uuid) {
         return memberList.contains(uuid);
+    }
+
+    public int getMemberCount() {
+        return memberList.size();
     }
 
     public void setGang(Gang gang) {

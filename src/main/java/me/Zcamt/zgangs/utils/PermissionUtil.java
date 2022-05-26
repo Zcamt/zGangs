@@ -1,5 +1,8 @@
 package me.Zcamt.zgangs.utils;
 
+import com.mojang.brigadier.Message;
+import me.Zcamt.zgangs.config.Config;
+import me.Zcamt.zgangs.config.Messages;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -15,7 +18,7 @@ public class PermissionUtil {
         boolean hasPerm = player.hasPermission(permission);
         if (!hasPerm) {
             ChatUtil.sendMessage(player,
-                    denyMessage == null ? "&4Error: &cYou're not allowed to do that!" : denyMessage);
+                    denyMessage == null ? Messages.noPerm : denyMessage);
         }
         return hasPerm;
     }
