@@ -87,10 +87,10 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>net.kyori</groupId>
-            <artifactId>adventure-text-serializer-plain</artifactId>
-            <version>4.7.0</version>
-            <scope>compile</scope>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

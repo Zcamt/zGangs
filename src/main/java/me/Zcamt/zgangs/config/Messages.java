@@ -21,6 +21,7 @@ public class Messages {
     public static String illegalGangName;
     public static String unknownCommand;
     public static String invalidInput;
+    public static String noEnoughMoney = "&cFejl: Det har du ikke penge nok til";
     public static String unexpectedError = "&cFejl: Noget gik galt, kontakt venligst en Admin";
 
     public static String invalidUsage(String usage) {

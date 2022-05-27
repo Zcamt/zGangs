@@ -38,8 +38,10 @@ import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.PermissionUtil;
 import me.Zcamt.zgangs.utils.Permissions;
-import net.kyori.adventure.text.Component;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class ZGangs extends JavaPlugin {
@@ -64,12 +66,18 @@ public class ZGangs extends JavaPlugin {
     private static final LeaderboardManager LEADERBOARD_MANAGER = new LeaderboardManager();
     private static final GangLevelManager GANG_LEVEL_MANAGER = new GangLevelManager();
     private static final ChatInputManager CHAT_INPUT_MANAGER = new ChatInputManager();
+    private static Economy ECONOMY;
 
     @Override
     public void onEnable() {
         loadConfig();
         registerCommands();
         registerListeners();
+        if(!setupEconomy()) {
+            getLogger().severe("Disabled due to no Vault dependency found!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
     }
 
     @Override
@@ -149,6 +157,18 @@ public class ZGangs extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
+    private boolean setupEconomy() {
+        if (Bukkit.getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = Bukkit.getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        ECONOMY = rsp.getProvider();
+        return ECONOMY != null;
+    }
+
     public static Database getDatabase() {
         return DATABASE;
     }
@@ -171,5 +191,9 @@ public class ZGangs extends JavaPlugin {
 
     public static ChatInputManager getChatInputManager() {
         return CHAT_INPUT_MANAGER;
+    }
+
+    public static Economy getEconomy() {
+        return ECONOMY;
     }
 }
