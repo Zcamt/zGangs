@@ -23,16 +23,15 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 
 @CommandAlias("bk")
+@Conditions("is-player")
 public class MainCommand extends BaseCommand {
 
-    private final String permission = Permissions.PLAYER.getPermission();
     private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
     private final GangManager gangManager = ZGangs.getGangManager();
 
     @Default
     @Subcommand("help|hjælp")
     public void onHelp(Player player){
-        if(!PermissionUtil.hasPermissionWithMessage(player, permission, null)) return;
         ChatUtil.sendCenteredMessage(player, Arrays.asList(
                 "&a&l━━━━━━━ &6&lzGangs af Zcamt &a&l━━━━━━━",
                 "&a[] &f= &7valgfrit",
@@ -49,7 +48,6 @@ public class MainCommand extends BaseCommand {
     @Subcommand("create|opret")
     @Conditions("no-gang")
     public void onCreate(Player player, String[] args) {
-        if(!PermissionUtil.hasPermissionWithMessage(player, permission, null)) return;
         if(args.length != 1){
             ChatUtil.sendMessage(player, Messages.invalidUsage("/bk opret <NAVN>"));
             return;
@@ -71,7 +69,6 @@ public class MainCommand extends BaseCommand {
     @Conditions("in-gang")
     @CommandCompletion("@players")
     public void onInvite(Player player, String[] args) {
-        if(!PermissionUtil.hasPermissionWithMessage(player, permission, null)) return;
         if(args.length != 1){
             ChatUtil.sendMessage(player, Messages.invalidUsage("/bk invite <NAVN>"));
             return;
@@ -103,14 +100,12 @@ public class MainCommand extends BaseCommand {
 
     @Subcommand("menu")
     public void onDefault(Player player){
-        if(!PermissionUtil.hasPermissionWithMessage(player, permission, null)) return;
         MainGui mainGui = new MainGui(player);
         mainGui.openTo(player);
     }
 
     @CatchUnknown
     public void onUnknown(Player player){
-        if(!PermissionUtil.hasPermissionWithMessage(player, permission, null)) return;
         ChatUtil.sendMessage(player, Messages.unknownCommand);
     }
 

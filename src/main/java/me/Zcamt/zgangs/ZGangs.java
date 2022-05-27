@@ -36,6 +36,8 @@ import me.Zcamt.zgangs.objects.gangplayer.GangPlayerAdapter;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
+import me.Zcamt.zgangs.utils.PermissionUtil;
+import me.Zcamt.zgangs.utils.Permissions;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -110,6 +112,32 @@ public class ZGangs extends JavaPlugin {
             if(!gangPlayer.isInGang()){
                 ChatUtil.sendMessage(player, Messages.notInGang);
                 throw new ConditionFailedException();
+            }
+        });
+
+        commandManager.getCommandConditions().addCondition("is-player", context -> {
+            BukkitCommandIssuer issuer = context.getIssuer();
+            if(!issuer.isPlayer()) {
+                issuer.sendMessage("Kun spillere kan bruge den kommando");
+                throw new ConditionFailedException();
+            }
+            Player player = issuer.getPlayer();
+            if (!PermissionUtil.hasPermissionWithMessage(player, Permissions.PLAYER.getPermission(), null)) {
+                throw new ConditionFailedException();
+            }
+        });
+
+        commandManager.getCommandConditions().addCondition("is-admin", context -> {
+            BukkitCommandIssuer issuer = context.getIssuer();
+            if(!issuer.isPlayer()) {
+                issuer.sendMessage("Kun spillere kan bruge den kommando");
+                throw new ConditionFailedException();
+            }
+            Player player = issuer.getPlayer();
+            if(!player.isOp()) {
+                if (!PermissionUtil.hasPermissionWithMessage(player, Permissions.ADMIN.getPermission(), null)) {
+                    throw new ConditionFailedException();
+                }
             }
         });
 

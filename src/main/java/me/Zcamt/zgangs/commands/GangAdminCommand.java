@@ -2,40 +2,30 @@ package me.Zcamt.zgangs.commands;
 
 
 import co.aikar.commands.BaseCommand;
-import co.aikar.commands.annotation.CatchUnknown;
-import co.aikar.commands.annotation.CommandAlias;
-import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.*;
+import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.Permissions;
 import me.Zcamt.zgangs.utils.PermissionUtil;
 import org.bukkit.entity.Player;
 
-@CommandAlias("gangadmin")
-public class GangAdminCommand extends BaseCommand {
+import java.util.Arrays;
 
-    private final String permission = Permissions.ADMIN.getPermission();
+@CommandAlias("bandeadmin|ba")
+@Conditions("is-admin")
+public class GangAdminCommand extends BaseCommand {
 
     @Default
     @CatchUnknown
-    public void onDefault(Player player){
-        if(!PermissionUtil.hasPermissionWithMessage(player, permission, null)) return;
+    @Subcommand("help|hjælp")
+    public void onHelp(Player player){
+        ChatUtil.sendCenteredMessage(player, Arrays.asList(
+                "&a&l━━━━━━━ &6&lzGangs af Zcamt &a&l━━━━━━━",
+                "&a[] &f= &7valgfrit",
+                "&c<> &f= &7påkrævet"
+        ));
+        ChatUtil.sendMessage(player, Arrays.asList(
+                "&a/ba &f- &7Viser denne besked"
+        ));
     }
-
-    /*@Subcommand("test")
-    public void onTest(Player player){
-        if(!PermissionUtil.hasPermissionWithMessage(player, permission, null)) return;
-        GangManager gangManager = ZGangs.getGangManager();
-        int i = 0;
-        while (i < 25) {
-            UUID gangUUID = UUID.randomUUID();
-            Gang gang = new Gang(gangUUID, System.currentTimeMillis(), "gang-"+i, 1, 0, 0, 0, 0, 0,
-                    Config.defaultMaxMembers, Config.defaultMaxAllies, UUID.randomUUID(), new ArrayList<>(),
-                    new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-                    new GangPermissions(new HashMap<>()));
-            gangManager.addGangToCache(gangUUID, gang);
-            player.sendMessage("create " + gang.getName());
-            i++;
-        }
-
-    }*/
 
 }
