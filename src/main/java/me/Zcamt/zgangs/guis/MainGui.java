@@ -3,6 +3,7 @@ package me.Zcamt.zgangs.guis;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
+import me.Zcamt.zgangs.objects.gang.gangstats.GangStat;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
@@ -38,9 +39,20 @@ public class MainGui extends GUI {
         if (gangPlayer.isInGang()) {
             setItem(22, new ItemCreator(Material.PLAYER_HEAD)
                     .setName("&a&lDin bande").addLore(
-                            "&c&lBande navn: &f" + gang.getName(),
-                            "&c&lBande ejer: &f" + Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName(),
-                            "&c&lBande level: &f" + gang.getLevel(),
+                            "&c&lNavn: &f" + gang.getName(),
+                            "&c&lLevel: &f" + gang.getLevel(),
+                            "&c&lEjer: &f" + Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName(),
+                            "&c&lBank: &f" + gang.getBank(),
+                            "&c&lDrab: &f" + gang.getGangStats().getStatAmount(GangStat.KILLS),
+                            "&c&lDøde: &f" + gang.getGangStats().getStatAmount(GangStat.DEATHS),
+                            "&c&lVagt drab: &f" +
+                                    (gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A)
+                                    + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B)
+                                    + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C)),
+                            "&c&lOfficer+ drab: &f" + gang.getGangStats().getStatAmount(GangStat.OFFICER_PLUS_KILLS),
+                            "&c&lVagt drab i A: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A),
+                            "&c&lVagt drab i B: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B),
+                            "&c&lVagt drab i C: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C),
                             "&c&lBande oprettet: &f" + Utils.formatDateFromEpochMilli(gang.getCreationDateMillis())
                     ).make());
 
@@ -49,7 +61,9 @@ public class MainGui extends GUI {
             gangMembers.sort(Comparator.comparing(GangPlayer::getGangRank));
             List<String> memberLore = new ArrayList<>();
             gangMembers.forEach(gangMember ->
-                    memberLore.add("&c&l" + gangMember.getGangRank().getName() + " &f" + gangMember.getOfflinePlayer().getName())
+                    memberLore.add("&c&l" + gangMember.getGangRank().getName()
+                                    + (gangMember.getOfflinePlayer().isOnline() ? " &a●" : " &7●")
+                                    + " &f" + gangMember.getOfflinePlayer().getName() )
             );
             setItem(24, new ItemCreator(Material.PAPER)
                     .setName("&a&lMedlemmer").addLore(memberLore).make());
