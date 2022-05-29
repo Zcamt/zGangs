@@ -124,8 +124,12 @@ public class MainCommand extends BaseCommand {
             return;
         }
 
-        if(gang.getGangMembers().addGangPlayerToGang(gangPlayer)) {
-            gang.sendMessageToOnlineMembers(Messages.playerJoinedGang(player.getName()));
+        if(gang.getGangMembers().isInvited(player.getUniqueId())) {
+            if (gang.getGangMembers().addGangPlayerToGang(gangPlayer)) {
+                gang.sendMessageToOnlineMembers(Messages.playerJoinedGang(player.getName()));
+            }
+        } else {
+            ChatUtil.sendMessage(player, Messages.invalidGang);
         }
     }
 

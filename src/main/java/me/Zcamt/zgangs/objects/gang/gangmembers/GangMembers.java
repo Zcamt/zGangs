@@ -89,6 +89,14 @@ public class GangMembers {
         return memberList.size();
     }
 
+    public boolean isInvited(UUID uuid) {
+        return playerInvites.contains(uuid);
+    }
+
+    public int getInvitedCount() {
+        return playerInvites.size();
+    }
+
     public void setGang(Gang gang) {
         if(gang != null) {
             this.gang = gang;
