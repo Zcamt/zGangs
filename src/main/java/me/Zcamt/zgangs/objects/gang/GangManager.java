@@ -2,17 +2,15 @@ package me.Zcamt.zgangs.objects.gang;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
+import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
-import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import org.bson.Document;
@@ -105,7 +103,22 @@ public class GangManager {
         }
         Document gangDocument = database.getGangCollection().find(new Document("_id", uuid.toString())).first();
         if (gangDocument == null) {
-            throw new NoSuchElementException("Couldn't find gang with UUID '" + uuid + "'");
+            return null;
+            //throw new NoSuchElementException("Couldn't find gang with UUID '" + uuid + "'");
+        }
+        Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
+        addGangToCache(gang.getUUID(), gang);
+        return gang;
+    }
+
+    public Gang findByName(String name) {
+        if(name == null) {
+            return null;
+        }
+        Document gangDocument = database.getGangCollection().find(new Document("name", name)).first();
+        if (gangDocument == null) {
+            return null;
+            //throw new NoSuchElementException("Couldn't find gang with name '" + name + "'");
         }
         Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
         addGangToCache(gang.getUUID(), gang);

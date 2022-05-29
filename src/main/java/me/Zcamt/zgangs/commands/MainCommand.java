@@ -103,9 +103,29 @@ public class MainCommand extends BaseCommand {
 
         GangPlayer targetGangPlayer = gangPlayerManager.findById(offlineTarget.getUniqueId());
         if(gang.getGangMembers().addPlayerToInvites(targetGangPlayer)) {
-            ChatUtil.sendMessage(player, Config.prefix + " &aInvitation sendt til " + offlineTarget.getName());
+            ChatUtil.sendMessage(player, Config.prefix + " " + Messages.inviteSentToPlayer(offlineTarget.getName()));
         } else {
             ChatUtil.sendMessage(player, Messages.unexpectedError);
+        }
+    }
+
+    @Subcommand("accept|accepter")
+    @Conditions("no-gang")
+    public void onAccept(Player player, String[] args) {
+        if(args.length != 1){
+            ChatUtil.sendMessage(player, Messages.invalidUsage("/bk accept <BANDE>"));
+            return;
+        }
+        String targetGangName = args[0];
+        GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+        Gang gang = gangManager.findByName(targetGangName);
+        if(gang == null) {
+            ChatUtil.sendMessage(player, Messages.invalidGang);
+            return;
+        }
+
+        if(gang.getGangMembers().addGangPlayerToGang(gangPlayer)) {
+            gang.sendMessageToOnlineMembers(Messages.playerJoinedGang(player.getName()));
         }
     }
 
@@ -139,7 +159,7 @@ public class MainCommand extends BaseCommand {
         }
 
         gang.setBank(gang.getBank() + amount);
-        ChatUtil.sendMessage(player, Config.prefix + " &a&lDu har sat &c&l" + amount + " &a&lind i bandebanken");
+        ChatUtil.sendMessage(player, Config.prefix + " " + Messages.bankDeposit(amount));
     }
 
     @Subcommand("menu")

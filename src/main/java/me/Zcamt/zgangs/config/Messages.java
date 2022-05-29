@@ -23,6 +23,9 @@ public class Messages {
     public static String invalidInput;
     public static String noEnoughMoney = "&cFejl: Det har du ikke penge nok til";
     public static String unexpectedError = "&cFejl: Noget gik galt, kontakt venligst en Admin";
+    private static String inviteSentToPlayer = "&aInvitation sendt til {player}";
+    private static String bankDeposit = "&a&lDu har sat &c&l{amount} &a&lind i bandebanken";
+    private static String playerJoinedGang = "&a&l{player} er nu en del af banden";
 
     public static String invalidUsage(String usage) {
         return invalidUsage.replace("{usage}", usage);
@@ -30,6 +33,18 @@ public class Messages {
 
     public static String neededGangRank(String neededRank) {
         return neededGangRank.replace("{rank}", neededRank);
+    }
+
+    public static String inviteSentToPlayer(String playerName) {
+        return inviteSentToPlayer.replace("{player}", playerName);
+    }
+
+    public static String bankDeposit(int amount) {
+        return bankDeposit.replace("{amount}", String.valueOf(amount));
+    }
+
+    public static String playerJoinedGang(String playerName) {
+        return playerJoinedGang.replace("{player}", playerName);
     }
 
     public static void reload() {
