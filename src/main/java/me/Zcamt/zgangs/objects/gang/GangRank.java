@@ -34,9 +34,16 @@ public enum GangRank {
         return BY_ID.get(id);
     }
 
-    public static boolean higherThanOrEqual(GangRank rank1, GangRank rank2) {
-        return rank1.getID() >= rank2.getID();
-    };
+    /**
+     * Compare two ranks.
+     *
+     * @param compareTo rank to compare with
+     * @return A negative integer if the compared rank is larger than instance.
+     * 0 if they are equal and a positive integer if the compared rank smaller than instance.
+     */
+    public int compare(GangRank compareTo) {
+        return this.getID() - compareTo.getID();
+    }
 
     static {
         for(GangRank rank : values()) {

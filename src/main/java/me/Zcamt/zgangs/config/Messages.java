@@ -26,6 +26,9 @@ public class Messages {
     private static String inviteSentToPlayer = "&aInvitation sendt til {player}";
     private static String bankDeposit = "&a&lDu har sat &c&l{amount} &a&lind i bandebanken";
     private static String playerJoinedGang = "&a&l{player} er nu en del af banden";
+    public static String cantLeaveAsOwner = "&cFejl: Du kan ikke forlade en bande du ejer";
+    public static String cantDeleteGangWhileHasMembers = "&cFejl: Du skal være alene i din bande for at kunne slette den";
+    private static String playerLeftGang = "&a&l{player} har forladt banden!";
 
     public static String invalidUsage(String usage) {
         return invalidUsage.replace("{usage}", usage);
@@ -45,6 +48,10 @@ public class Messages {
 
     public static String playerJoinedGang(String playerName) {
         return playerJoinedGang.replace("{player}", playerName);
+    }
+
+    public static String playerLeftGang(String playerName) {
+        return playerLeftGang.replace("{player}", playerName);
     }
 
     public static void reload() {
