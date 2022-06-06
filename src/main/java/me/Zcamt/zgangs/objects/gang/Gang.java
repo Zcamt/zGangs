@@ -38,11 +38,11 @@ public class Gang {
     //Todo: Check that all wrapper classes saves/serializes after setting something for the gang
     private final GangStats gangStats;
     private final GangMembers gangMembers;
+    //Todo: Make sure that allies can't be marked as rivals
+    // and that rivals can't be invited to be allies aswell as rivalsagainst can't be invited to be allies
     private final GangAllies gangAllies;
     private final GangRivals gangRivals;
     private final GangPermissions gangPermissions;
-
-    //Todo: add adapters and "gang" variable to perms and itemDelivery
     private final GangItemDelivery gangItemDelivery;
 
     public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int bank,

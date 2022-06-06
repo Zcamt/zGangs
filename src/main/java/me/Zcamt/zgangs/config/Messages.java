@@ -12,7 +12,7 @@ public class Messages {
     public static YamlConfiguration config;
 
     private static String invalidUsage;
-    private static String neededGangRank = "&cFejl: Du skal være {rank} i din bande for at gøre dette";
+    private static String neededGangRank = "&cFejl: Du skal være &4{rank} &ci din bande for at gøre dette";
     public static String noPerm;
     public static String notInGang;
     public static String cantWhileInGang = "&cFejl: Det kan du ikke gøre når du er medlem af en bande";
@@ -29,6 +29,10 @@ public class Messages {
     public static String cantLeaveAsOwner = "&cFejl: Du kan ikke forlade en bande du ejer";
     public static String cantDeleteGangWhileHasMembers = "&cFejl: Du skal være alene i din bande for at kunne slette den";
     private static String playerLeftGang = "&a&l{player} har forladt banden!";
+    private static String allyInviteIncoming = "&a&lDin bande har modtaget en invitation om at blive allierede fra {gang}";
+    private static String allyInviteOutgoing = "&a&lDin bande har send en invitation om at blive allierede til {gang}";
+    private static String newRival = "&a&lDin bande har lige gjort {gang} til en rival";
+    private static String newRivalAgainst = "&a&l{gang} har lige gjort din bande til en rival";
 
     public static String invalidUsage(String usage) {
         return invalidUsage.replace("{usage}", usage);
@@ -52,6 +56,22 @@ public class Messages {
 
     public static String playerLeftGang(String playerName) {
         return playerLeftGang.replace("{player}", playerName);
+    }
+
+    public static String allyInviteIncoming(String gangName) {
+        return allyInviteIncoming.replace("{gang}", gangName);
+    }
+
+    public static String allyInviteOutgoing(String gangName) {
+        return allyInviteOutgoing.replace("{gang}", gangName);
+    }
+
+    public static String newRival(String gangName) {
+        return newRival.replace("{gang}", gangName);
+    }
+
+    public static String newRivalAgainst(String gangName) {
+        return newRivalAgainst.replace("{gang}", gangName);
     }
 
     public static void reload() {

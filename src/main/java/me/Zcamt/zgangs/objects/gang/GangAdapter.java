@@ -1,25 +1,17 @@
 package me.Zcamt.zgangs.objects.gang;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
+import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
-import me.Zcamt.zgangs.objects.gang.gangstats.GangStat;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.IOException;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class GangAdapter extends TypeAdapter<Gang> {

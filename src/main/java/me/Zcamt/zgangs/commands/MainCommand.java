@@ -12,9 +12,7 @@ import me.Zcamt.zgangs.objects.gang.GangRank;
 import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermission;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
-import me.Zcamt.zgangs.utils.Permissions;
 import me.Zcamt.zgangs.utils.ChatUtil;
-import me.Zcamt.zgangs.utils.PermissionUtil;
 import me.Zcamt.zgangs.utils.Utils;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -44,7 +42,11 @@ public class MainCommand extends BaseCommand {
                 "&a/b &f- &7Åbner bandemenuen",
                 "&a/bk hjælp &f- &7Viser denne besked",
                 "&a/bk opret <NAVN>&f- &7Opret din egen bande",
-                "&a/bk invite <SPILLER>&f- &7Inviter en spiller til din bande"
+                "&a/bk invite <SPILLER>&f- &7Inviter en spiller til din bande",
+                "&a/bk accept <BANDE>&f- &7Accepter en invitation fra en bande",
+                "&a/bk forlad <MÆNGDE>&f- &7Forlad din nuværende bande",
+                "&a/bk ally <BANDE>&f- &7Send en invitation til en anden bande om at blive allieret",
+                "&a/bk rival <BANDE>&f- &7Gør en anden bande til rival"
         ));
     }
 
@@ -188,6 +190,50 @@ public class MainCommand extends BaseCommand {
         } else {
             ChatUtil.sendMessage(player, Messages.unexpectedError);
         }
+    }
+
+    @Subcommand("ally")
+    @Conditions("in-gang")
+    public void onAlly(Player player, String[] args) {
+        if(args.length != 1){
+            ChatUtil.sendMessage(player, Messages.invalidUsage("/bk ally <BANDE>"));
+            return;
+        }
+        String targetGangName = args[0];
+        GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+        Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
+        Gang targetGang = gangManager.findByName(targetGangName);
+
+        if(playerGang.getGangAllies().addAllyInviteOutgoing(targetGang)) {
+            playerGang.sendMessageToOnlineMembers(Messages.allyInviteOutgoing(targetGang.getName()));
+            targetGang.sendMessageToOnlineMembers(Messages.allyInviteIncoming(playerGang.getName()));
+        } else {
+            //Todo: Bliver også sendt når banden allerede har modtaget en ally invite, måske en ny slags fejlbesked eller et ekstra tjek ovenover
+            ChatUtil.sendMessage(player, Messages.unexpectedError);
+        }
+
+    }
+
+    @Subcommand("rival")
+    @Conditions("in-gang")
+    public void onRival(Player player, String[] args) {
+        if(args.length != 1){
+            ChatUtil.sendMessage(player, Messages.invalidUsage("/bk rival <BANDE>"));
+            return;
+        }
+        String targetGangName = args[0];
+        GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+        Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
+        Gang targetGang = gangManager.findByName(targetGangName);
+
+        if(playerGang.getGangRivals().addRival(targetGang)) {
+            playerGang.sendMessageToOnlineMembers(Messages.allyInviteOutgoing(targetGang.getName()));
+            targetGang.sendMessageToOnlineMembers(Messages.allyInviteIncoming(playerGang.getName()));
+        } else {
+            //Todo: Bliver også sendt når banden allerede er markeret som rival, måske en ny slags fejlbesked eller et ekstra tjek ovenover
+            ChatUtil.sendMessage(player, Messages.unexpectedError);
+        }
+
     }
 
     @Subcommand("menu")
