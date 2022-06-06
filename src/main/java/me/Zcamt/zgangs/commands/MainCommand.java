@@ -131,6 +131,7 @@ public class MainCommand extends BaseCommand {
                 gang.sendMessageToOnlineMembers(Messages.playerJoinedGang(player.getName()));
             }
         } else {
+            //Todo: Bliver også sendt når spilleren allerede har modtaget en invite, måske en ny slags fejlbesked eller et ekstra tjek ovenover
             ChatUtil.sendMessage(player, Messages.invalidGang);
         }
     }
