@@ -44,7 +44,8 @@ public class MainCommand extends BaseCommand {
                 "&a/bk opret <NAVN>&f- &7Opret din egen bande",
                 "&a/bk invite <SPILLER>&f- &7Inviter en spiller til din bande",
                 "&a/bk accept <BANDE>&f- &7Accepter en invitation fra en bande",
-                "&a/bk forlad <MÆNGDE>&f- &7Forlad din nuværende bande",
+                "&a/bk forlad &f- &7Forlad din nuværende bande",
+                "&a/bk bank <MÆNGDE> &f- &7Sæt penge ind i bandebanken",
                 "&a/bk ally <BANDE>&f- &7Send en invitation til en anden bande om at blive allieret",
                 "&a/bk rival <BANDE>&f- &7Gør en anden bande til rival"
         ));
@@ -137,6 +138,30 @@ public class MainCommand extends BaseCommand {
         }
     }
 
+    @Subcommand("forlad|leave")
+    @Conditions("in-gang")
+    public void onLeave(Player player, String[] args) {
+        if(args.length != 0){
+            ChatUtil.sendMessage(player, Messages.invalidUsage("/bk forlad"));
+            return;
+        }
+
+        GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+        Gang gang = gangManager.findById(gangPlayer.getGangUUID());
+
+        if(gangPlayer.getGangRank().compare(GangRank.OWNER) >= 0) {
+            ChatUtil.sendMessage(player, Messages.cantLeaveAsOwner);
+            return;
+        }
+
+        if(gang.getGangMembers().removeGangPlayerFromGang(gangPlayer)) {
+            gang.sendMessageToOnlineMembers(Messages.playerLeftGang(player.getName()));
+            ChatUtil.sendMessage(player, Config.prefix + " &a&lDu har forladt din bande");
+        } else {
+            ChatUtil.sendMessage(player, Messages.unexpectedError);
+        }
+    }
+
     @Subcommand("bank")
     @Conditions("in-gang")
     public void onDeposit(Player player, String[] args) {
@@ -168,30 +193,6 @@ public class MainCommand extends BaseCommand {
 
         gang.setBank(gang.getBank() + amount);
         ChatUtil.sendMessage(player, Config.prefix + " " + Messages.bankDeposit(amount));
-    }
-
-    @Subcommand("forlad|leave")
-    @Conditions("in-gang")
-    public void onLeave(Player player, String[] args) {
-        if(args.length != 0){
-            ChatUtil.sendMessage(player, Messages.invalidUsage("/bk forlad"));
-            return;
-        }
-
-        GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
-        Gang gang = gangManager.findById(gangPlayer.getGangUUID());
-
-        if(gangPlayer.getGangRank().compare(GangRank.OWNER) >= 0) {
-            ChatUtil.sendMessage(player, Messages.cantLeaveAsOwner);
-            return;
-        }
-
-        if(gang.getGangMembers().removeGangPlayerFromGang(gangPlayer)) {
-            gang.sendMessageToOnlineMembers(Messages.playerLeftGang(player.getName()));
-            ChatUtil.sendMessage(player, Config.prefix + " &a&lDu har forladt din bande");
-        } else {
-            ChatUtil.sendMessage(player, Messages.unexpectedError);
-        }
     }
 
     @Subcommand("ally")
