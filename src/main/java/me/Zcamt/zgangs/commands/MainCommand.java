@@ -107,6 +107,7 @@ public class MainCommand extends BaseCommand {
         if(gang.getGangMembers().addPlayerToInvites(targetGangPlayer)) {
             ChatUtil.sendMessage(player, Config.prefix + " " + Messages.inviteSentToPlayer(offlineTarget.getName()));
         } else {
+            //Todo: Bliver også sendt når spilleren allerede har modtaget en invite, måske en ny slags fejlbesked eller et ekstra tjek ovenover
             ChatUtil.sendMessage(player, Messages.unexpectedError);
         }
     }
@@ -131,7 +132,7 @@ public class MainCommand extends BaseCommand {
                 gang.sendMessageToOnlineMembers(Messages.playerJoinedGang(player.getName()));
             }
         } else {
-            //Todo: Bliver også sendt når spilleren allerede har modtaget en invite, måske en ny slags fejlbesked eller et ekstra tjek ovenover
+            //Todo: Måske lav en anden besked så spilleren ved at de ikke har modtaget en invitation fra banden i stedet for at kalde den invalid
             ChatUtil.sendMessage(player, Messages.invalidGang);
         }
     }
