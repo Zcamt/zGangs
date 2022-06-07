@@ -5,7 +5,8 @@ import co.aikar.commands.annotation.*;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.config.Messages;
-import me.Zcamt.zgangs.guis.MainGui;
+import me.Zcamt.zgangs.guis.GangInfoGui;
+import me.Zcamt.zgangs.guis.NoGangGui;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.objects.gang.GangRank;
@@ -239,10 +240,19 @@ public class MainCommand extends BaseCommand {
 
     }
 
+    //Todo: info command
+
     @Subcommand("menu")
     public void onDefault(Player player){
-        MainGui mainGui = new MainGui(player);
-        mainGui.openTo(player);
+        GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+        if (gangPlayer.isInGang()) {
+            Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
+            GangInfoGui gangInfoGui = new GangInfoGui(player, playerGang);
+            gangInfoGui.openTo(player);
+        } else {
+            NoGangGui noGangGui = new NoGangGui(player);
+            noGangGui.openTo(player);
+        }
     }
 
     @CatchUnknown

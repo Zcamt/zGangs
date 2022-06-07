@@ -10,6 +10,7 @@ public class GangRivals {
     private Gang gang;
     private final List<UUID> rivalGangs;
     private final List<UUID> rivalGangsAgainst;
+    private final int maxRivals = 5;
 
     public GangRivals(List<UUID> rivalGangs, List<UUID> rivalGangsAgainst) {
         this.rivalGangs = rivalGangs;
@@ -18,6 +19,7 @@ public class GangRivals {
 
     public boolean addRival(Gang rival) {
         if (rivalGangs.contains(rival.getUUID())) return false;
+        if (rivalGangs.size() + 1 >= maxRivals) return false;
 
         rivalGangs.add(rival.getUUID());
         rival.getGangRivals().addRivalAgainst(gang);
@@ -38,7 +40,6 @@ public class GangRivals {
         if (rivalGangsAgainst.contains(rival.getUUID())) return false;
 
         rivalGangsAgainst.add(rival.getUUID());
-        rival.getGangRivals().addRival(gang);
         gang.serialize();
         return true;
     }
@@ -67,6 +68,14 @@ public class GangRivals {
 
     public List<UUID> getRivalGangsAgainst() {
         return Collections.unmodifiableList(rivalGangsAgainst);
+    }
+
+    public int getRivalCount() {
+        return rivalGangs.size();
+    }
+
+    public int getMaxRivals() {
+        return maxRivals;
     }
 
     public void setGang(Gang gang) {

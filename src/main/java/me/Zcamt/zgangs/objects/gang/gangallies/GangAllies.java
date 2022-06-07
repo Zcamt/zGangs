@@ -103,6 +103,10 @@ public class GangAllies {
         return alliedGangInvitesOutgoing.contains(uuid);
     }
 
+    public int getAllyCount() {
+        return alliedGangs.size();
+    }
+
     public int getMaxAllies() {
         return maxAllies;
     }
