@@ -3,6 +3,10 @@ package me.Zcamt.zgangs.guis;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
+import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevel;
+import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
+import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelRequirement;
+import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelRequirementType;
 import me.Zcamt.zgangs.objects.gang.gangstats.GangStat;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
@@ -14,7 +18,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -26,6 +29,7 @@ public class GangInfoGui extends GUI {
     private final GangPlayer gangPlayer;
     private final GangManager gangManager = ZGangs.getGangManager();
     private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
+    private final GangLevelManager gangLevelManager = ZGangs.getGangLevelManager();
 
     public GangInfoGui(Player player, Gang playerGang) {
         super(54, ChatUtil.CC("&c&lDin bande " + playerGang.getName()));
@@ -38,7 +42,7 @@ public class GangInfoGui extends GUI {
 
         if (gangPlayer.isInGang()) {
             //Gang info
-            setItem(22, new ItemCreator(Material.PLAYER_HEAD)
+            setItem(22, new ItemCreator(Material.BOOK)
                     .setName("&a&lDin bande").addLore(
                             "&c&lNavn: &f" + gang.getName(),
                             "&c&lLevel: &f" + gang.getLevel(),
@@ -67,7 +71,7 @@ public class GangInfoGui extends GUI {
                                     + (gangMember.getOfflinePlayer().isOnline() ? " &a●" : " &7●")
                                     + " &f" + gangMember.getOfflinePlayer().getName() )
             );
-            setItem(24, new ItemCreator(Material.PAPER)
+            setItem(24, new ItemCreator(Material.PLAYER_HEAD).setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName())
                     .setName("&a&lMedlemmer").addLore(memberLore).make());
 
             //Limits
@@ -87,24 +91,50 @@ public class GangInfoGui extends GUI {
             List<String> alliedGangs = new ArrayList<>();
             gang.getGangAllies().getAlliedGangs().forEach(allyUUID ->
                     alliedGangs.add("&7- &a" + gangManager.findById(allyUUID).getName()));
-            setItem(20, new ItemCreator(Material.GREEN_BANNER)
+            setItem(30, new ItemCreator(Material.GREEN_BANNER)
                     .setName("&a&lAllierede")
                     .addLore(alliedGangs)
                     .make());
 
             //Rivals
             List<String> rivalGangs = new ArrayList<>();
-            gang.getGangRivals().getRivalGangs().forEach(rivalUUID ->
-                    rivalGangs.add("&7- &c" + gangManager.findById(rivalUUID).getName()));
+            if(gang.getGangRivals().getRivalCount() > 0) {
+                gang.getGangRivals().getRivalGangs().forEach(rivalUUID ->
+                        rivalGangs.add("&7- &c" + gangManager.findById(rivalUUID).getName()));
+            } else {
+                rivalGangs.add("&7I har ingen rivaler");
+            }
             rivalGangs.add("");
             rivalGangs.add("&a&lRivaler mod jer");
-            setItem(20, new ItemCreator(Material.RED_BANNER)
+            if(gang.getGangRivals().getRivalAgainstCount() > 0) {
+                gang.getGangRivals().getRivalGangsAgainst().forEach(rivalAgainstUUID ->
+                        rivalGangs.add("&7- &c" + gangManager.findById(rivalAgainstUUID).getName()));
+            } else {
+                rivalGangs.add("&7I har ingen rivaler imod jer");
+            }
+            setItem(32, new ItemCreator(Material.RED_BANNER)
                     .setName("&a&lRivaler")
                     .addLore(rivalGangs)
                     .make());
 
             //Level-up
             List<String> levelUpLore = new ArrayList<>();
+            GangLevel nextGangLevel = gangLevelManager.getGangLevelFromInt(gang.getLevel()+1);
+            for (GangLevelRequirement requirement : nextGangLevel.getGangLevelRequirements().getRequirements()) {
+                int requirementAmount = requirement.getAmount();
+                GangLevelRequirementType requirementType = requirement.getRequirementType();
+                boolean requirementMet = requirement.requirementMet(gang);
+
+                levelUpLore.add((requirementMet ? " &a✓" : " &c✘")
+                        + " &7" + requirement.getRequirementType().getDescription() +
+                        " ["+requirement.getProgress(gang)+"/"+requirement.getAmount()+"]");
+
+            }
+            setItem(20, new ItemCreator(Material.NETHER_STAR)
+                    .setName("&a&lLevel op")
+                    .addLore(levelUpLore)
+                    .make());
+
 
         } else {
             setItem(22, new ItemCreator(Material.PLAYER_HEAD)

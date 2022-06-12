@@ -11,12 +11,14 @@ import java.util.UUID;
 public class GangAllies {
     private Gang gang;
     private int maxAllies;
+    private int allyDamagePercent;
     private final List<UUID> alliedGangs;
     private final List<UUID> alliedGangInvitesIncoming;
     private final List<UUID> alliedGangInvitesOutgoing;
 
-    public GangAllies(int maxAllies, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing) {
+    public GangAllies(int maxAllies, int allyDamagePercent, List<UUID> alliedGangs, List<UUID> alliedGangInvitesIncoming, List<UUID> alliedGangInvitesOutgoing) {
         this.maxAllies = maxAllies;
+        this.allyDamagePercent = allyDamagePercent;
         this.alliedGangs = alliedGangs;
         this.alliedGangInvitesIncoming = alliedGangInvitesIncoming;
         this.alliedGangInvitesOutgoing = alliedGangInvitesOutgoing;
@@ -83,6 +85,16 @@ public class GangAllies {
         gang.serialize();
     }
 
+    public void setAllyDamagePercent(int allyDamagePercent) {
+        if(allyDamagePercent > 100) {
+            allyDamagePercent = 100;
+        } else if(allyDamagePercent < 0) {
+            allyDamagePercent = 0;
+        }
+        this.allyDamagePercent = allyDamagePercent;
+        gang.serialize();
+    }
+
     public void setGang(Gang gang) {
         if(gang != null) {
             this.gang = gang;
@@ -109,6 +121,10 @@ public class GangAllies {
 
     public int getMaxAllies() {
         return maxAllies;
+    }
+
+    public int getAllyDamagePercent() {
+        return allyDamagePercent;
     }
 
     public List<UUID> getAlliedGangs() {

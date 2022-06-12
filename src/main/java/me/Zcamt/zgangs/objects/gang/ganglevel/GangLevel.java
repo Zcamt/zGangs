@@ -1,10 +1,7 @@
 package me.Zcamt.zgangs.objects.gang.ganglevel;
 
 import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gang.gangitem.GangDeliveryItem;
-import me.Zcamt.zgangs.objects.gang.gangstats.GangStat;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class GangLevel {
@@ -12,17 +9,21 @@ public class GangLevel {
     private final int level;
     private final int maxMemberLimit;
     private final int maxAllyLimit;
+    private final int gangDamageLimit;
+    private final int allyDamageLimit;
     private final boolean gangAreaCPurchaseable;
     private final boolean gangAreaBPurchaseable;
     private final boolean gangAreaAPurchaseable;
     private final List<String> newFeaturesForLevel;
     private final GangLevelRequirements gangLevelRequirements;
     public GangLevel(int level, int maxMemberLimit, int maxAllyLimit,
-                     boolean gangAreaCPurchaseable, boolean gangAreaBPurchaseable, boolean gangAreaAPurchaseable,
+                     int gangDamageLimit, int allyDamageLimit, boolean gangAreaCPurchaseable, boolean gangAreaBPurchaseable, boolean gangAreaAPurchaseable,
                      List<String> newFeaturesForLevel, GangLevelRequirements gangLevelRequirements) {
         this.level = level;
         this.maxMemberLimit = maxMemberLimit;
         this.maxAllyLimit = maxAllyLimit;
+        this.gangDamageLimit = gangDamageLimit;
+        this.allyDamageLimit = allyDamageLimit;
         this.gangAreaCPurchaseable = gangAreaCPurchaseable;
         this.gangAreaBPurchaseable = gangAreaBPurchaseable;
         this.gangAreaAPurchaseable = gangAreaAPurchaseable;
@@ -35,42 +36,8 @@ public class GangLevel {
         if(this.level == 1) {
             return false;
         }
-        for (GangLevelRequirement requirement : gangLevelRequirements.getRequirements()){
-            GangLevelRequirementType requirementType = requirement.getRequirementType();
-            switch (requirementType) {
-                case KILLS -> {
-                    if(gang.getGangStats().getStatAmount(GangStat.KILLS) < requirement.getAmount()){
-                        return false;
-                    }
-                }
-                case ALLY_COUNT -> {
-                    if(gang.getGangAllies().getAlliedGangs().size() < requirement.getAmount()){
-                        return false;
-                    }
-                }
-                case BANK_BALANCE -> {
-                    if(gang.getBank() < requirement.getAmount()){
-                        return false;
-                    }
-                }
-                case MEMBER_COUNT -> {
-                    if(gang.getGangMembers().getMemberList().size() < requirement.getAmount()){
-                        return false;
-                    }
-                }
-                case DELIVER_CIGS -> {
-                    if(gang.getGangItemDelivery().
-                            getDeliveryAmount(GangDeliveryItem.CIG) < requirement.getAmount()){
-                        return false;
-                    }
-                }
-                case DELIVER_BREAD -> {
-                    if(gang.getGangItemDelivery().
-                            getDeliveryAmount(GangDeliveryItem.BREAD) < requirement.getAmount()){
-                        return false;
-                    }
-                }
-            }
+        for (GangLevelRequirement requirement : gangLevelRequirements.getRequirements()) {
+            return requirement.requirementMet(gang);
         }
         return true;
     }
@@ -85,6 +52,14 @@ public class GangLevel {
 
     public int getMaxAllyLimit() {
         return maxAllyLimit;
+    }
+
+    public int getGangDamageLimit() {
+        return gangDamageLimit;
+    }
+
+    public int getAllyDamageLimit() {
+        return allyDamageLimit;
     }
 
     public boolean isGangAreaCPurchaseable() {

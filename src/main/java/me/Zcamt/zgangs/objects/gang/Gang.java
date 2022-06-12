@@ -32,7 +32,7 @@ public class Gang {
     private UUID ownerUUID;
     private final long creationDateMillis;
     private String name;
-    private int level; //Todo: Could change to GangLevel object
+    private int level;
     private int bank;
 
     //Todo: Check that all wrapper classes saves/serializes after setting something for the gang
@@ -44,6 +44,7 @@ public class Gang {
     private final GangRivals gangRivals;
     private final GangPermissions gangPermissions;
     private final GangItemDelivery gangItemDelivery;
+    //Todo: Add area access
 
     public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int bank,
                 GangStats gangStats,

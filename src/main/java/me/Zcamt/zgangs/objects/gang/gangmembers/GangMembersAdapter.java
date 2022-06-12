@@ -14,6 +14,7 @@ public class GangMembersAdapter extends TypeAdapter<GangMembers> {
     public void write(JsonWriter writer, GangMembers gangMembers) throws IOException {
         writer.beginObject();
         writer.name("maxMembers").value(gangMembers.getMaxMembers());
+        writer.name("memberDamagePercent").value(gangMembers.getMemberDamagePercent());
         writer.name("memberList").value(ConversionUtil.uuidListToString(gangMembers.getMemberList()));
         writer.name("playerInvites").value(ConversionUtil.uuidListToString(gangMembers.getPlayerInvites()));
         writer.endObject();
@@ -22,19 +23,21 @@ public class GangMembersAdapter extends TypeAdapter<GangMembers> {
     @Override
     public GangMembers read(JsonReader reader) throws IOException {
         int maxMembers = 0;
+        int memberDamagePercent = 100;
         List<UUID> memberList = null;
         List<UUID> playerInvites = null;
         reader.beginObject();
         while (reader.hasNext()) {
             switch (reader.nextName()) {
                 case "maxMembers" -> maxMembers = reader.nextInt();
+                case "memberDamagePercent" -> memberDamagePercent = reader.nextInt();
                 case "memberList" -> memberList = ConversionUtil.uuidListFromString(reader.nextString());
                 case "playerInvites" -> playerInvites = ConversionUtil.uuidListFromString(reader.nextString());
             }
         }
 
         //Todo: Maybe check for any variables being null
-        GangMembers gangMembers = new GangMembers(maxMembers, memberList, playerInvites);
+        GangMembers gangMembers = new GangMembers(maxMembers, memberDamagePercent, memberList, playerInvites);
         reader.endObject();
         return gangMembers;
     }

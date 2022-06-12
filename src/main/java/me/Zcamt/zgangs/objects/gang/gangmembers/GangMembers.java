@@ -11,11 +11,13 @@ import java.util.UUID;
 public class GangMembers {
     private Gang gang;
     private int maxMembers;
+    private int memberDamagePercent;
     private final List<UUID> memberList;
     private final List<UUID> playerInvites;
 
-    public GangMembers(int maxMembers, List<UUID> memberList, List<UUID> playerInvites) {
+    public GangMembers(int maxMembers, int memberDamagePercent, List<UUID> memberList, List<UUID> playerInvites) {
         this.maxMembers = maxMembers;
+        this.memberDamagePercent = memberDamagePercent;
         this.memberList = memberList;
         this.playerInvites = playerInvites;
     }
@@ -63,6 +65,21 @@ public class GangMembers {
         return true;
     }
 
+    public void setMaxMembers(int maxMembers) {
+        this.maxMembers = maxMembers;
+        gang.serialize();
+    }
+
+    public void setMemberDamagePercent(int memberDamagePercent) {
+        if(memberDamagePercent > 100) {
+            memberDamagePercent = 100;
+        } else if(memberDamagePercent < 0) {
+            memberDamagePercent = 0;
+        }
+        this.memberDamagePercent = memberDamagePercent;
+        gang.serialize();
+    }
+
 
     public List<UUID> getMemberList() {
         return Collections.unmodifiableList(memberList);
@@ -76,9 +93,8 @@ public class GangMembers {
         return maxMembers;
     }
 
-    public void setMaxMembers(int maxMembers) {
-        this.maxMembers = maxMembers;
-        gang.serialize();
+    public int getMemberDamagePercent() {
+        return memberDamagePercent;
     }
 
     public boolean isMember(UUID uuid) {

@@ -27,11 +27,15 @@ public class MainGui extends GUI{
         this.gang = playerGang;
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
 
-        setItem(49, new ItemCreator(Material.BARRIER).setName("&cLuk").make());
 
-        //Info
+        setItem(20, new ItemCreator(Material.PLAYER_HEAD).setName("&a&lDin bande").make());
+        setItem(24, new ItemCreator(Material.BOOK).setName("&6&lHjælp og leaderboards").make());
+
+        setItem(47, new ItemCreator(Material.BARRIER).setName("&cPersonlige indstillinger").make());
+        setItem(51, new ItemCreator(Material.REDSTONE_TORCH).setName("&cBande indstillinger").make());
+        setItem(49, new ItemCreator(Material.REDSTONE_TORCH).setName("&cLuk").make());
+
         //Butik
-        //Hjælp + leaderboard
         //MOTD?
 
         //Personlige settings

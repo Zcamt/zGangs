@@ -74,6 +74,10 @@ public class GangRivals {
         return rivalGangs.size();
     }
 
+    public int getRivalAgainstCount() {
+        return rivalGangsAgainst.size();
+    }
+
     public int getMaxRivals() {
         return maxRivals;
     }

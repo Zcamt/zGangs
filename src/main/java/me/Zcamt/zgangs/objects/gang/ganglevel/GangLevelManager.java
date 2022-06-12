@@ -1,7 +1,5 @@
 package me.Zcamt.zgangs.objects.gang.ganglevel;
 
-import me.Zcamt.zgangs.config.Config;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,7 +12,7 @@ public class GangLevelManager {
     public GangLevelManager() {
         gangLevels.put(1, new GangLevel(
                 1, 3, 1,
-                false, false, false,
+                100, 100, false, false, false,
                 Arrays.asList(
                 "Adgang til 3 medlemmer og 1 allieret fra start"),
                 new GangLevelRequirements())
@@ -22,10 +20,11 @@ public class GangLevelManager {
 
         gangLevels.put(2, new GangLevel(
                 2, 4, 2,
-                false, false, false,
+                95, 100, false, false, false,
                 Arrays.asList(
                         "Køb adgang op til 4 medlemmer",
-                        "Køb adgang op til 2 allierede"),
+                        "Køb adgang op til 2 allierede",
+                        "Nedset bandeskade til 95%"),
                 new GangLevelRequirements(
                         new GangLevelRequirement(GangLevelRequirementType.BANK_BALANCE, 5000),
                         new GangLevelRequirement(GangLevelRequirementType.MEMBER_COUNT, 2)

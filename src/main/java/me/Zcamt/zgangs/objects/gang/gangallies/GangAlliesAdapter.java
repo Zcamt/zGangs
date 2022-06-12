@@ -15,6 +15,7 @@ public class GangAlliesAdapter extends TypeAdapter<GangAllies> {
     public void write(JsonWriter writer, GangAllies gangAllies) throws IOException {
         writer.beginObject();
         writer.name("maxAllies").value(gangAllies.getMaxAllies());
+        writer.name("allyDamagePercent").value(gangAllies.getAllyDamagePercent());
         writer.name("alliedGangs").value(ConversionUtil.uuidListToString(gangAllies.getAlliedGangs()));
         writer.name("alliedGangInvitesIncoming").value(ConversionUtil.uuidListToString(gangAllies.getAlliedGangInvitesIncoming()));
         writer.name("alliedGangInvitesOutgoing").value(ConversionUtil.uuidListToString(gangAllies.getAlliedGangInvitesIncoming()));
@@ -24,6 +25,7 @@ public class GangAlliesAdapter extends TypeAdapter<GangAllies> {
     @Override
     public GangAllies read(JsonReader reader) throws IOException {
         int maxAllies = 0;
+        int allyDamagePercent = 100;
         List<UUID> alliedGangs = null;
         List<UUID> alliedGangInvitesIncoming = null;
         List<UUID> alliedGangInvitesOutgoing = null;
@@ -31,6 +33,7 @@ public class GangAlliesAdapter extends TypeAdapter<GangAllies> {
         while (reader.hasNext()) {
             switch (reader.nextName()) {
                 case "maxAllies" -> maxAllies = reader.nextInt();
+                case "allyDamagePercent" -> allyDamagePercent = reader.nextInt();
                 case "alliedGangs" -> alliedGangs = ConversionUtil.uuidListFromString(reader.nextString());
                 case "alliedGangInvitesIncoming" -> alliedGangInvitesIncoming = ConversionUtil.uuidListFromString(reader.nextString());
                 case "alliedGangInvitesOutgoing" -> alliedGangInvitesOutgoing = ConversionUtil.uuidListFromString(reader.nextString());
@@ -38,7 +41,7 @@ public class GangAlliesAdapter extends TypeAdapter<GangAllies> {
         }
 
         //Todo: Maybe check for any variables being null
-        GangAllies gangAllies = new GangAllies(maxAllies, alliedGangs, alliedGangInvitesIncoming, alliedGangInvitesOutgoing);
+        GangAllies gangAllies = new GangAllies(maxAllies, allyDamagePercent, alliedGangs, alliedGangInvitesIncoming, alliedGangInvitesOutgoing);
         reader.endObject();
         return gangAllies;
     }
