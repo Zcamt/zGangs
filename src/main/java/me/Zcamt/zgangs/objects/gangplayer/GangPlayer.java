@@ -21,6 +21,7 @@ public class GangPlayer {
     private @Nullable UUID gangUUID;
     private GangRank gangRank;
     private List<UUID> gangInvites;
+    //Todo: GangPlayerSettings
 
     public GangPlayer(UUID uuid, @Nullable UUID gangUUID, GangRank gangRank, List<UUID> gangInvites) {
         this.uuid = uuid;
