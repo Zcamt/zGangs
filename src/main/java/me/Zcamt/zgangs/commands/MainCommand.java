@@ -5,6 +5,7 @@ import co.aikar.commands.annotation.*;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.config.Messages;
+import me.Zcamt.zgangs.guis.ExternalGangGui;
 import me.Zcamt.zgangs.guis.GangInfoGui;
 import me.Zcamt.zgangs.guis.NoGangGui;
 import me.Zcamt.zgangs.objects.gang.Gang;
@@ -48,7 +49,8 @@ public class MainCommand extends BaseCommand {
                 "&a/bk forlad &f- &7Forlad din nuværende bande",
                 "&a/bk bank <MÆNGDE> &f- &7Sæt penge ind i bandebanken",
                 "&a/bk ally <BANDE>&f- &7Send en invitation til en anden bande om at blive allieret",
-                "&a/bk rival <BANDE>&f- &7Gør en anden bande til rival"
+                "&a/bk rival <BANDE>&f- &7Gør en anden bande til rival",
+                "&a/bk info <BANDE>&f- &7Se information på en anden bande"
         ));
     }
 
@@ -240,7 +242,21 @@ public class MainCommand extends BaseCommand {
 
     }
 
-    //Todo: info command
+    @Subcommand("info")
+    public void onInfo(Player player, String[] args) {
+        if(args.length != 1){
+            ChatUtil.sendMessage(player, Messages.invalidUsage("/bk info <BANDE>"));
+            return;
+        }
+        String targetGangName = args[0];
+        Gang targetGang = gangManager.findByName(targetGangName);
+        if(targetGang == null) {
+            ChatUtil.sendMessage(player, Messages.invalidGang);
+            return;
+        }
+        ExternalGangGui externalGangGui = new ExternalGangGui(player, targetGang);
+        externalGangGui.openTo(player);
+    }
 
     @Subcommand("menu")
     public void onDefault(Player player){

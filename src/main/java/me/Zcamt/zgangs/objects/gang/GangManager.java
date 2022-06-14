@@ -3,6 +3,8 @@ package me.Zcamt.zgangs.objects.gang;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.RemovalListener;
+import com.mongodb.client.model.Collation;
+import com.mongodb.client.model.CollationStrength;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
@@ -49,8 +51,8 @@ public class GangManager {
 
         Gang gang = new Gang(uuid, gangOwner.getUUID(), System.currentTimeMillis(), name, 1, 0,
                 new GangStats(new HashMap<>()),
-                new GangMembers(memberLimitForLvl1, memberList, new ArrayList<>()),
-                new GangAllies(allyLimitForLvl1, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
+                new GangMembers(memberLimitForLvl1, 100, memberList, new ArrayList<>()),
+                new GangAllies(allyLimitForLvl1, 100, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
                 new GangRivals(new ArrayList<>(), new ArrayList<>()),
                 new GangPermissions(new HashMap<>()),
                 new GangItemDelivery(new HashMap<>()));
@@ -115,7 +117,9 @@ public class GangManager {
         if(name == null) {
             return null;
         }
-        Document gangDocument = database.getGangCollection().find(new Document("name", name)).first();
+        Document gangDocument = database.getGangCollection().find(new Document("name", name))
+                .collation(Collation.builder().locale("en").collationStrength(CollationStrength.PRIMARY).build())
+                .first();
         if (gangDocument == null) {
             return null;
             //throw new NoSuchElementException("Couldn't find gang with name '" + name + "'");
@@ -135,8 +139,7 @@ public class GangManager {
     }
 
     public boolean nameExistsInDatabase(String name) {
-        long count = database.getGangCollection().countDocuments(new Document("name", name));
-        return count > 0;
+        return findByName(name) != null;
     }
 
     private boolean isIdInCache(UUID uuid) {

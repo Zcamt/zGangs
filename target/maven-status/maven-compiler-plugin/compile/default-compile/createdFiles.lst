@@ -42,6 +42,7 @@ me\Zcamt\zgangs\database\Database.class
 me\Zcamt\zgangs\utils\DefaultFontInfo.class
 me\Zcamt\zgangs\chatinput\ChatInput.class
 me\Zcamt\zgangs\objects\leaderboard\Leaderboard.class
+me\Zcamt\zgangs\guis\ExternalGangGui.class
 me\Zcamt\zgangs\listeners\PlayerListener.class
 me\Zcamt\zgangs\objects\gang\gangitem\GangItemDeliveryAdapter.class
 me\Zcamt\zgangs\utils\Utils.class
@@ -67,5 +68,6 @@ me\Zcamt\zgangs\objects\gang\ganglevel\GangLevelRequirement$1.class
 me\Zcamt\zgangs\chatinput\ChatIntegerInput.class
 me\Zcamt\zgangs\objects\leaderboard\LeaderboardManager.class
 me\Zcamt\zgangs\utils\PermissionUtil.class
+me\Zcamt\zgangs\guis\ExternalGangGui$1.class
 me\Zcamt\zgangs\objects\gang\gangrivals\GangRivalsAdapter.class
 me\Zcamt\zgangs\utils\ConversionUtil.class

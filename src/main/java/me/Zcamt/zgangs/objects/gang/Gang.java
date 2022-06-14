@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Gang {
-    //Todo: Add MOTD, could/should be a wrapper like class
+    //Todo: Add MOTD, should be a wrapper class
 
     //Could make this into a gang info wrapper
     private final UUID uuid;

@@ -58,7 +58,7 @@ public class GangInfoGui extends GUI {
                             "&c&lVagt drab i A: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A),
                             "&c&lVagt drab i B: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B),
                             "&c&lVagt drab i C: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C),
-                            "&c&lBande oprettet: &f" + Utils.formatDateFromEpochMilli(gang.getCreationDateMillis())
+                            "&c&lOprettet: &f" + Utils.formatDateFromEpochMilli(gang.getCreationDateMillis())
                     ).make());
 
             //Members
