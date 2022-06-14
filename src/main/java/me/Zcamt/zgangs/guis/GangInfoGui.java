@@ -38,7 +38,7 @@ public class GangInfoGui extends GUI {
         this.gang = playerGang;
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
 
-        setItem(49, new ItemCreator(Material.BARRIER).setName("&cLuk").make());
+        setItem(49, new ItemCreator(Material.BARRIER).setName("&cTilbage").make());
 
         if (gangPlayer.isInGang()) {
             //Gang info
@@ -122,12 +122,13 @@ public class GangInfoGui extends GUI {
             GangLevel nextGangLevel = gangLevelManager.getGangLevelFromInt(gang.getLevel()+1);
             for (GangLevelRequirement requirement : nextGangLevel.getGangLevelRequirements().getRequirements()) {
                 int requirementAmount = requirement.getAmount();
-                GangLevelRequirementType requirementType = requirement.getRequirementType();
+                int requirementProgress = requirement.getProgress(gang);
+                String requirementDescription = requirement.getRequirementType().getDescription();;
                 boolean requirementMet = requirement.requirementMet(gang);
 
                 levelUpLore.add((requirementMet ? " &a✓" : " &c✘")
-                        + " &7" + requirement.getRequirementType().getDescription() +
-                        " ["+requirement.getProgress(gang)+"/"+requirement.getAmount()+"]");
+                        + " &7" + requirementDescription
+                        + " ["+requirementProgress+"/"+requirementAmount+"]");
 
             }
             setItem(20, new ItemCreator(Material.NETHER_STAR)
@@ -140,7 +141,7 @@ public class GangInfoGui extends GUI {
             setItem(22, new ItemCreator(Material.PLAYER_HEAD)
                     .setName("&a&lUventet fejl...").addLore(
                             "&cDet lader til at du er blevet vist en forkert menu.",
-                            "&cKontakt venligst en admin!"
+                            "&cKontakt venligst en admin hvis dette bliver ved!"
                     ).make());
         }
     }
@@ -151,7 +152,11 @@ public class GangInfoGui extends GUI {
         if(clickedItem == null) return;
         if(!gangPlayer.isInGang()) return;
         switch (clickedItem.getType()) {
-            case BARRIER -> player.closeInventory();
+            case BARRIER -> {
+                player.closeInventory();
+                MainGui mainGui = new MainGui(player, gang);
+                mainGui.openTo(player);
+            }
         }
     }
 }
