@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Gang {
-    //Todo: Potentially add upgradeable gang+ally damage aswell.
     //Todo: Add MOTD, could/should be a wrapper like class
 
     //Could make this into a gang info wrapper
@@ -35,7 +34,6 @@ public class Gang {
     private int level;
     private int bank;
 
-    //Todo: Check that all wrapper classes saves/serializes after setting something for the gang
     private final GangStats gangStats;
     private final GangMembers gangMembers;
     //Todo: Make sure that allies can't be marked as rivals

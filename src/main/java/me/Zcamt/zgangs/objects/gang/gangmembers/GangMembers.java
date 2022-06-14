@@ -66,6 +66,9 @@ public class GangMembers {
     }
 
     public void setMaxMembers(int maxMembers) {
+        if(maxMembers < 1) {
+            maxMembers = 1;
+        }
         this.maxMembers = maxMembers;
         gang.serialize();
     }

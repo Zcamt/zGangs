@@ -81,6 +81,9 @@ public class GangAllies {
     }
 
     public void setMaxAllies(int maxAllies) {
+        if(maxAllies < 1) {
+            maxAllies = 1;
+        }
         this.maxAllies = maxAllies;
         gang.serialize();
     }
