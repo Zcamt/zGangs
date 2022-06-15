@@ -53,7 +53,6 @@ public class GangStats {
     }
 
 
-
     public int getKills() {
         return kills;
     }
@@ -76,6 +75,10 @@ public class GangStats {
 
     public int getOfficer_plus_kills() {
         return officer_plus_kills;
+    }
+
+    public int getAllGuardKills() {
+        return guard_kills_in_a + guard_kills_in_b + guard_kills_in_c;
     }
 
     public void setGang(Gang gang) {
