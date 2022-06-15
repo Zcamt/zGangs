@@ -7,6 +7,7 @@ import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.ItemCreator;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -28,15 +29,22 @@ public class MainGui extends GUI{
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
 
 
-        setItem(20, new ItemCreator(Material.PLAYER_HEAD).setName("&a&lDin bande").make());
-        setItem(24, new ItemCreator(Material.BOOK).setName("&6&lHjælp og leaderboards").make());
+        setItem(20, new ItemCreator(Material.PLAYER_HEAD)
+                .setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName())
+                .setName("&a&lDin bande")
+                .addLore("Klik her for at:",
+                        "&6- &fSe information om din bande",
+                        "&6- &fSe krav til næste bande-level",
+                        "&6- &fSe medlemmerne i din bande")
+                .make());
+        setItem(22, new ItemCreator(Material.BOOK).setName("&a&lMOTD").make());
+        setItem(24, new ItemCreator(Material.GOLDEN_SWORD).setName("&6&lHjælp og leaderboards").make());
 
         setItem(47, new ItemCreator(Material.BARRIER).setName("&cPersonlige indstillinger").make());
         setItem(51, new ItemCreator(Material.REDSTONE_TORCH).setName("&cBande indstillinger").make());
         setItem(49, new ItemCreator(Material.REDSTONE_TORCH).setName("&cLuk").make());
 
         //Butik
-        //MOTD?
 
         //Personlige settings
         //Bande settings

@@ -3,7 +3,7 @@ package me.Zcamt.zgangs.commands;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.annotation.*;
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.guis.GangInfoGui;
+import me.Zcamt.zgangs.guis.MainGui;
 import me.Zcamt.zgangs.guis.NoGangGui;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
@@ -24,8 +24,8 @@ public class MenuCommand extends BaseCommand {
         GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
         if (gangPlayer.isInGang()) {
             Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
-            GangInfoGui gangInfoGui = new GangInfoGui(player, playerGang);
-            gangInfoGui.openTo(player);
+            MainGui mainGui = new MainGui(player, playerGang);
+            mainGui.openTo(player);
         } else {
             NoGangGui noGangGui = new NoGangGui(player);
             noGangGui.openTo(player);
