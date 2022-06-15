@@ -5,14 +5,14 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
-import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
-import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
-import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevel;
-import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
-import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
-import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
-import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
-import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
+import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
+import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.level.GangLevel;
+import me.Zcamt.zgangs.objects.gang.level.GangLevelManager;
+import me.Zcamt.zgangs.objects.gang.members.GangMembers;
+import me.Zcamt.zgangs.objects.gang.permissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.rivals.GangRivals;
+import me.Zcamt.zgangs.objects.gang.stats.GangStats;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import org.bson.Document;
@@ -140,13 +140,14 @@ public class Gang {
     }
 
     public void serialize() {
-        //Todo: Do async
-        Document document = Document.parse(toJson());
-        ZGangs.getDatabase().getGangCollection()
-                .replaceOne(Filters.eq("_id",
-                                String.valueOf(this.uuid)),
-                        document,
-                        new ReplaceOptions().upsert(true));
+        ZGangs.getThreadPool().submit(() -> {
+            Document document = Document.parse(toJson());
+            ZGangs.getDatabase().getGangCollection()
+                    .replaceOne(Filters.eq("_id",
+                                    String.valueOf(this.uuid)),
+                            document,
+                            new ReplaceOptions().upsert(true));
+        });
     }
 
     public UUID getUUID() {

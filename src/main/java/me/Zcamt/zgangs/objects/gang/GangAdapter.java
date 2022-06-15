@@ -4,19 +4,18 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
-import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
-import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
-import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
-import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
-import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
-import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
+import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
+import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.members.GangMembers;
+import me.Zcamt.zgangs.objects.gang.permissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.rivals.GangRivals;
+import me.Zcamt.zgangs.objects.gang.stats.GangStats;
 
 import java.io.IOException;
 import java.util.UUID;
 
 public class GangAdapter extends TypeAdapter<Gang> {
 
-    //Todo: Check if empty lists/maps causes issues.
     @Override
     public void write(JsonWriter writer, Gang gang) throws IOException {
         writer.beginObject();
@@ -35,7 +34,6 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.endObject();
     }
 
-    //Todo: Check if empty lists/maps causes issues.
     @Override
     public Gang read(JsonReader reader) throws IOException {
         UUID uuid = null;
@@ -69,7 +67,6 @@ public class GangAdapter extends TypeAdapter<Gang> {
             }
         }
 
-        //Todo: Throw error if any is null
         Gang gang = new Gang(uuid,
                 ownerUUID,
                 creationDateUnix,

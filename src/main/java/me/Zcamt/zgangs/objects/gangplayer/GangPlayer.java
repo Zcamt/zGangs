@@ -5,6 +5,7 @@ import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangRank;
+import me.Zcamt.zgangs.objects.gangplayer.settings.GangPlayerSettings;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -21,16 +22,21 @@ public class GangPlayer {
     private @Nullable UUID gangUUID;
     private GangRank gangRank;
     private List<UUID> gangInvites;
-    //Todo: GangPlayerSettings
+    private final GangPlayerSettings gangPlayerSettings;
 
-    public GangPlayer(UUID uuid, @Nullable UUID gangUUID, GangRank gangRank, List<UUID> gangInvites) {
+    public GangPlayer(UUID uuid, @Nullable UUID gangUUID, GangRank gangRank, List<UUID> gangInvites, GangPlayerSettings gangPlayerSettings) {
         this.uuid = uuid;
         this.gangUUID = gangUUID;
         this.gangRank = gangRank;
         this.gangInvites = gangInvites;
+        this.gangPlayerSettings = gangPlayerSettings;
+        gangPlayerSettings.setGangPlayer(this);
     }
 
     public void setGangID(UUID gangUUID) {
+        if(gangUUID.toString().equalsIgnoreCase("")){
+            gangUUID = null;
+        }
         this.gangUUID = gangUUID;
         serialize();
     }
@@ -65,13 +71,14 @@ public class GangPlayer {
     }
 
     public void serialize(){
-        //Todo: Do async
-        Document document = Document.parse(toJson());
-        ZGangs.getDatabase().getGangPlayerCollection()
-                .replaceOne(Filters.eq("_id",
-                        this.uuid.toString()),
-                        document,
-                        new ReplaceOptions().upsert(true));
+        ZGangs.getThreadPool().submit(() -> {
+            Document document = Document.parse(toJson());
+            ZGangs.getDatabase().getGangPlayerCollection()
+                    .replaceOne(Filters.eq("_id",
+                                    this.uuid.toString()),
+                            document,
+                            new ReplaceOptions().upsert(true));
+        });
     }
 
 
@@ -94,6 +101,10 @@ public class GangPlayer {
 
     public List<UUID> getGangInvites() {
         return Collections.unmodifiableList(gangInvites);
+    }
+
+    public GangPlayerSettings getGangPlayerSettings() {
+        return gangPlayerSettings;
     }
 
     public boolean gangInvitesContains(UUID gangUUID) {

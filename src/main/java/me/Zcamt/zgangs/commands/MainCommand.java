@@ -11,7 +11,6 @@ import me.Zcamt.zgangs.guis.NoGangGui;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.objects.gang.GangRank;
-import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermission;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
@@ -100,7 +99,8 @@ public class MainCommand extends BaseCommand {
             ChatUtil.sendMessage(player, Messages.invalidPlayer);
             return;
         }
-        GangRank rankRequiredToInvite = gang.getGangPermissions().getRankRequired(GangPermission.INVITE_PLAYERS);
+
+        GangRank rankRequiredToInvite = gang.getGangPermissions().getMinRankToInvitePlayers();
 
         if(!(gangPlayer.getGangRank().compare(rankRequiredToInvite) >= 0)) {
             ChatUtil.sendMessage(player, Messages.neededGangRank(rankRequiredToInvite.getName()));
@@ -205,9 +205,17 @@ public class MainCommand extends BaseCommand {
             ChatUtil.sendMessage(player, Messages.invalidUsage("/bk ally <BANDE>"));
             return;
         }
-        String targetGangName = args[0];
+
         GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
         Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
+        GangRank rankRequiredToInvite = playerGang.getGangPermissions().getMinRankToManageAllies();
+
+        if(!(gangPlayer.getGangRank().compare(rankRequiredToInvite) >= 0)) {
+            ChatUtil.sendMessage(player, Messages.neededGangRank(rankRequiredToInvite.getName()));
+            return;
+        }
+
+        String targetGangName = args[0];
         Gang targetGang = gangManager.findByName(targetGangName);
 
         if(playerGang.getGangAllies().addAllyInviteOutgoing(targetGang)) {
@@ -227,9 +235,17 @@ public class MainCommand extends BaseCommand {
             ChatUtil.sendMessage(player, Messages.invalidUsage("/bk rival <BANDE>"));
             return;
         }
-        String targetGangName = args[0];
+
         GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
         Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
+        GangRank rankRequiredToInvite = playerGang.getGangPermissions().getMinRankToManageRivals();
+
+        if(!(gangPlayer.getGangRank().compare(rankRequiredToInvite) >= 0)) {
+            ChatUtil.sendMessage(player, Messages.neededGangRank(rankRequiredToInvite.getName()));
+            return;
+        }
+
+        String targetGangName = args[0];
         Gang targetGang = gangManager.findByName(targetGangName);
 
         if(playerGang.getGangRivals().addRival(targetGang)) {

@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.gang.ganglevel;
+package me.Zcamt.zgangs.objects.gang.level;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.gang.ganglevel;
+package me.Zcamt.zgangs.objects.gang.level;
 
 public enum GangLevelRequirementType {
     MEMBER_COUNT("Antal medlemmer"),

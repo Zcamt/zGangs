@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.gang.gangrivals;
+package me.Zcamt.zgangs.objects.gang.rivals;
 
 import me.Zcamt.zgangs.objects.gang.Gang;
 
@@ -83,7 +83,7 @@ public class GangRivals {
     }
 
     public void setGang(Gang gang) {
-        if(gang != null) {
+        if(this.gang == null && gang != null) {
             this.gang = gang;
         }
     }

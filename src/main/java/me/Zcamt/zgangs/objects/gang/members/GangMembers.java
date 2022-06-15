@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.gang.gangmembers;
+package me.Zcamt.zgangs.objects.gang.members;
 
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gang.Gang;
@@ -117,7 +117,7 @@ public class GangMembers {
     }
 
     public void setGang(Gang gang) {
-        if(gang != null) {
+        if(this.gang == null && gang != null) {
             this.gang = gang;
         }
     }

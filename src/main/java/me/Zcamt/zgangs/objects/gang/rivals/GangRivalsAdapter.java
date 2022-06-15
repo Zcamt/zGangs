@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.gang.gangrivals;
+package me.Zcamt.zgangs.objects.gang.rivals;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

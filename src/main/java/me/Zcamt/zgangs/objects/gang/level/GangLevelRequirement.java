@@ -1,8 +1,6 @@
-package me.Zcamt.zgangs.objects.gang.ganglevel;
+package me.Zcamt.zgangs.objects.gang.level;
 
 import me.Zcamt.zgangs.objects.gang.Gang;
-import me.Zcamt.zgangs.objects.gang.gangitem.GangDeliveryItem;
-import me.Zcamt.zgangs.objects.gang.gangstats.GangStat;
 
 public class GangLevelRequirement {
 
@@ -25,22 +23,22 @@ public class GangLevelRequirement {
     public int getProgress(Gang gang) {
         switch (requirementType) {
             case KILLS -> {
-                return gang.getGangStats().getStatAmount(GangStat.KILLS);
+                return gang.getGangStats().getKills();
             }
             case GUARD_KILLS -> {
-                return (gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A) +
-                        gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B) +
-                        gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C));
+                return (gang.getGangStats().getGuard_kills_in_a() +
+                        gang.getGangStats().getGuard_kills_in_b() +
+                        gang.getGangStats().getGuard_kills_in_c());
 
             }
             case GUARD_KILLS_IN_C -> {
-                return gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C);
+                return gang.getGangStats().getGuard_kills_in_c();
             }
             case GUARD_KILLS_IN_B -> {
-                return gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B);
+                return gang.getGangStats().getGuard_kills_in_b();
             }
             case GUARD_KILLS_IN_A -> {
-                return gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A);
+                return gang.getGangStats().getGuard_kills_in_a();
             }
             case ALLY_COUNT -> {
                 return gang.getGangAllies().getAlliedGangs().size();
@@ -52,10 +50,10 @@ public class GangLevelRequirement {
                 return gang.getGangMembers().getMemberList().size();
             }
             case DELIVER_CIGS -> {
-                return gang.getGangItemDelivery().getDeliveryAmount(GangDeliveryItem.CIG);
+                return gang.getGangItemDelivery().getCigsDelivered();
             }
             case DELIVER_BREAD -> {
-                return gang.getGangItemDelivery().getDeliveryAmount(GangDeliveryItem.BREAD);
+                return gang.getGangItemDelivery().getBreadDelivered();
             }
         }
         return 0;
@@ -64,30 +62,30 @@ public class GangLevelRequirement {
     public boolean requirementMet(Gang gang) {
         switch (requirementType) {
             case KILLS -> {
-                if(gang.getGangStats().getStatAmount(GangStat.KILLS) < getAmount()){
+                if(gang.getGangStats().getKills() < getAmount()){
                     return false;
                 }
             }
             case GUARD_KILLS -> {
-                if((gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A) +
-                        gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B) +
-                        gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C)
+                if((gang.getGangStats().getGuard_kills_in_a() +
+                        gang.getGangStats().getGuard_kills_in_b() +
+                        gang.getGangStats().getGuard_kills_in_c()
                 ) < getAmount()){
                     return false;
                 }
             }
             case GUARD_KILLS_IN_C -> {
-                if(gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C) < getAmount()){
+                if(gang.getGangStats().getGuard_kills_in_c() < getAmount()){
                     return false;
                 }
             }
             case GUARD_KILLS_IN_B -> {
-                if(gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B) < getAmount()){
+                if(gang.getGangStats().getGuard_kills_in_b() < getAmount()){
                     return false;
                 }
             }
             case GUARD_KILLS_IN_A -> {
-                if(gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A) < getAmount()){
+                if(gang.getGangStats().getGuard_kills_in_a() < getAmount()){
                     return false;
                 }
             }
@@ -107,14 +105,12 @@ public class GangLevelRequirement {
                 }
             }
             case DELIVER_CIGS -> {
-                if(gang.getGangItemDelivery().
-                        getDeliveryAmount(GangDeliveryItem.CIG) < getAmount()){
+                if(gang.getGangItemDelivery().getCigsDelivered() < getAmount()){
                     return false;
                 }
             }
             case DELIVER_BREAD -> {
-                if(gang.getGangItemDelivery().
-                        getDeliveryAmount(GangDeliveryItem.BREAD) < getAmount()){
+                if(gang.getGangItemDelivery().getBreadDelivered() < getAmount()){
                     return false;
                 }
             }

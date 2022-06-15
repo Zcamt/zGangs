@@ -3,10 +3,9 @@ package me.Zcamt.zgangs.guis;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
-import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevel;
-import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
-import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelRequirement;
-import me.Zcamt.zgangs.objects.gang.gangstats.GangStat;
+import me.Zcamt.zgangs.objects.gang.level.GangLevel;
+import me.Zcamt.zgangs.objects.gang.level.GangLevelManager;
+import me.Zcamt.zgangs.objects.gang.level.GangLevelRequirement;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
@@ -43,16 +42,16 @@ public class ExternalGangGui extends GUI {
                         "&c&lLevel: &f" + gang.getLevel(),
                         "&c&lEjer: &f" + Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName(),
                         "&c&lBank: &f" + gang.getBank(),
-                        "&c&lDrab: &f" + gang.getGangStats().getStatAmount(GangStat.KILLS),
-                        "&c&lDøde: &f" + gang.getGangStats().getStatAmount(GangStat.DEATHS),
+                        "&c&lDrab: &f" + gang.getGangStats().getKills(),
+                        "&c&lDøde: &f" + gang.getGangStats().getDeaths(),
                         "&c&lVagt drab: &f" +
-                                (gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A)
-                                        + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B)
-                                        + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C)),
-                        "&c&lOfficer+ drab: &f" + gang.getGangStats().getStatAmount(GangStat.OFFICER_PLUS_KILLS),
-                        "&c&lVagt drab i A: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_A),
-                        "&c&lVagt drab i B: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_B),
-                        "&c&lVagt drab i C: &f" + gang.getGangStats().getStatAmount(GangStat.GUARD_KILLS_IN_C),
+                                (gang.getGangStats().getGuard_kills_in_a()
+                                        + gang.getGangStats().getGuard_kills_in_b()
+                                        + gang.getGangStats().getGuard_kills_in_c()),
+                        "&c&lOfficer+ drab: &f" + gang.getGangStats().getOfficer_plus_kills(),
+                        "&c&lVagt drab i A: &f" + gang.getGangStats().getGuard_kills_in_a(),
+                        "&c&lVagt drab i B: &f" + gang.getGangStats().getGuard_kills_in_b(),
+                        "&c&lVagt drab i C: &f" + gang.getGangStats().getGuard_kills_in_c(),
                         "&c&lOprettet: &f" + Utils.formatDateFromEpochMilli(gang.getCreationDateMillis())
                 ).make());
 

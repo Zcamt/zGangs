@@ -18,22 +18,24 @@ import me.Zcamt.zgangs.listeners.PlayerListener;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangAdapter;
 import me.Zcamt.zgangs.objects.gang.GangManager;
-import me.Zcamt.zgangs.objects.gang.gangallies.GangAllies;
-import me.Zcamt.zgangs.objects.gang.gangallies.GangAlliesAdapter;
-import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDelivery;
-import me.Zcamt.zgangs.objects.gang.gangitem.GangItemDeliveryAdapter;
-import me.Zcamt.zgangs.objects.gang.ganglevel.GangLevelManager;
-import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembers;
-import me.Zcamt.zgangs.objects.gang.gangmembers.GangMembersAdapter;
-import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissions;
-import me.Zcamt.zgangs.objects.gang.gangpermissions.GangPermissionsAdapter;
-import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivals;
-import me.Zcamt.zgangs.objects.gang.gangrivals.GangRivalsAdapter;
-import me.Zcamt.zgangs.objects.gang.gangstats.GangStats;
-import me.Zcamt.zgangs.objects.gang.gangstats.GangStatsAdapter;
+import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
+import me.Zcamt.zgangs.objects.gang.allies.GangAlliesAdapter;
+import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
+import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDeliveryAdapter;
+import me.Zcamt.zgangs.objects.gang.level.GangLevelManager;
+import me.Zcamt.zgangs.objects.gang.members.GangMembers;
+import me.Zcamt.zgangs.objects.gang.members.GangMembersAdapter;
+import me.Zcamt.zgangs.objects.gang.permissions.GangPermissions;
+import me.Zcamt.zgangs.objects.gang.permissions.GangPermissionsAdapter;
+import me.Zcamt.zgangs.objects.gang.rivals.GangRivals;
+import me.Zcamt.zgangs.objects.gang.rivals.GangRivalsAdapter;
+import me.Zcamt.zgangs.objects.gang.stats.GangStats;
+import me.Zcamt.zgangs.objects.gang.stats.GangStatsAdapter;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerAdapter;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
+import me.Zcamt.zgangs.objects.gangplayer.settings.GangPlayerSettings;
+import me.Zcamt.zgangs.objects.gangplayer.settings.GangPlayerSettingsAdapter;
 import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.PermissionUtil;
@@ -44,22 +46,28 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class ZGangs extends JavaPlugin {
 
+    //Todo: Checks for adapter variables being null
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Gang.class, new GangAdapter())
-            .registerTypeAdapter(GangPlayer.class, new GangPlayerAdapter())
             .registerTypeAdapter(GangAllies.class, new GangAlliesAdapter())
             .registerTypeAdapter(GangRivals.class, new GangRivalsAdapter())
             .registerTypeAdapter(GangMembers.class, new GangMembersAdapter())
             .registerTypeAdapter(GangStats.class, new GangStatsAdapter())
             .registerTypeAdapter(GangPermissions.class, new GangPermissionsAdapter())
             .registerTypeAdapter(GangItemDelivery.class, new GangItemDeliveryAdapter())
+            .registerTypeAdapter(GangPlayer.class, new GangPlayerAdapter())
+            .registerTypeAdapter(GangPlayerSettings.class, new GangPlayerSettingsAdapter())
             .setPrettyPrinting()
             .serializeNulls()
             .disableHtmlEscaping()
             .create();
 
+    private static final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
     private static final Database DATABASE = new Database();
     private static final GangManager GANG_MANAGER = new GangManager(DATABASE);
     private static final GangPlayerManager GANG_PLAYER_MANAGER = new GangPlayerManager(DATABASE);
@@ -167,6 +175,10 @@ public class ZGangs extends JavaPlugin {
         }
         ECONOMY = rsp.getProvider();
         return ECONOMY != null;
+    }
+
+    public static ExecutorService getThreadPool() {
+        return THREAD_POOL;
     }
 
     public static Database getDatabase() {

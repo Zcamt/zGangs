@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.gang.gangallies;
+package me.Zcamt.zgangs.objects.gang.allies;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -40,7 +40,6 @@ public class GangAlliesAdapter extends TypeAdapter<GangAllies> {
             }
         }
 
-        //Todo: Maybe check for any variables being null
         GangAllies gangAllies = new GangAllies(maxAllies, allyDamagePercent, alliedGangs, alliedGangInvitesIncoming, alliedGangInvitesOutgoing);
         reader.endObject();
         return gangAllies;

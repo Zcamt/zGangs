@@ -1,4 +1,4 @@
-package me.Zcamt.zgangs.objects.gang.gangmembers;
+package me.Zcamt.zgangs.objects.gang.members;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -36,7 +36,6 @@ public class GangMembersAdapter extends TypeAdapter<GangMembers> {
             }
         }
 
-        //Todo: Maybe check for any variables being null
         GangMembers gangMembers = new GangMembers(maxMembers, memberDamagePercent, memberList, playerInvites);
         reader.endObject();
         return gangMembers;

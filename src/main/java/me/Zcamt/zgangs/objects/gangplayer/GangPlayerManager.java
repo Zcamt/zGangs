@@ -6,6 +6,7 @@ import com.github.benmanes.caffeine.cache.RemovalListener;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.gang.GangRank;
+import me.Zcamt.zgangs.objects.gangplayer.settings.GangPlayerSettings;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -30,7 +31,12 @@ public class GangPlayerManager {
     }
 
     public GangPlayer createNewGangPlayer(UUID uuid){
-        GangPlayer gangPlayer = new GangPlayer(uuid, null, GangRank.RECRUIT, new ArrayList<>());
+        GangPlayer gangPlayer = new GangPlayer(uuid, null, GangRank.RECRUIT, new ArrayList<>(),
+                new GangPlayerSettings(
+                        true,
+                        true,
+                        true,
+                        true));
         addGangPlayerToCache(uuid, gangPlayer);
         gangPlayer.serialize();
         return gangPlayer;
