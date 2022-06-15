@@ -13,7 +13,7 @@ public class GangLevelManager {
         gangLevels.put(1, new GangLevel(
                 1, 3, 1,
                 100, 100, false, false, false,
-                Arrays.asList(
+                1, Arrays.asList(
                 "Adgang til 3 medlemmer og 1 allieret fra start"),
                 new GangLevelRequirements())
         );
@@ -21,7 +21,7 @@ public class GangLevelManager {
         gangLevels.put(2, new GangLevel(
                 2, 4, 2,
                 95, 100, false, false, false,
-                Arrays.asList(
+                1, Arrays.asList(
                         "Køb adgang op til 4 medlemmer",
                         "Køb adgang op til 2 allierede",
                         "Nedset bandeskade til 95%"),

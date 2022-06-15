@@ -10,6 +10,7 @@ import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.level.GangLevel;
 import me.Zcamt.zgangs.objects.gang.level.GangLevelManager;
 import me.Zcamt.zgangs.objects.gang.members.GangMembers;
+import me.Zcamt.zgangs.objects.gang.motd.GangMotd;
 import me.Zcamt.zgangs.objects.gang.permissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.rivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.stats.GangStats;
@@ -24,7 +25,6 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Gang {
-    //Todo: Add MOTD, should be a wrapper class
 
     //Could make this into a gang info wrapper
     private final UUID uuid;
@@ -34,6 +34,7 @@ public class Gang {
     private int level;
     private int bank;
 
+    private final GangMotd gangMotd;
     private final GangStats gangStats;
     private final GangMembers gangMembers;
     //Todo: Make sure that allies can't be marked as rivals
@@ -45,7 +46,7 @@ public class Gang {
     //Todo: Add area access
 
     public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int bank,
-                GangStats gangStats,
+                GangMotd gangMotd, GangStats gangStats,
                 GangMembers gangMembers,
                 GangAllies gangAllies,
                 GangRivals gangRivals,
@@ -57,6 +58,8 @@ public class Gang {
         this.name = name;
         this.level = level;
         this.bank = bank;
+        this.gangMotd = gangMotd;
+        gangMotd.setGang(this);
         this.gangStats = gangStats;
         gangStats.setGang(this);
         this.gangMembers = gangMembers;
@@ -172,6 +175,10 @@ public class Gang {
 
     public int getBank() {
         return bank;
+    }
+
+    public GangMotd getGangMotd() {
+        return gangMotd;
     }
 
     public GangStats getGangStats() {

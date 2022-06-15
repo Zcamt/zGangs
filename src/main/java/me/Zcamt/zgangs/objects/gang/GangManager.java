@@ -10,13 +10,13 @@ import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.members.GangMembers;
+import me.Zcamt.zgangs.objects.gang.motd.GangMotd;
 import me.Zcamt.zgangs.objects.gang.permissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.rivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.stats.GangStats;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import org.bson.Document;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -51,6 +51,7 @@ public class GangManager {
         int allyLimitForLvl1 = ZGangs.getGangLevelManager().getGangLevelFromInt(1).getMaxAllyLimit();
 
         Gang gang = new Gang(uuid, gangOwner.getUUID(), System.currentTimeMillis(), name, 1, 0,
+                new GangMotd(null, null, null, null, null, null, null),
                 new GangStats(0, 0, 0, 0, 0, 0),
                 new GangMembers(memberLimitForLvl1, 100, memberList, new ArrayList<>()),
                 new GangAllies(allyLimitForLvl1, 100, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),

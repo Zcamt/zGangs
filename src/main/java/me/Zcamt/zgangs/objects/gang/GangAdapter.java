@@ -7,6 +7,7 @@ import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.members.GangMembers;
+import me.Zcamt.zgangs.objects.gang.motd.GangMotd;
 import me.Zcamt.zgangs.objects.gang.permissions.GangPermissions;
 import me.Zcamt.zgangs.objects.gang.rivals.GangRivals;
 import me.Zcamt.zgangs.objects.gang.stats.GangStats;
@@ -25,6 +26,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("name").value(gang.getName());
         writer.name("level").value(gang.getLevel());
         writer.name("bank").value(gang.getBank());
+        writer.name("gangMotd").value(ZGangs.GSON.toJson(gang.getGangMotd()));
         writer.name("gangStats").value(ZGangs.GSON.toJson(gang.getGangStats()));
         writer.name("gangMembers").value(ZGangs.GSON.toJson(gang.getGangMembers()));
         writer.name("gangAllies").value(ZGangs.GSON.toJson(gang.getGangAllies()));
@@ -42,6 +44,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         String name = null;
         int level = 1;
         int bank = 0;
+        GangMotd gangMotd = null;
         GangStats gangStats = null;
         GangMembers gangMembers = null;
         GangAllies gangAllies = null;
@@ -58,6 +61,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "name" -> name = reader.nextString();
                 case "level" -> level = reader.nextInt();
                 case "bank" -> bank = reader.nextInt();
+                case "gangMotd" -> gangMotd = ZGangs.GSON.fromJson(reader.nextString(), GangMotd.class);
                 case "gangStats" -> gangStats = ZGangs.GSON.fromJson(reader.nextString(), GangStats.class);
                 case "gangMembers" -> gangMembers = ZGangs.GSON.fromJson(reader.nextString(), GangMembers.class);
                 case "gangAllies" -> gangAllies = ZGangs.GSON.fromJson(reader.nextString(), GangAllies.class);
@@ -73,7 +77,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 name,
                 level,
                 bank,
-                gangStats,
+                gangMotd, gangStats,
                 gangMembers,
                 gangAllies,
                 gangRivals,

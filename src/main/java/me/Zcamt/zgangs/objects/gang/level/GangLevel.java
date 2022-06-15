@@ -14,11 +14,13 @@ public class GangLevel {
     private final boolean gangAreaCPurchaseable;
     private final boolean gangAreaBPurchaseable;
     private final boolean gangAreaAPurchaseable;
+    private final int motdLines;
     private final List<String> newFeaturesForLevel;
     private final GangLevelRequirements gangLevelRequirements;
+
     public GangLevel(int level, int maxMemberLimit, int maxAllyLimit,
                      int gangDamageLimit, int allyDamageLimit, boolean gangAreaCPurchaseable, boolean gangAreaBPurchaseable, boolean gangAreaAPurchaseable,
-                     List<String> newFeaturesForLevel, GangLevelRequirements gangLevelRequirements) {
+                     int motdLines, List<String> newFeaturesForLevel, GangLevelRequirements gangLevelRequirements) {
         this.level = level;
         this.maxMemberLimit = maxMemberLimit;
         this.maxAllyLimit = maxAllyLimit;
@@ -27,6 +29,7 @@ public class GangLevel {
         this.gangAreaCPurchaseable = gangAreaCPurchaseable;
         this.gangAreaBPurchaseable = gangAreaBPurchaseable;
         this.gangAreaAPurchaseable = gangAreaAPurchaseable;
+        this.motdLines = motdLines;
         this.newFeaturesForLevel = newFeaturesForLevel;
         this.gangLevelRequirements = gangLevelRequirements;
     }

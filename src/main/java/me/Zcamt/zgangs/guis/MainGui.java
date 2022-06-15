@@ -3,6 +3,7 @@ package me.Zcamt.zgangs.guis;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
+import me.Zcamt.zgangs.objects.gang.motd.GangMotd;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
@@ -12,6 +13,8 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.ArrayList;
 
 public class MainGui extends GUI{
 
@@ -37,7 +40,7 @@ public class MainGui extends GUI{
                         "&6- &fSe krav til næste bande-level",
                         "&6- &fSe medlemmerne i din bande")
                 .make());
-        setItem(22, new ItemCreator(Material.BOOK).setName("&a&lMOTD").make());
+        setItem(22, new ItemCreator(Material.BOOK).setName("&a&lMOTD").addLore(gang.getGangMotd().getFullMotd()).make());
         setItem(24, new ItemCreator(Material.GOLDEN_SWORD).setName("&6&lHjælp og leaderboards").make());
 
         setItem(47, new ItemCreator(Material.BARRIER).setName("&cPersonlige indstillinger").make());
@@ -46,8 +49,6 @@ public class MainGui extends GUI{
 
         //Butik
 
-        //Personlige settings
-        //Bande settings
     }
 
     @Override
