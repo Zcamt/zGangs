@@ -42,7 +42,7 @@ public class GangInfoGui extends GUI {
 
         if (gangPlayer.isInGang()) {
             //Gang info
-            setItem(22, new ItemCreator(Material.BOOK)
+            setItem(13, new ItemCreator(Material.BOOK)
                     .setName("&a&lDin bande").addLore(
                             "&c&lNavn: &f" + gang.getName(),
                             "&c&lLevel: &f" + gang.getLevel(),
@@ -71,7 +71,7 @@ public class GangInfoGui extends GUI {
                                     + (gangMember.getOfflinePlayer().isOnline() ? " &a●" : " &7●")
                                     + " &f" + gangMember.getOfflinePlayer().getName() )
             );
-            setItem(24, new ItemCreator(Material.PLAYER_HEAD).setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName())
+            setItem(15, new ItemCreator(Material.PLAYER_HEAD).setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName())
                     .setName("&a&lMedlemmer").addLore(memberLore).make());
 
             //Limits
@@ -84,7 +84,7 @@ public class GangInfoGui extends GUI {
             limitsLore.add("&7&lAdgang til bandeområde i &cC&7: &aja&7/&cnej");
             limitsLore.add("&7&lAdgang til bandeområde i &bB&7: &aja&7/&cnej");
             limitsLore.add("&7&lAdgang til bandeområde i &aA&7: &aja&7/&cnej");
-            setItem(20, new ItemCreator(Material.IRON_HELMET)
+            setItem(11, new ItemCreator(Material.IRON_HELMET)
                     .setName("&a&lBegrænsninger")
                     .addLore(limitsLore)
                     .make());
@@ -93,7 +93,7 @@ public class GangInfoGui extends GUI {
             List<String> alliedGangs = new ArrayList<>();
             gang.getGangAllies().getAlliedGangs().forEach(allyUUID ->
                     alliedGangs.add("&7- &a" + gangManager.findById(allyUUID).getName()));
-            setItem(30, new ItemCreator(Material.GREEN_BANNER)
+            setItem(31, new ItemCreator(Material.GREEN_BANNER)
                     .setName("&a&lAllierede")
                     .addLore(alliedGangs)
                     .make());
@@ -114,7 +114,7 @@ public class GangInfoGui extends GUI {
             } else {
                 rivalGangs.add("&7I har ingen rivaler imod jer");
             }
-            setItem(32, new ItemCreator(Material.RED_BANNER)
+            setItem(29, new ItemCreator(Material.RED_BANNER)
                     .setName("&a&lRivaler")
                     .addLore(rivalGangs)
                     .make());
@@ -133,7 +133,7 @@ public class GangInfoGui extends GUI {
                         + " ["+requirementProgress+"/"+requirementAmount+"]");
 
             }
-            setItem(20, new ItemCreator(Material.NETHER_STAR)
+            setItem(31, new ItemCreator(Material.NETHER_STAR)
                     .setName("&a&lLevel op")
                     .addLore(levelUpLore)
                     .make());
