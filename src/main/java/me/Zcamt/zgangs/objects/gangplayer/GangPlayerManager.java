@@ -36,6 +36,8 @@ public class GangPlayerManager {
                         true,
                         true,
                         true,
+                        true,
+                        true,
                         true));
         addGangPlayerToCache(uuid, gangPlayer);
         gangPlayer.serialize();

@@ -41,7 +41,12 @@ public class MainGui extends GUI{
                         "&6- &fSe medlemmerne i din bande")
                 .make());
         setItem(22, new ItemCreator(Material.BOOK).setName("&a&lMOTD").addLore(gang.getGangMotd().getFullMotd()).make());
-        setItem(24, new ItemCreator(Material.GOLDEN_SWORD).setName("&6&lHjælp og leaderboards").make());
+        setItem(24, new ItemCreator(Material.GOLDEN_SWORD).setName("&6&lInfo og leaderboards")
+                .addLore("Klik her for at:",
+                        "&6- &fSe bande leaderboards",
+                        "&6- &fSe information om din bandes næste level",
+                        "&6- &fSe hvilke kommandoer der findes i systemet")
+                .make());
 
         setItem(47, new ItemCreator(Material.BARRIER).setName("&cPersonlige indstillinger").make());
         setItem(51, new ItemCreator(Material.REDSTONE_TORCH).setName("&cBande indstillinger").make());

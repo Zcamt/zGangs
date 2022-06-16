@@ -8,13 +8,18 @@ public class GangPlayerSettings {
     private boolean receiveGangChat;
     private boolean receiveAllyChat;
     private boolean receiveMemberConnectNotification;
-    private boolean isReceiveMemberDisconnectNotification;
+    private boolean receiveMemberDisconnectNotification;
+    private boolean receiveAllyConnectNotification;
+    private boolean receiveAllyDisconnectNotification;
 
-    public GangPlayerSettings(boolean receiveGangChat, boolean receiveAllyChat, boolean receiveMemberConnectNotification, boolean isReceiveMemberDisconnectNotification) {
+
+    public GangPlayerSettings(boolean receiveGangChat, boolean receiveAllyChat, boolean receiveMemberConnectNotification, boolean receiveMemberDisconnectNotification, boolean receiveAllyConnectNotification, boolean receiveAllyDisconnectNotification) {
         this.receiveGangChat = receiveGangChat;
         this.receiveAllyChat = receiveAllyChat;
         this.receiveMemberConnectNotification = receiveMemberConnectNotification;
-        this.isReceiveMemberDisconnectNotification = isReceiveMemberDisconnectNotification;
+        this.receiveMemberDisconnectNotification = receiveMemberDisconnectNotification;
+        this.receiveAllyConnectNotification = receiveAllyConnectNotification;
+        this.receiveAllyDisconnectNotification = receiveAllyDisconnectNotification;
     }
 
 
@@ -34,9 +39,20 @@ public class GangPlayerSettings {
     }
 
     public void toggleReceiveMemberDisconnectNotification() {
-        this.isReceiveMemberDisconnectNotification = !this.isReceiveMemberDisconnectNotification;
+        this.receiveMemberDisconnectNotification = !this.receiveMemberDisconnectNotification;
         gangPlayer.serialize();
     }
+
+    public void toggleReceiveAllyConnectNotification() {
+        this.receiveAllyConnectNotification = !this.receiveAllyConnectNotification;
+        gangPlayer.serialize();
+    }
+
+    public void toggleReceiveAllyDisconnectNotification() {
+        this.receiveAllyDisconnectNotification = !this.receiveAllyDisconnectNotification;
+        gangPlayer.serialize();
+    }
+
 
     public boolean isReceiveGangChat() {
         return receiveGangChat;
@@ -51,7 +67,15 @@ public class GangPlayerSettings {
     }
 
     public boolean isReceiveMemberDisconnectNotification() {
-        return isReceiveMemberDisconnectNotification;
+        return receiveMemberDisconnectNotification;
+    }
+
+    public boolean isReceiveAllyConnectNotification() {
+        return receiveAllyConnectNotification;
+    }
+
+    public boolean isReceiveAllyDisconnectNotification() {
+        return receiveAllyDisconnectNotification;
     }
 
     public void setGangPlayer(GangPlayer gangPlayer) {

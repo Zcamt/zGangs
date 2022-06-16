@@ -14,6 +14,8 @@ public class GangPlayerSettingsAdapter extends TypeAdapter<GangPlayerSettings> {
         writer.name("receiveAllyChat").value(gangPlayerSettings.isReceiveAllyChat());
         writer.name("receiveMemberConnectNotification").value(gangPlayerSettings.isReceiveMemberConnectNotification());
         writer.name("receiveMemberDisconnectNotification").value(gangPlayerSettings.isReceiveMemberDisconnectNotification());
+        writer.name("receiveAllyConnectNotification").value(gangPlayerSettings.isReceiveAllyConnectNotification());
+        writer.name("receiveAllyDisconnectNotification").value(gangPlayerSettings.isReceiveAllyDisconnectNotification());
         writer.endObject();
     }
 
@@ -23,6 +25,8 @@ public class GangPlayerSettingsAdapter extends TypeAdapter<GangPlayerSettings> {
         boolean receiveAllyChat = true;
         boolean receiveMemberConnectNotification = true;
         boolean receiveMemberDisconnectNotification = true;
+        boolean receiveAllyConnectNotification = true;
+        boolean receiveAllyDisconnectNotification = true;
         reader.beginObject();
 
         while (reader.hasNext()) {
@@ -31,6 +35,8 @@ public class GangPlayerSettingsAdapter extends TypeAdapter<GangPlayerSettings> {
                 case "receiveAllyChat" -> receiveAllyChat = reader.nextBoolean();
                 case "receiveMemberConnectNotification" -> receiveMemberConnectNotification = reader.nextBoolean();
                 case "receiveMemberDisconnectNotification" -> receiveMemberDisconnectNotification = reader.nextBoolean();
+                case "receiveAllyConnectNotification" -> receiveAllyConnectNotification = reader.nextBoolean();
+                case "receiveAllyDisconnectNotification" -> receiveAllyDisconnectNotification = reader.nextBoolean();
             }
         }
 
@@ -38,7 +44,9 @@ public class GangPlayerSettingsAdapter extends TypeAdapter<GangPlayerSettings> {
                 new GangPlayerSettings(receiveGangChat,
                         receiveAllyChat,
                         receiveMemberConnectNotification,
-                        receiveMemberDisconnectNotification);
+                        receiveMemberDisconnectNotification,
+                        receiveAllyConnectNotification,
+                        receiveAllyDisconnectNotification);
         reader.endObject();
         return gangPlayerSettings;
     }
