@@ -48,7 +48,11 @@ public class MainGui extends GUI{
                         "&6- &fSe hvilke kommandoer der findes i systemet")
                 .make());
 
-        setItem(47, new ItemCreator(Material.BARRIER).setName("&cPersonlige indstillinger").make());
+        setItem(47, new ItemCreator(Material.BARRIER).setName("&cPersonlige indstillinger")
+                .addLore("Klik her for at:",
+                        "&6- &fForlade din bande",
+                        "&6- &f(De)aktivere beskeder fra systemet")
+                .make());
         setItem(51, new ItemCreator(Material.REDSTONE_TORCH).setName("&cBande indstillinger").make());
         setItem(49, new ItemCreator(Material.REDSTONE_TORCH).setName("&cLuk").make());
 

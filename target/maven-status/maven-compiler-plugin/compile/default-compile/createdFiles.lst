@@ -59,6 +59,7 @@ me\Zcamt\zgangs\ZGangs.class
 me\Zcamt\zgangs\objects\gang\members\GangMembers.class
 me\Zcamt\zgangs\listeners\InventoryListener.class
 me\Zcamt\zgangs\guis\MainGui.class
+me\Zcamt\zgangs\objects\gang\motd\GangMotdAdapter.class
 me\Zcamt\zgangs\objects\gangplayer\settings\GangPlayerSettingsAdapter.class
 me\Zcamt\zgangs\chatinput\ChatIntegerInput.class
 me\Zcamt\zgangs\objects\leaderboard\LeaderboardManager.class
