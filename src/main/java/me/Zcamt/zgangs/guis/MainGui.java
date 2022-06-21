@@ -36,9 +36,10 @@ public class MainGui extends GUI{
                 .setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName())
                 .setName("&a&lDin bande")
                 .addLore("Klik her for at:",
-                        "&6- &fSe information om din bande",
+                        "&6- &fSe dine bandes stats",
+                        "&6- &fSe medlemmerne i din bande",
                         "&6- &fSe krav til næste bande-level",
-                        "&6- &fSe medlemmerne i din bande")
+                        "&6- &fOg meget mere...")
                 .make());
         setItem(22, new ItemCreator(Material.BOOK).setName("&a&lMOTD").addLore(gang.getGangMotd().getFullMotd()).make());
         setItem(24, new ItemCreator(Material.GOLDEN_SWORD).setName("&6&lInfo og leaderboards")
@@ -53,7 +54,13 @@ public class MainGui extends GUI{
                         "&6- &fForlade din bande",
                         "&6- &f(De)aktivere beskeder fra systemet")
                 .make());
-        setItem(51, new ItemCreator(Material.REDSTONE_TORCH).setName("&cBande indstillinger").make());
+        setItem(51, new ItemCreator(Material.REDSTONE_TORCH).setName("&cBande indstillinger")
+                .addLore("Klik her for at:",
+                        "&6- &fÆndre adgang for bandens roller",
+                        "&6- &fSætte bandens MOTD",
+                        "&6- &fHåndtere bandens medlemmer",
+                        "&6- &fOg meget mere...")
+                .make());
         setItem(49, new ItemCreator(Material.REDSTONE_TORCH).setName("&cLuk").make());
 
         //Butik
