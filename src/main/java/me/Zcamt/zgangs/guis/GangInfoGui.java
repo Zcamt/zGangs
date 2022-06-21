@@ -39,7 +39,7 @@ public class GangInfoGui extends GUI {
         setItem(49, new ItemCreator(Material.BARRIER).setName("&cTilbage").make());
 
         if (gangPlayer.isInGang()) {
-            //Gang info
+            //Gang info 13
             setItem(13, new ItemCreator(Material.BOOK)
                     .setName("&a&lDin bande").addLore(
                             "&c&lNavn: &f" + gang.getName(),
@@ -56,7 +56,7 @@ public class GangInfoGui extends GUI {
                             "&c&lOprettet: &f" + Utils.formatDateFromEpochMilli(gang.getCreationDateMillis())
                     ).make());
 
-            //Members
+            //Members 15
             List<GangPlayer> gangMembers = new ArrayList<>();
             gang.getGangMembers().getMemberList().forEach(uuid -> gangMembers.add(gangPlayerManager.findById(uuid)));
             gangMembers.sort(Comparator.comparing(GangPlayer::getGangRank));
@@ -69,7 +69,7 @@ public class GangInfoGui extends GUI {
             setItem(15, new ItemCreator(Material.PLAYER_HEAD).setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName())
                     .setName("&a&lMedlemmer").addLore(memberLore).make());
 
-            //Limits
+            //Limits 11
             List<String> limitsLore = new ArrayList<>();
             limitsLore.add("&7&lMedlemmer: &c" + gang.getGangMembers().getMemberCount() + " &7&l/ &c" + gang.getGangMembers().getMaxMembers());
             limitsLore.add("&7&lAllierede: &c" + gang.getGangAllies().getAllyCount() + " &7&l/ &c" + gang.getGangAllies().getMaxAllies());
@@ -84,16 +84,16 @@ public class GangInfoGui extends GUI {
                     .addLore(limitsLore)
                     .make());
 
-            //Allies
+            //Allies 29
             List<String> alliedGangs = new ArrayList<>();
             gang.getGangAllies().getAlliedGangs().forEach(allyUUID ->
                     alliedGangs.add("&7- &a" + gangManager.findById(allyUUID).getName()));
-            setItem(31, new ItemCreator(Material.GREEN_BANNER)
+            setItem(29, new ItemCreator(Material.GREEN_BANNER)
                     .setName("&a&lAllierede")
                     .addLore(alliedGangs)
                     .make());
 
-            //Rivals
+            //Rivals 33
             List<String> rivalGangs = new ArrayList<>();
             if(gang.getGangRivals().getRivalCount() > 0) {
                 gang.getGangRivals().getRivalGangs().forEach(rivalUUID ->
@@ -109,12 +109,12 @@ public class GangInfoGui extends GUI {
             } else {
                 rivalGangs.add("&7I har ingen rivaler imod jer");
             }
-            setItem(29, new ItemCreator(Material.RED_BANNER)
+            setItem(33, new ItemCreator(Material.RED_BANNER)
                     .setName("&a&lRivaler")
                     .addLore(rivalGangs)
                     .make());
 
-            //Level-up
+            //Level-up 31
             List<String> levelUpLore = new ArrayList<>();
             GangLevel nextGangLevel = gangLevelManager.getGangLevelFromInt(gang.getLevel()+1);
             for (GangLevelRequirement requirement : nextGangLevel.getGangLevelRequirements().getRequirements()) {

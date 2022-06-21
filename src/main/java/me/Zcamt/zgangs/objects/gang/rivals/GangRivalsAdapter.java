@@ -30,7 +30,6 @@ public class GangRivalsAdapter extends TypeAdapter<GangRivals> {
             }
         }
 
-        //Todo: Maybe check for any variables being null
         GangRivals gangRivals = new GangRivals(rivalGangs, rivalGangsAgainst);
         reader.endObject();
         return gangRivals;

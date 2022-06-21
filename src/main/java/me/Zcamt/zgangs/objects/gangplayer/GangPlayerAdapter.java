@@ -58,7 +58,6 @@ public class GangPlayerAdapter extends TypeAdapter<GangPlayer> {
             }
         }
 
-        //Todo: Throw error if any is null
         GangPlayer gangPlayer = new GangPlayer(uuid, gangUUID, gangRank, gangInvites, gangPlayerSettings);
         reader.endObject();
         return gangPlayer;
