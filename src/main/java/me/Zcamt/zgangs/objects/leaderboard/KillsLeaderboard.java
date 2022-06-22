@@ -16,29 +16,29 @@ public class KillsLeaderboard extends Leaderboard {
 
     @Override
     public void update() {
-        List<GangLeaderboardEntry> leaderboard = new ArrayList<>();
-
-        //Todo: make async
-        FindIterable<Document> gangs = ZGangs.getDatabase().getGangCollection().find().sort(new BasicDBObject("kills", -1)).limit(10);
-        try (MongoCursor<Document> gangIterator = gangs.iterator()) {
-            while (gangIterator.hasNext()){
-                Document gangDocument = gangIterator.next();
-                Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
-                GangLeaderboardEntry gangEntry = new GangLeaderboardEntry(
-                        gang.getUUID(),
-                        gang.getOwnerUUID(),
-                        LeaderboardType.KILLS,
-                        gang.getGangStats().getKills()
-                );
-                leaderboard.add(gangEntry);
+        ZGangs.getThreadPool().submit(() -> {
+            List<GangLeaderboardEntry> leaderboard = new ArrayList<>();
+            FindIterable<Document> gangs = ZGangs.getDatabase().getGangCollection().find().sort(new BasicDBObject("kills", -1)).limit(10);
+            try (MongoCursor<Document> gangIterator = gangs.iterator()) {
+                while (gangIterator.hasNext()) {
+                    Document gangDocument = gangIterator.next();
+                    Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
+                    GangLeaderboardEntry gangEntry = new GangLeaderboardEntry(
+                            gang.getUUID(),
+                            gang.getOwnerUUID(),
+                            LeaderboardType.KILLS,
+                            gang.getGangStats().getKills()
+                    );
+                    leaderboard.add(gangEntry);
+                }
             }
-        }
 
-        leaderboard.removeIf(entry -> entry.getLeaderboardType() != LeaderboardType.KILLS);
-        setLastUpdatedEpoch(System.currentTimeMillis());
-        leaderboard.sort(Comparator.comparing(GangLeaderboardEntry::getAmount));
-        this.leaderboard.clear();
-        this.leaderboard.addAll(leaderboard);
+            leaderboard.removeIf(entry -> entry.getLeaderboardType() != LeaderboardType.KILLS);
+            setLastUpdatedEpoch(System.currentTimeMillis());
+            leaderboard.sort(Comparator.comparing(GangLeaderboardEntry::getAmount));
+            this.leaderboard.clear();
+            this.leaderboard.addAll(leaderboard);
+        });
     }
 
     @Override
