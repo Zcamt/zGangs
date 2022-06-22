@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class MainGui extends GUI{
 
+    private int eastereggCounter;
     private final Player player;
     private final Gang gang;
     private final GangPlayer gangPlayer;
@@ -70,8 +71,16 @@ public class MainGui extends GUI{
     @Override
     public void onClick(InventoryClickEvent event) {
         ItemStack clickedItem = event.getCurrentItem();
+        int clickedSlot = event.getSlot();
         if(clickedItem == null) return;
         if(!gangPlayer.isInGang()) return;
+        if(clickedSlot == 53 && eastereggCounter < 10) {
+            if(++eastereggCounter == 10) {
+                ChatUtil.sendMessage(player, "Du har trykket 10 gange på den knap, tilykke!");
+                ChatUtil.sendMessage(player, "Vidste du forresten...");
+                ChatUtil.sendMessage(player, "At de fleste ænder ikke går i kirke?");
+            }
+        }
         switch (clickedItem.getType()) {
             case BARRIER -> player.closeInventory();
         }
