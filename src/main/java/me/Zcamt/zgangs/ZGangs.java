@@ -51,6 +51,8 @@ import java.util.concurrent.Executors;
 
 public class ZGangs extends JavaPlugin {
 
+    //Todo: Implement confirm system, like input
+
     //Todo: Checks for adapter variables being null
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Gang.class, new GangAdapter())
