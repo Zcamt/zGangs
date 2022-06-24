@@ -53,6 +53,12 @@ import java.util.concurrent.Executors;
 
 public class ZGangs extends JavaPlugin {
 
+    //Todo: Listeners missing for
+    // - stats
+    // - joins/leaves (notifications)
+    // - Delivering stuff for item-delivery
+    // - probably more
+
     //Todo: Implement confirm system, like input
 
     //Todo: Checks for adapter variables being null
