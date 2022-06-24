@@ -91,18 +91,59 @@ class PlayerNotificationsGui extends GUI {
         this.gang = playerGang;
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
 
-        //Gang chat
-        //Ally chat
-        //Member connect
-        //Member disconnect
-        //Ally connect
-        //Ally disconnect
-        setItem(49, new ItemCreator(Material.REDSTONE_TORCH).setName("&cTilbage").make());
+        //Gang chat 12
+        boolean gangChatEnabled = gangPlayer.getGangPlayerSettings().isReceiveGangChat();
+        setItem(12, new ItemCreator(gangChatEnabled ? Material.GREEN_BANNER : Material.RED_DYE)
+                .setName("&a&lBandechat")
+                .addLore("&7Klik her for at:",
+                        "&6- &fDe(aktivere) beskeder fra bandechatten")
+                .make());
+        //Ally chat 14
+        boolean allyChatEnabled = gangPlayer.getGangPlayerSettings().isReceiveAllyChat();
+        setItem(14, new ItemCreator(allyChatEnabled ? Material.GREEN_BANNER : Material.RED_DYE)
+                .setName("&a&lAllychat")
+                .addLore("&7Klik her for at:",
+                        "&6- &fDe(aktivere) beskeder fra allychatten")
+                .make());
+
+        //Member connect 21
+        boolean memberConnectEnabled = gangPlayer.getGangPlayerSettings().isReceiveMemberConnectNotification();
+        setItem(21, new ItemCreator(memberConnectEnabled ? Material.GREEN_BANNER : Material.RED_DYE)
+                .setName("&a&lMedlem online")
+                .addLore("&7Klik her for at:",
+                        "&6- &fDe(aktivere) online-notifikationer for medlemmer")
+                .make());
+        //Member disconnect 23
+        boolean memberDisconnectEnabled = gangPlayer.getGangPlayerSettings().isReceiveMemberDisconnectNotification();
+        setItem(23, new ItemCreator(memberDisconnectEnabled ? Material.GREEN_BANNER : Material.RED_DYE)
+                .setName("&a&lMedlem offline")
+                .addLore("&7Klik her for at:",
+                        "&6- &fDe(aktivere) offline-notifikationer for medlemmer")
+                .make());
+
+
+        //Ally connect 30
+        boolean allyConnectEnabled = gangPlayer.getGangPlayerSettings().isReceiveAllyConnectNotification();
+        setItem(30, new ItemCreator(allyConnectEnabled ? Material.GREEN_BANNER : Material.RED_DYE)
+                .setName("&a&lAllieret online")
+                .addLore("&7Klik her for at:",
+                        "&6- &fDe(aktivere) online-notifikationer for allierede")
+                .make());
+        //Ally disconnect 32
+        boolean allyDisconnectEnabled = gangPlayer.getGangPlayerSettings().isReceiveAllyDisconnectNotification();
+        setItem(32, new ItemCreator(allyDisconnectEnabled ? Material.GREEN_BANNER : Material.RED_DYE)
+                .setName("&a&lAllieret offline")
+                .addLore("&7Klik her for at:",
+                        "&6- &fDe(aktivere) offline-notifikationer for allierede")
+                .make());
+
+        setItem(49, new ItemCreator(Material.BARRIER).setName("&cTilbage").make());
     }
 
     @Override
     public void onClick(InventoryClickEvent event) {
         ItemStack clickedItem = event.getCurrentItem();
+        int clickedSlot = event.getSlot();
         if(clickedItem == null) return;
         if(!gangPlayer.isInGang()) return;
         switch (clickedItem.getType()) {
@@ -110,6 +151,38 @@ class PlayerNotificationsGui extends GUI {
                 player.closeInventory();
                 PlayerSettingsGui playerSettingsGui = new PlayerSettingsGui(player, gang);
                 playerSettingsGui.openTo(player);
+            }
+        }
+        switch (clickedSlot) {
+            case 12 -> {
+                gangPlayer.getGangPlayerSettings().toggleReceiveGangChat();
+                player.closeInventory();
+                this.openTo(player);
+            }
+            case 14 -> {
+                gangPlayer.getGangPlayerSettings().toggleReceiveAllyChat();
+                player.closeInventory();
+                this.openTo(player);
+            }
+            case 21 -> {
+                gangPlayer.getGangPlayerSettings().toggleReceiveMemberConnectNotification();
+                player.closeInventory();
+                this.openTo(player);
+            }
+            case 23 -> {
+                gangPlayer.getGangPlayerSettings().toggleReceiveMemberDisconnectNotification();
+                player.closeInventory();
+                this.openTo(player);
+            }
+            case 30 -> {
+                gangPlayer.getGangPlayerSettings().toggleReceiveAllyConnectNotification();
+                player.closeInventory();
+                this.openTo(player);
+            }
+            case 32 -> {
+                gangPlayer.getGangPlayerSettings().toggleReceiveAllyDisconnectNotification();
+                player.closeInventory();
+                this.openTo(player);
             }
         }
     }
