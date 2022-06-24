@@ -11,13 +11,13 @@ public class GangMotdAdapter extends TypeAdapter<GangMotd> {
     @Override
     public void write(JsonWriter writer, GangMotd gangMotd) throws IOException {
         writer.beginObject();
-        writer.name("line1").value(gangMotd.getLine1());
-        writer.name("line2").value(gangMotd.getLine2());
-        writer.name("line3").value(gangMotd.getLine3());
-        writer.name("line4").value(gangMotd.getLine4());
-        writer.name("line5").value(gangMotd.getLine5());
-        writer.name("line6").value(gangMotd.getLine6());
-        writer.name("line7").value(gangMotd.getLine7());
+        writer.name("line1").value(gangMotd.getLine1() == null ? "" : gangMotd.getLine1());
+        writer.name("line2").value(gangMotd.getLine2() == null ? "" : gangMotd.getLine2());
+        writer.name("line3").value(gangMotd.getLine3() == null ? "" : gangMotd.getLine3());
+        writer.name("line4").value(gangMotd.getLine4() == null ? "" : gangMotd.getLine4());
+        writer.name("line5").value(gangMotd.getLine5() == null ? "" : gangMotd.getLine5());
+        writer.name("line6").value(gangMotd.getLine6() == null ? "" : gangMotd.getLine6());
+        writer.name("line7").value(gangMotd.getLine7() == null ? "" : gangMotd.getLine7());
         writer.endObject();
     }
 

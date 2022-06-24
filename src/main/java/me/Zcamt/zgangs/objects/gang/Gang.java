@@ -143,7 +143,7 @@ public class Gang {
     }
 
     public void serialize() {
-        ZGangs.getThreadPool().submit(() -> {
+        ZGangs.getThreadPool().execute(() -> {
             Document document = Document.parse(toJson());
             ZGangs.getDatabase().getGangCollection()
                     .replaceOne(Filters.eq("_id",

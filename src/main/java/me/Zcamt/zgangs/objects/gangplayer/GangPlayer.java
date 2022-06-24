@@ -71,7 +71,7 @@ public class GangPlayer {
     }
 
     public void serialize(){
-        ZGangs.getThreadPool().submit(() -> {
+        ZGangs.getThreadPool().execute(() -> {
             Document document = Document.parse(toJson());
             ZGangs.getDatabase().getGangPlayerCollection()
                     .replaceOne(Filters.eq("_id",

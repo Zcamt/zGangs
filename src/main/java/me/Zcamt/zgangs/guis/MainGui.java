@@ -50,7 +50,7 @@ public class MainGui extends GUI{
                         "&6- &fSe hvilke kommandoer der findes i systemet")
                 .make());
 
-        setItem(47, new ItemCreator(Material.BARRIER).setName("&cPersonlige indstillinger")
+        setItem(47, new ItemCreator(Material.REDSTONE_TORCH).setName("&cPersonlige indstillinger")
                 .addLore("&7Klik her for at:",
                         "&6- &fForlade din bande",
                         "&6- &f(De)aktivere beskeder fra systemet")
@@ -62,7 +62,7 @@ public class MainGui extends GUI{
                         "&6- &fHåndtere bandens medlemmer",
                         "&6- &fOg meget mere...")
                 .make());
-        setItem(49, new ItemCreator(Material.REDSTONE_TORCH).setName("&cLuk").make());
+        setItem(49, new ItemCreator(Material.BARRIER).setName("&cLuk").make());
 
         //Butik
 
@@ -82,7 +82,21 @@ public class MainGui extends GUI{
             }
         }
         switch (clickedItem.getType()) {
+            case PLAYER_HEAD -> {
+                GangInfoGui gangInfoGui = new GangInfoGui(player, gang);
+                gangInfoGui.openTo(player);
+            }
             case BARRIER -> player.closeInventory();
+            case REDSTONE_TORCH -> {
+                if(clickedItem.getItemMeta() == null) return;
+                String clickedItemName = clickedItem.getItemMeta().getDisplayName();
+                if(clickedItemName.contains("Personlige indstillinger")) {
+                    PlayerSettingsGui playerSettingsGui = new PlayerSettingsGui(player, gang);
+                    playerSettingsGui.openTo(player);
+                } else if(clickedItemName.contains("Bande indstillinger")) {
+                    ChatUtil.sendMessage(player, "&c&lÅbner bande indstillinger... når det er lavet");
+                }
+            }
         }
     }
 }

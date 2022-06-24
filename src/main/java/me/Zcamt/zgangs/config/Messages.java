@@ -24,6 +24,7 @@ public class Messages {
     public static String noEnoughMoney = "&cFejl: Det har du ikke penge nok til";
     public static String unexpectedError = "&cFejl: Noget gik galt, kontakt venligst en Admin";
     private static String inviteSentToPlayer = "&aInvitation sendt til {player}";
+    private static String inviteReceivedFrom = "&aInvitation modtaget fra {gang}, accepter den via /bk accept {gang} eller via menuen";
     private static String bankDeposit = "&a&lDu har sat &c&l{amount} &a&lind i bandebanken";
     private static String playerJoinedGang = "&a&l{player} er nu en del af banden";
     public static String cantLeaveAsOwner = "&cFejl: Du kan ikke forlade en bande du ejer";
@@ -44,6 +45,10 @@ public class Messages {
 
     public static String inviteSentToPlayer(String playerName) {
         return inviteSentToPlayer.replace("{player}", playerName);
+    }
+
+    public static String inviteReceivedFrom(String gangName) {
+        return inviteReceivedFrom.replace("{gang}", gangName);
     }
 
     public static String bankDeposit(int amount) {

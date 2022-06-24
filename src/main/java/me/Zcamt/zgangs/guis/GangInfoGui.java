@@ -150,7 +150,6 @@ public class GangInfoGui extends GUI {
         if(!gangPlayer.isInGang()) return;
         switch (clickedItem.getType()) {
             case BARRIER -> {
-                player.closeInventory();
                 MainGui mainGui = new MainGui(player, gang);
                 mainGui.openTo(player);
             }

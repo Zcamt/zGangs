@@ -16,7 +16,7 @@ public class KillsLeaderboard extends Leaderboard {
 
     @Override
     public void update() {
-        ZGangs.getThreadPool().submit(() -> {
+        ZGangs.getThreadPool().execute(() -> {
             List<GangLeaderboardEntry> leaderboard = new ArrayList<>();
             FindIterable<Document> gangs = ZGangs.getDatabase().getGangCollection().find().sort(new BasicDBObject("kills", -1)).limit(10);
             try (MongoCursor<Document> gangIterator = gangs.iterator()) {

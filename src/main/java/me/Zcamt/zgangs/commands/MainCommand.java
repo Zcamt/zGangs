@@ -15,6 +15,7 @@ import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.Utils;
+import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -110,6 +111,9 @@ public class MainCommand extends BaseCommand {
         GangPlayer targetGangPlayer = gangPlayerManager.findById(offlineTarget.getUniqueId());
         if(gang.getGangMembers().addPlayerToInvites(targetGangPlayer)) {
             ChatUtil.sendMessage(player, Config.prefix + " " + Messages.inviteSentToPlayer(offlineTarget.getName()));
+            if(offlineTarget.isOnline()) {
+                ChatUtil.sendMessage((Player) offlineTarget, Messages.inviteReceivedFrom(gang.getName()));
+            }
         } else {
             //Todo: Bliver også sendt når spilleren allerede har modtaget en invite, måske en ny slags fejlbesked eller et ekstra tjek ovenover
             ChatUtil.sendMessage(player, Messages.unexpectedError);

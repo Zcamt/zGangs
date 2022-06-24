@@ -24,7 +24,7 @@ public class PlayerSettingsGui extends GUI {
     private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
 
     protected PlayerSettingsGui(Player player, Gang playerGang) {
-        super(54, "&a&lPersonlige indstillinger");
+        super(54, ChatUtil.CC("&a&lPersonlige indstillinger"));
         generateGuiBorder();
         this.player = player;
         this.gang = playerGang;
@@ -42,7 +42,7 @@ public class PlayerSettingsGui extends GUI {
                         "&6- &fForlade din bande")
                 .make());
         
-        setItem(49, new ItemCreator(Material.REDSTONE_TORCH).setName("&cTilbage").make());
+        setItem(49, new ItemCreator(Material.BARRIER).setName("&cTilbage").make());
     }
 
     @Override
@@ -52,7 +52,6 @@ public class PlayerSettingsGui extends GUI {
         if(!gangPlayer.isInGang()) return;
         switch (clickedItem.getType()) {
             case BARRIER -> {
-                player.closeInventory();
                 MainGui mainGui = new MainGui(player, gang);
                 mainGui.openTo(player);
             }
@@ -70,7 +69,6 @@ public class PlayerSettingsGui extends GUI {
                 }
             }
             case PAPER -> {
-                player.closeInventory();
                 PlayerNotificationsGui playerNotificationsGui = new PlayerNotificationsGui(player, gang);
                 playerNotificationsGui.openTo(player);
             }
@@ -85,7 +83,7 @@ class PlayerNotificationsGui extends GUI {
     private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
 
     protected PlayerNotificationsGui(Player player, Gang playerGang) {
-        super(54, "&a&lNotifikations indstillinger");
+        super(54, ChatUtil.CC("&a&lNotifikations indstillinger"));
         generateGuiBorder();
         this.player = player;
         this.gang = playerGang;
@@ -148,7 +146,6 @@ class PlayerNotificationsGui extends GUI {
         if(!gangPlayer.isInGang()) return;
         switch (clickedItem.getType()) {
             case BARRIER -> {
-                player.closeInventory();
                 PlayerSettingsGui playerSettingsGui = new PlayerSettingsGui(player, gang);
                 playerSettingsGui.openTo(player);
             }
@@ -156,33 +153,33 @@ class PlayerNotificationsGui extends GUI {
         switch (clickedSlot) {
             case 12 -> {
                 gangPlayer.getGangPlayerSettings().toggleReceiveGangChat();
-                player.closeInventory();
-                this.openTo(player);
+                PlayerNotificationsGui playerNotificationsGui = new PlayerNotificationsGui(player, gang);
+                playerNotificationsGui.openTo(player);
             }
             case 14 -> {
                 gangPlayer.getGangPlayerSettings().toggleReceiveAllyChat();
-                player.closeInventory();
-                this.openTo(player);
+                PlayerNotificationsGui playerNotificationsGui = new PlayerNotificationsGui(player, gang);
+                playerNotificationsGui.openTo(player);
             }
             case 21 -> {
                 gangPlayer.getGangPlayerSettings().toggleReceiveMemberConnectNotification();
-                player.closeInventory();
-                this.openTo(player);
+                PlayerNotificationsGui playerNotificationsGui = new PlayerNotificationsGui(player, gang);
+                playerNotificationsGui.openTo(player);
             }
             case 23 -> {
                 gangPlayer.getGangPlayerSettings().toggleReceiveMemberDisconnectNotification();
-                player.closeInventory();
-                this.openTo(player);
+                PlayerNotificationsGui playerNotificationsGui = new PlayerNotificationsGui(player, gang);
+                playerNotificationsGui.openTo(player);
             }
             case 30 -> {
                 gangPlayer.getGangPlayerSettings().toggleReceiveAllyConnectNotification();
-                player.closeInventory();
-                this.openTo(player);
+                PlayerNotificationsGui playerNotificationsGui = new PlayerNotificationsGui(player, gang);
+                playerNotificationsGui.openTo(player);
             }
             case 32 -> {
                 gangPlayer.getGangPlayerSettings().toggleReceiveAllyDisconnectNotification();
-                player.closeInventory();
-                this.openTo(player);
+                PlayerNotificationsGui playerNotificationsGui = new PlayerNotificationsGui(player, gang);
+                playerNotificationsGui.openTo(player);
             }
         }
     }

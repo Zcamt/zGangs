@@ -117,8 +117,8 @@ public class GangManager {
         }
         Document gangDocument = database.getGangCollection().find(new Document("_id", uuid.toString())).first();
         if (gangDocument == null) {
-            return null;
-            //throw new NoSuchElementException("Couldn't find gang with UUID '" + uuid + "'");
+            //return null;
+            throw new NoSuchElementException("Couldn't find gang with UUID '" + uuid + "'");
         }
         Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
         addGangToCache(gang.getUUID(), gang);
@@ -133,8 +133,8 @@ public class GangManager {
                 .collation(Collation.builder().locale("en").collationStrength(CollationStrength.PRIMARY).build())
                 .first();
         if (gangDocument == null) {
-            return null;
-            //throw new NoSuchElementException("Couldn't find gang with name '" + name + "'");
+            //return null;
+            throw new NoSuchElementException("Couldn't find gang with name '" + name + "'");
         }
         Gang gang = ZGangs.GSON.fromJson(gangDocument.toJson(), Gang.class);
         addGangToCache(gang.getUUID(), gang);

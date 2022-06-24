@@ -1,11 +1,14 @@
 me\Zcamt\zgangs\objects\gang\permissions\GangPermissions.class
 me\Zcamt\zgangs\objects\gang\stats\GangStatsAdapter.class
 me\Zcamt\zgangs\commands\MainCommand.class
+me\Zcamt\zgangs\guis\PlayerSettingsGui.class
 me\Zcamt\zgangs\config\Messages.class
+me\Zcamt\zgangs\guis\PlayerNotificationsGui$1.class
 me\Zcamt\zgangs\commands\MenuCommand.class
 me\Zcamt\zgangs\objects\leaderboard\LeaderboardType.class
 me\Zcamt\zgangs\utils\MenuUtil.class
 me\Zcamt\zgangs\objects\gangplayer\GangPlayerAdapter.class
+me\Zcamt\zgangs\guis\PlayerNotificationsGui.class
 me\Zcamt\zgangs\objects\leaderboard\GangLeaderboardEntry.class
 me\Zcamt\zgangs\guis\MainGui$1.class
 me\Zcamt\zgangs\guis\NoGangGui.class
@@ -25,6 +28,7 @@ me\Zcamt\zgangs\objects\gang\GangRank.class
 me\Zcamt\zgangs\utils\SkullCreator.class
 me\Zcamt\zgangs\chatinput\ChatStringInput.class
 me\Zcamt\zgangs\objects\gang\allies\GangAllies.class
+me\Zcamt\zgangs\guis\PlayerSettingsGui$1.class
 me\Zcamt\zgangs\config\Config.class
 me\Zcamt\zgangs\objects\gang\level\GangLevelRequirementType.class
 me\Zcamt\zgangs\objects\gang\motd\GangMotd.class
