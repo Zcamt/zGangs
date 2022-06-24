@@ -24,37 +24,37 @@ import java.util.List;
 public class ExternalGangGui extends GUI {
 
     private final Player player;
-    private final Gang gang;
+    private final Gang targetGang;
     private final GangManager gangManager = ZGangs.getGangManager();
     private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
     private final GangLevelManager gangLevelManager = ZGangs.getGangLevelManager();
 
-    public ExternalGangGui(Player player, Gang playerGang) {
-        super(54, ChatUtil.CC("&c&lBande info " + playerGang.getName()));
+    public ExternalGangGui(Player player, Gang targetGang) {
+        super(54, ChatUtil.CC("&c&lBande info " + targetGang.getName()));
         generateGuiBorder();
         this.player = player;
-        this.gang = playerGang;
+        this.targetGang = targetGang;
 
         setItem(49, new ItemCreator(Material.BARRIER).setName("&cLuk").make());
         setItem(22, new ItemCreator(Material.BOOK)
                 .setName("&a&lBande").addLore(
-                        "&c&lNavn: &f" + gang.getName(),
-                        "&c&lLevel: &f" + gang.getLevel(),
-                        "&c&lEjer: &f" + Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName(),
-                        "&c&lBank: &f" + gang.getBank(),
-                        "&c&lDrab: &f" + gang.getGangStats().getKills(),
-                        "&c&lDøde: &f" + gang.getGangStats().getDeaths(),
-                        "&c&lVagt drab: &f" + gang.getGangStats().getAllGuardKills(),
-                        "&c&lOfficer+ drab: &f" + gang.getGangStats().getOfficer_plus_kills(),
-                        "&c&lVagt drab i A: &f" + gang.getGangStats().getGuard_kills_in_a(),
-                        "&c&lVagt drab i B: &f" + gang.getGangStats().getGuard_kills_in_b(),
-                        "&c&lVagt drab i C: &f" + gang.getGangStats().getGuard_kills_in_c(),
-                        "&c&lOprettet: &f" + Utils.formatDateFromEpochMilli(gang.getCreationDateMillis())
+                        "&c&lNavn: &f" + this.targetGang.getName(),
+                        "&c&lLevel: &f" + this.targetGang.getLevel(),
+                        "&c&lEjer: &f" + Bukkit.getOfflinePlayer(this.targetGang.getOwnerUUID()).getName(),
+                        "&c&lBank: &f" + this.targetGang.getBank(),
+                        "&c&lDrab: &f" + this.targetGang.getGangStats().getKills(),
+                        "&c&lDøde: &f" + this.targetGang.getGangStats().getDeaths(),
+                        "&c&lVagt drab: &f" + this.targetGang.getGangStats().getAllGuardKills(),
+                        "&c&lOfficer+ drab: &f" + this.targetGang.getGangStats().getOfficer_plus_kills(),
+                        "&c&lVagt drab i A: &f" + this.targetGang.getGangStats().getGuard_kills_in_a(),
+                        "&c&lVagt drab i B: &f" + this.targetGang.getGangStats().getGuard_kills_in_b(),
+                        "&c&lVagt drab i C: &f" + this.targetGang.getGangStats().getGuard_kills_in_c(),
+                        "&c&lOprettet: &f" + Utils.formatDateFromEpochMilli(this.targetGang.getCreationDateMillis())
                 ).make());
 
         //Members
         List<GangPlayer> gangMembers = new ArrayList<>();
-        gang.getGangMembers().getMemberList().forEach(uuid -> gangMembers.add(gangPlayerManager.findById(uuid)));
+        this.targetGang.getGangMembers().getMemberList().forEach(uuid -> gangMembers.add(gangPlayerManager.findById(uuid)));
         gangMembers.sort(Comparator.comparing(GangPlayer::getGangRank));
         List<String> memberLore = new ArrayList<>();
         gangMembers.forEach(gangMember ->
@@ -62,16 +62,16 @@ public class ExternalGangGui extends GUI {
                         + (gangMember.getOfflinePlayer().isOnline() ? " &a●" : " &7●")
                         + " &f" + gangMember.getOfflinePlayer().getName())
         );
-        setItem(24, new ItemCreator(Material.PLAYER_HEAD).setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName())
+        setItem(24, new ItemCreator(Material.PLAYER_HEAD).setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(this.targetGang.getOwnerUUID()).getName())
                 .setName("&a&lMedlemmer").addLore(memberLore).make());
 
         //Limits
         List<String> limitsLore = new ArrayList<>();
-        limitsLore.add("&7&lMedlemmer: &c" + gang.getGangMembers().getMemberCount() + " &7&l/ &c" + gang.getGangMembers().getMaxMembers());
-        limitsLore.add("&7&lAllierede: &c" + gang.getGangAllies().getAllyCount() + " &7&l/ &c" + gang.getGangAllies().getMaxAllies());
-        limitsLore.add("&7&lRivaler: &c" + gang.getGangRivals().getRivalCount() + " &7&l/ &c" + gang.getGangRivals().getMaxRivals());
-        limitsLore.add("&7&lBande-skade: &c" + gang.getGangMembers().getMemberDamagePercent() + "&7%");
-        limitsLore.add("&7&lAlly-skade: &c" + gang.getGangAllies().getAllyDamagePercent() + "&7%");
+        limitsLore.add("&7&lMedlemmer: &c" + this.targetGang.getGangMembers().getMemberCount() + " &7&l/ &c" + this.targetGang.getGangMembers().getMaxMembers());
+        limitsLore.add("&7&lAllierede: &c" + this.targetGang.getGangAllies().getAllyCount() + " &7&l/ &c" + this.targetGang.getGangAllies().getMaxAllies());
+        limitsLore.add("&7&lRivaler: &c" + this.targetGang.getGangRivals().getRivalCount() + " &7&l/ &c" + this.targetGang.getGangRivals().getMaxRivals());
+        limitsLore.add("&7&lBande-skade: &c" + this.targetGang.getGangMembers().getMemberDamagePercent() + "&7%");
+        limitsLore.add("&7&lAlly-skade: &c" + this.targetGang.getGangAllies().getAllyDamagePercent() + "&7%");
         limitsLore.add("&7&lAdgang til bandeområde i &cC&7: &aja&7/&cnej");
         limitsLore.add("&7&lAdgang til bandeområde i &bB&7: &aja&7/&cnej");
         limitsLore.add("&7&lAdgang til bandeområde i &aA&7: &aja&7/&cnej");
@@ -82,7 +82,7 @@ public class ExternalGangGui extends GUI {
 
         //Allies
         List<String> alliedGangs = new ArrayList<>();
-        gang.getGangAllies().getAlliedGangs().forEach(allyUUID ->
+        this.targetGang.getGangAllies().getAlliedGangs().forEach(allyUUID ->
                 alliedGangs.add("&7- &a" + gangManager.findById(allyUUID).getName()));
         setItem(30, new ItemCreator(Material.GREEN_BANNER)
                 .setName("&a&lAllierede")
@@ -91,16 +91,16 @@ public class ExternalGangGui extends GUI {
 
         //Rivals
         List<String> rivalGangs = new ArrayList<>();
-        if (gang.getGangRivals().getRivalCount() > 0) {
-            gang.getGangRivals().getRivalGangs().forEach(rivalUUID ->
+        if (this.targetGang.getGangRivals().getRivalCount() > 0) {
+            this.targetGang.getGangRivals().getRivalGangs().forEach(rivalUUID ->
                     rivalGangs.add("&7- &c" + gangManager.findById(rivalUUID).getName()));
         } else {
             rivalGangs.add("&7I har ingen rivaler");
         }
         rivalGangs.add("");
         rivalGangs.add("&a&lRivaler mod jer");
-        if (gang.getGangRivals().getRivalAgainstCount() > 0) {
-            gang.getGangRivals().getRivalGangsAgainst().forEach(rivalAgainstUUID ->
+        if (this.targetGang.getGangRivals().getRivalAgainstCount() > 0) {
+            this.targetGang.getGangRivals().getRivalGangsAgainst().forEach(rivalAgainstUUID ->
                     rivalGangs.add("&7- &c" + gangManager.findById(rivalAgainstUUID).getName()));
         } else {
             rivalGangs.add("&7I har ingen rivaler imod jer");
@@ -112,13 +112,13 @@ public class ExternalGangGui extends GUI {
 
         //Level-up
         List<String> levelUpLore = new ArrayList<>();
-        GangLevel nextGangLevel = gangLevelManager.getGangLevelFromInt(gang.getLevel() + 1);
+        GangLevel nextGangLevel = gangLevelManager.getGangLevelFromInt(this.targetGang.getLevel() + 1);
         for (GangLevelRequirement requirement : nextGangLevel.getGangLevelRequirements().getRequirements()) {
             int requirementAmount = requirement.getAmount();
-            int requirementProgress = requirement.getProgress(gang);
+            int requirementProgress = requirement.getProgress(this.targetGang);
             String requirementDescription = requirement.getRequirementType().getDescription();
             ;
-            boolean requirementMet = requirement.requirementMet(gang);
+            boolean requirementMet = requirement.requirementMet(this.targetGang);
 
             levelUpLore.add((requirementMet ? " &a✓" : " &c✘")
                     + " &7" + requirementDescription

@@ -265,15 +265,21 @@ public class MainCommand extends BaseCommand {
     @Subcommand("info")
     public void onInfo(Player player, String[] args) {
         if(args.length != 1){
-            ChatUtil.sendMessage(player, Messages.invalidUsage("/bk info <BANDE>"));
+            ChatUtil.sendMessage(player, Messages.invalidUsage("/bk info <SPILLER>"));
             return;
         }
-        String targetGangName = args[0];
-        Gang targetGang = gangManager.findByName(targetGangName);
-        if(targetGang == null) {
+        String targetPlayerName = args[0];
+        OfflinePlayer targetOfflinePlayer = Bukkit.getOfflinePlayer(targetPlayerName);
+        if(!targetOfflinePlayer.hasPlayedBefore()) {
+            ChatUtil.sendMessage(player, Messages.invalidPlayer);
+            return;
+        }
+        GangPlayer targetGangPlayer = gangPlayerManager.findById(targetOfflinePlayer.getUniqueId());
+        if(!targetGangPlayer.isInGang()) {
             ChatUtil.sendMessage(player, Messages.invalidGang);
             return;
         }
+        Gang targetGang = gangManager.findById(targetGangPlayer.getGangUUID());
         ExternalGangGui externalGangGui = new ExternalGangGui(player, targetGang);
         externalGangGui.openTo(player);
     }
