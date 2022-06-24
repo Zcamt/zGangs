@@ -67,6 +67,18 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>com.github.MilkBowl</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>me.clip</groupId>
+            <artifactId>placeholderapi</artifactId>
+            <version>2.11.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>co.aikar</groupId>
             <artifactId>acf-paper</artifactId>
             <version>0.5.1-SNAPSHOT</version>
@@ -91,22 +103,16 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.MilkBowl</groupId>
-            <artifactId>VaultAPI</artifactId>
-            <version>1.7</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>20.1.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.11.1</version>
-            <scope>provided</scope>
+            <groupId>me.lucko</groupId>
+            <artifactId>helper</artifactId>
+            <version>5.6.10</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
@@ -143,6 +149,10 @@
                             <finalName>${project.name}-${project.version}</finalName>
                             <outputDirectory>E:\generated-plugins</outputDirectory>
                             <relocations>
+                                <relocation>
+                                    <pattern>me.lucko.helper</pattern>
+                                    <shadedPattern>main.java.me.Zcamt.zgangs.helper</shadedPattern>
+                                </relocation>
                                 <relocation>
                                     <pattern>com.google.code.com.github.ben-manes.caffeine</pattern>
                                     <shadedPattern>main.java.me.Zcamt.zgangs.caffeine</shadedPattern>
