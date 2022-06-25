@@ -1,6 +1,7 @@
 package me.Zcamt.zgangs.objects.gang.allies;
 
 import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,6 +74,9 @@ public class GangAllies {
 
         alliedGangInvitesOutgoing.add(ally.getUUID());
         ally.getGangAllies().addAllyInviteIncoming(gang);
+
+        gang.sendMessageToOnlineMembers(Messages.allyInviteOutgoing(ally.getName()));
+        ally.sendMessageToOnlineMembers(Messages.allyInviteIncoming(gang.getName()));
         gang.serialize();
         return true;
     }

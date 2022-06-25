@@ -111,9 +111,6 @@ public class MainCommand extends BaseCommand {
         GangPlayer targetGangPlayer = gangPlayerManager.findById(offlineTarget.getUniqueId());
         if(gang.getGangMembers().addPlayerToInvites(targetGangPlayer)) {
             ChatUtil.sendMessage(player, Config.prefix + " " + Messages.inviteSentToPlayer(offlineTarget.getName()));
-            if(offlineTarget.isOnline()) {
-                ChatUtil.sendMessage((Player) offlineTarget, Messages.inviteReceivedFrom(gang.getName()));
-            }
         } else {
             //Todo: Bliver også sendt når spilleren allerede har modtaget en invite, måske en ny slags fejlbesked eller et ekstra tjek ovenover
             ChatUtil.sendMessage(player, Messages.unexpectedError);
@@ -136,8 +133,8 @@ public class MainCommand extends BaseCommand {
         }
 
         if(gang.getGangMembers().isInvited(player.getUniqueId())) {
-            if (gang.getGangMembers().addGangPlayerToGang(gangPlayer)) {
-                gang.sendMessageToOnlineMembers(Messages.playerJoinedGang(player.getName()));
+            if (!gang.getGangMembers().addGangPlayerToGang(gangPlayer)) {
+                ChatUtil.sendMessage(player, Messages.unexpectedError);
             }
         } else {
             //Todo: Måske lav en anden besked så spilleren ved at de ikke har modtaget en invitation fra banden i stedet for at kalde den invalid
@@ -222,10 +219,7 @@ public class MainCommand extends BaseCommand {
         String targetGangName = args[0];
         Gang targetGang = gangManager.findByName(targetGangName);
 
-        if(playerGang.getGangAllies().addAllyInviteOutgoing(targetGang)) {
-            playerGang.sendMessageToOnlineMembers(Messages.allyInviteOutgoing(targetGang.getName()));
-            targetGang.sendMessageToOnlineMembers(Messages.allyInviteIncoming(playerGang.getName()));
-        } else {
+        if(!playerGang.getGangAllies().addAllyInviteOutgoing(targetGang)) {
             //Todo: Bliver også sendt når banden allerede har modtaget en ally invite, måske en ny slags fejlbesked eller et ekstra tjek ovenover
             ChatUtil.sendMessage(player, Messages.unexpectedError);
         }
@@ -252,10 +246,7 @@ public class MainCommand extends BaseCommand {
         String targetGangName = args[0];
         Gang targetGang = gangManager.findByName(targetGangName);
 
-        if(playerGang.getGangRivals().addRival(targetGang)) {
-            playerGang.sendMessageToOnlineMembers(Messages.allyInviteOutgoing(targetGang.getName()));
-            targetGang.sendMessageToOnlineMembers(Messages.allyInviteIncoming(playerGang.getName()));
-        } else {
+        if(!playerGang.getGangRivals().addRival(targetGang)) {
             //Todo: Bliver også sendt når banden allerede er markeret som rival, måske en ny slags fejlbesked eller et ekstra tjek ovenover
             ChatUtil.sendMessage(player, Messages.unexpectedError);
         }

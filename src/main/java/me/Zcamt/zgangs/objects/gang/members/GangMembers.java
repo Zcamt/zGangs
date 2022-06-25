@@ -1,8 +1,12 @@
 package me.Zcamt.zgangs.objects.gang.members;
 
+import me.Zcamt.zgangs.config.Config;
+import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangRank;
+import me.Zcamt.zgangs.utils.ChatUtil;
+import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,6 +56,8 @@ public class GangMembers {
         memberList.add(gangPlayer.getUUID());
         gangPlayer.setGangID(gang.getUUID());
         gangPlayer.setGangRank(GangRank.RECRUIT);
+
+        gang.sendMessageToOnlineMembers(Messages.playerJoinedGang(gangPlayer.getOfflinePlayer().getName()));
         gang.serialize();
         return true;
     }

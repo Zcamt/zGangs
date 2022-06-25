@@ -3,12 +3,15 @@ package me.Zcamt.zgangs.objects.gangplayer;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangRank;
 import me.Zcamt.zgangs.objects.gangplayer.settings.GangPlayerSettings;
+import me.Zcamt.zgangs.utils.ChatUtil;
 import org.bson.Document;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,6 +54,9 @@ public class GangPlayer {
 
         gangInvites.add(gang.getUUID());
         gang.getGangMembers().addPlayerToInvites(this);
+        if(getOfflinePlayer().isOnline()) {
+            ChatUtil.sendMessage((Player) getOfflinePlayer(), Messages.inviteReceivedFrom(gang.getName()));
+        }
         serialize();
         return true;
     }

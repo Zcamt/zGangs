@@ -1,5 +1,6 @@
 package me.Zcamt.zgangs.objects.gang.rivals;
 
+import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
 
 import java.util.Collections;
@@ -26,6 +27,9 @@ public class GangRivals {
 
         rivalGangs.add(rival.getUUID());
         rival.getGangRivals().addRivalAgainst(gang);
+
+        gang.sendMessageToOnlineMembers(Messages.allyInviteOutgoing(rival.getName()));
+        rival.sendMessageToOnlineMembers(Messages.allyInviteIncoming(gang.getName()));
         gang.serialize();
         return true;
     }
