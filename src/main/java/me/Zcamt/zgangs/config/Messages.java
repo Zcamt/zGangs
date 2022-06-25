@@ -34,10 +34,10 @@ public class Messages {
     private static String allyInviteOutgoing = "&a&lDin bande har sendt en invitation om at blive allierede til {gang}";
     private static String newRival = "&a&lDin bande har lige gjort {gang} til en rival";
     private static String newRivalAgainst = "&a&l{gang} har lige gjort din bande til en rival";
-    private static String memberConnected = "";
-    private static String memberDisconnected = "";
-    private static String allyConnected = "";
-    private static String allyDisconnected = "";
+    private static String memberConnected = "&a&l{player} &aer nu online";
+    private static String memberDisconnected = "&c&l{player} &cer nu offline";
+    private static String allyConnected = "&a&l{player} &aer nu online";
+    private static String allyDisconnected = "&c&l{player} &cer nu offline";
 
     public static String invalidUsage(String usage) {
         return invalidUsage.replace("{usage}", usage);
