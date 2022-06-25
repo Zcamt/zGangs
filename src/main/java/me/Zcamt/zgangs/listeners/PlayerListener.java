@@ -9,7 +9,10 @@ import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.minecraft.server.v1_16_R3.ChatComponentText;
+import net.minecraft.server.v1_16_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -41,8 +44,7 @@ public class PlayerListener implements Listener {
 
             GangPlayer gangMember = gangPlayerManager.findById(memberUUID);
             if(gangMember.getGangPlayerSettings().isReceiveMemberConnectNotification()){
-                gangMember.getOfflinePlayer().getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatUtil.CC(Messages.memberConnected(player.getName()))));
+                ChatUtil.sendMessage(gangMember.getOfflinePlayer().getPlayer(), Messages.memberConnected(player.getName()));
             }
 
         }
@@ -57,8 +59,7 @@ public class PlayerListener implements Listener {
 
                 GangPlayer gangMember = gangPlayerManager.findById(alliedGangMemberUUID);
                 if(gangMember.getGangPlayerSettings().isReceiveAllyConnectNotification()){
-                    gangMember.getOfflinePlayer().getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatUtil.CC(Messages.allyConnected(player.getName()))));
+                    ChatUtil.sendMessage(gangMember.getOfflinePlayer().getPlayer(), Messages.allyConnected(player.getName()));
                 }
             }
         }
@@ -78,8 +79,7 @@ public class PlayerListener implements Listener {
 
             GangPlayer gangMember = gangPlayerManager.findById(memberUUID);
             if(gangMember.getGangPlayerSettings().isReceiveMemberDisconnectNotification()){
-                gangMember.getOfflinePlayer().getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(ChatUtil.CC(Messages.memberDisconnected(player.getName()))));
+                ChatUtil.sendMessage(gangMember.getOfflinePlayer().getPlayer(), Messages.memberDisconnected(player.getName()));
             }
 
         }
@@ -94,8 +94,7 @@ public class PlayerListener implements Listener {
 
                 GangPlayer gangMember = gangPlayerManager.findById(alliedGangMemberUUID);
                 if(gangMember.getGangPlayerSettings().isReceiveAllyDisconnectNotification()){
-                    gangMember.getOfflinePlayer().getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(ChatUtil.CC(Messages.allyDisconnected(player.getName()))));
+                    ChatUtil.sendMessage(gangMember.getOfflinePlayer().getPlayer(), Messages.allyDisconnected(player.getName()));
                 }
             }
         }
