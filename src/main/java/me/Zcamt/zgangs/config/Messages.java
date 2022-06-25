@@ -23,15 +23,15 @@ public class Messages {
     public static String invalidInput;
     public static String noEnoughMoney = "&cFejl: Det har du ikke penge nok til";
     public static String unexpectedError = "&cFejl: Noget gik galt, kontakt venligst en Admin";
-    private static String inviteSentToPlayer = "&aInvitation sendt til {player}";
-    private static String inviteReceivedFrom = "&aInvitation modtaget fra {gang}, accepter den via /bk accept {gang} eller via menuen";
+    private static String inviteSentToPlayer = "&aDin bande har sendt en invitation til {player}";
+    private static String inviteReceivedFrom = "&aInvitation modtaget fra {gang}, accepter den via /bk accept {gang} eller via /b";
     private static String bankDeposit = "&a&lDu har sat &c&l{amount} &a&lind i bandebanken";
     private static String playerJoinedGang = "&a&l{player} er nu en del af banden";
     public static String cantLeaveAsOwner = "&cFejl: Du kan ikke forlade en bande du ejer";
     public static String cantDeleteGangWhileHasMembers = "&cFejl: Du skal være alene i din bande for at kunne slette den";
     private static String playerLeftGang = "&a&l{player} har forladt banden!";
     private static String allyInviteIncoming = "&a&lDin bande har modtaget en invitation om at blive allierede fra {gang}";
-    private static String allyInviteOutgoing = "&a&lDin bande har send en invitation om at blive allierede til {gang}";
+    private static String allyInviteOutgoing = "&a&lDin bande har sendt en invitation om at blive allierede til {gang}";
     private static String newRival = "&a&lDin bande har lige gjort {gang} til en rival";
     private static String newRivalAgainst = "&a&l{gang} har lige gjort din bande til en rival";
 

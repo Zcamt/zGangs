@@ -31,6 +31,7 @@ public class GangMembers {
         if (playerInvites.contains(gangPlayer.getUUID())) return false;
         playerInvites.add(gangPlayer.getUUID());
         if(gangPlayer.addGangInvite(gang)) {
+            gang.sendMessageToOnlineMembers(Messages.inviteSentToPlayer(gangPlayer.getOfflinePlayer().getName()));
             gang.serialize();
             return true;
         } else {

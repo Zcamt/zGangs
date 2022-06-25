@@ -109,9 +109,7 @@ public class MainCommand extends BaseCommand {
         }
 
         GangPlayer targetGangPlayer = gangPlayerManager.findById(offlineTarget.getUniqueId());
-        if(gang.getGangMembers().addPlayerToInvites(targetGangPlayer)) {
-            ChatUtil.sendMessage(player, Config.prefix + " " + Messages.inviteSentToPlayer(offlineTarget.getName()));
-        } else {
+        if(!gang.getGangMembers().addPlayerToInvites(targetGangPlayer)) {
             //Todo: Bliver også sendt når spilleren allerede har modtaget en invite, måske en ny slags fejlbesked eller et ekstra tjek ovenover
             ChatUtil.sendMessage(player, Messages.unexpectedError);
         }
