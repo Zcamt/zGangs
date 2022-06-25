@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.List;
 import java.util.UUID;
@@ -41,7 +42,7 @@ public class PlayerListener implements Listener {
             GangPlayer gangMember = gangPlayerManager.findById(memberUUID);
             if(gangMember.getGangPlayerSettings().isReceiveMemberConnectNotification()){
                 gangMember.getOfflinePlayer().getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                        TextComponent.fromLegacyText(Messages.memberConnected(player.getName())));
+                        TextComponent.fromLegacyText(ChatUtil.CC(Messages.memberConnected(player.getName()))));
             }
 
         }
@@ -57,11 +58,47 @@ public class PlayerListener implements Listener {
                 GangPlayer gangMember = gangPlayerManager.findById(alliedGangMemberUUID);
                 if(gangMember.getGangPlayerSettings().isReceiveAllyConnectNotification()){
                     gangMember.getOfflinePlayer().getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
-                            TextComponent.fromLegacyText(Messages.allyConnected(player.getName())));
+                            TextComponent.fromLegacyText(ChatUtil.CC(Messages.allyConnected(player.getName()))));
                 }
             }
         }
+    }
 
+    @EventHandler
+    public void onLeave(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        GangPlayer gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+        if(!gangPlayer.isInGang()) return;
+
+        Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
+        List<UUID> gangMembers = playerGang.getGangMembers().getMemberList();
+
+        for (UUID memberUUID : gangMembers) {
+            if(!Bukkit.getOfflinePlayer(memberUUID).isOnline()) continue;
+
+            GangPlayer gangMember = gangPlayerManager.findById(memberUUID);
+            if(gangMember.getGangPlayerSettings().isReceiveMemberDisconnectNotification()){
+                gangMember.getOfflinePlayer().getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                        TextComponent.fromLegacyText(ChatUtil.CC(Messages.memberDisconnected(player.getName()))));
+            }
+
+        }
+
+        List<UUID> alliedGangs = playerGang.getGangAllies().getAlliedGangs();
+        for (UUID alliedGangUUID : alliedGangs) {
+            Gang alliedGang = gangManager.findById(alliedGangUUID);
+            List<UUID> alliedGangMembers = alliedGang.getGangMembers().getMemberList();
+
+            for (UUID alliedGangMemberUUID : alliedGangMembers) {
+                if(!Bukkit.getOfflinePlayer(alliedGangMemberUUID).isOnline()) continue;
+
+                GangPlayer gangMember = gangPlayerManager.findById(alliedGangMemberUUID);
+                if(gangMember.getGangPlayerSettings().isReceiveAllyDisconnectNotification()){
+                    gangMember.getOfflinePlayer().getPlayer().spigot().sendMessage(ChatMessageType.ACTION_BAR,
+                            TextComponent.fromLegacyText(ChatUtil.CC(Messages.allyDisconnected(player.getName()))));
+                }
+            }
+        }
     }
 
 }
