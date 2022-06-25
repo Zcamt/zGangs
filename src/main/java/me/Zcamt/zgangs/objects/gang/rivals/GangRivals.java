@@ -18,6 +18,9 @@ public class GangRivals {
     }
 
     public boolean addRival(Gang rival) {
+        if(gang.getGangAllies().isAllied(rival.getUUID())) return false;
+        if(gang.getGangAllies().incomingInvitesContains(rival.getUUID())) return false;
+        if(gang.getGangAllies().outgoingInvitesContains(rival.getUUID())) return false;
         if (rivalGangs.contains(rival.getUUID())) return false;
         if (rivalGangs.size() + 1 >= maxRivals) return false;
 
@@ -37,6 +40,9 @@ public class GangRivals {
     }
 
     public boolean addRivalAgainst(Gang rival) {
+        if(gang.getGangAllies().isAllied(rival.getUUID())) return false;
+        if(gang.getGangAllies().incomingInvitesContains(rival.getUUID())) return false;
+        if(gang.getGangAllies().outgoingInvitesContains(rival.getUUID())) return false;
         if (rivalGangsAgainst.contains(rival.getUUID())) return false;
 
         rivalGangsAgainst.add(rival.getUUID());

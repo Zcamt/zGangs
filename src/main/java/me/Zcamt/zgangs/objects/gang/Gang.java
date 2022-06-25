@@ -39,6 +39,7 @@ public class Gang {
     private final GangMembers gangMembers;
     //Todo: Make sure that allies can't be marked as rivals
     // and that rivals can't be invited to be allies aswell as rivalsagainst can't be invited to be allies
+    // just needs testing now
     private final GangAllies gangAllies;
     private final GangRivals gangRivals;
     private final GangPermissions gangPermissions;
@@ -46,7 +47,8 @@ public class Gang {
     //Todo: Add area access
 
     public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int bank,
-                GangMotd gangMotd, GangStats gangStats,
+                GangMotd gangMotd,
+                GangStats gangStats,
                 GangMembers gangMembers,
                 GangAllies gangAllies,
                 GangRivals gangRivals,

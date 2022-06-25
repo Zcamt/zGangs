@@ -149,7 +149,8 @@ public class ZGangs extends JavaPlugin {
                 throw new ConditionFailedException();
             }
             Player player = issuer.getPlayer();
-            if (!PermissionUtil.hasPermissionWithMessage(player, Permissions.PLAYER.getPermission(), null)) {
+            if (!PermissionUtil.hasPermissionWithMessage(player, Permissions.PLAYER.getPermission(),
+                    "&cFejl: Kun spillere kan bruge den kommando")) {
                 throw new ConditionFailedException();
             }
         });
@@ -162,7 +163,8 @@ public class ZGangs extends JavaPlugin {
             }
             Player player = issuer.getPlayer();
             if(!player.isOp()) {
-                if (!PermissionUtil.hasPermissionWithMessage(player, Permissions.ADMIN.getPermission(), null)) {
+                if (!PermissionUtil.hasPermissionWithMessage(player, Permissions.ADMIN.getPermission(),
+                        "&cFejl: Kun admins kan bruge den kommando")) {
                     throw new ConditionFailedException();
                 }
             }

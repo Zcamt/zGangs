@@ -25,12 +25,14 @@ public class GangAllies {
     }
 
 
-    public boolean addAlly(Gang ally) {
+    public boolean addAlly(Gang newAlly) {
+        if(gang.getGangRivals().isRival(newAlly.getUUID())) return false;
+        if(gang.getGangRivals().isRivalAgainst(newAlly.getUUID())) return false;
         if(alliedGangs.size() >= maxAllies) return false;
-        if (alliedGangs.contains(ally.getUUID())) return false;
+        if (alliedGangs.contains(newAlly.getUUID())) return false;
 
-        alliedGangs.add(ally.getUUID());
-        ally.getGangAllies().addAlly(gang);
+        alliedGangs.add(newAlly.getUUID());
+        newAlly.getGangAllies().addAlly(gang);
         gang.serialize();
         return true;
     }
@@ -45,6 +47,8 @@ public class GangAllies {
     }
 
     public boolean addAllyInviteIncoming(Gang ally) {
+        if(gang.getGangRivals().isRival(ally.getUUID())) return false;
+        if(gang.getGangRivals().isRivalAgainst(ally.getUUID())) return false;
         if (alliedGangInvitesIncoming.contains(ally.getUUID())) return false;
 
         alliedGangInvitesIncoming.add(ally.getUUID());
@@ -63,6 +67,8 @@ public class GangAllies {
     }
 
     public boolean addAllyInviteOutgoing(Gang ally) {
+        if(gang.getGangRivals().isRival(ally.getUUID())) return false;
+        if(gang.getGangRivals().isRivalAgainst(ally.getUUID())) return false;
         if (alliedGangInvitesOutgoing.contains(ally.getUUID())) return false;
 
         alliedGangInvitesOutgoing.add(ally.getUUID());
