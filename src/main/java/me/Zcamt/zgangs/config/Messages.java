@@ -34,6 +34,10 @@ public class Messages {
     private static String allyInviteOutgoing = "&a&lDin bande har sendt en invitation om at blive allierede til {gang}";
     private static String newRival = "&a&lDin bande har lige gjort {gang} til en rival";
     private static String newRivalAgainst = "&a&l{gang} har lige gjort din bande til en rival";
+    private static String memberConnected = "";
+    private static String memberDisconnected = "";
+    private static String allyConnected = "";
+    private static String allyDisconnected = "";
 
     public static String invalidUsage(String usage) {
         return invalidUsage.replace("{usage}", usage);
@@ -77,6 +81,22 @@ public class Messages {
 
     public static String newRivalAgainst(String gangName) {
         return newRivalAgainst.replace("{gang}", gangName);
+    }
+
+    public static String memberConnected(String memberName) {
+        return memberConnected.replace("{player}", memberName);
+    }
+
+    public static String memberDisconnected(String memberName) {
+        return memberDisconnected.replace("{player}", memberName);
+    }
+
+    public static String allyConnected(String allyName) {
+        return allyConnected.replace("{player}", allyName);
+    }
+
+    public static String allyDisconnected(String allyName) {
+        return allyDisconnected.replace("{player}", allyName);
     }
 
     public static void reload() {

@@ -55,7 +55,7 @@ public class GangPlayer {
         gangInvites.add(gang.getUUID());
         gang.getGangMembers().addPlayerToInvites(this);
         if(getOfflinePlayer().isOnline()) {
-            ChatUtil.sendMessage((Player) getOfflinePlayer(), Messages.inviteReceivedFrom(gang.getName()));
+            ChatUtil.sendMessage(getOfflinePlayer().getPlayer(), Messages.inviteReceivedFrom(gang.getName()));
         }
         serialize();
         return true;
