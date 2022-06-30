@@ -36,7 +36,7 @@ public class MainGui extends GUI{
         setItem(20, new ItemCreator(Material.PLAYER_HEAD)
                 .setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName())
                 .setName("&a&lDin bande")
-                .addLore("&7&7Klik her for at:",
+                .addLore("&7Klik her for at:",
                         "&6- &fSe dine bandes stats",
                         "&6- &fSe medlemmerne i din bande",
                         "&6- &fSe krav til næste bande-level",

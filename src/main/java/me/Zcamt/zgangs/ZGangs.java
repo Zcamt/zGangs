@@ -59,6 +59,8 @@ public class ZGangs extends JavaPlugin {
     // - Delivering stuff for item-delivery
     // - probably more
 
+    //Todo: Make ally+gangchat
+
     //Todo: Implement confirm system, like input
 
     //Todo: Checks for adapter variables being null

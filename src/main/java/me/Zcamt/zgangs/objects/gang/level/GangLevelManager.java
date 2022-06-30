@@ -14,7 +14,7 @@ public class GangLevelManager {
                 1, 3, 1,
                 100, 100, false, false, false,
                 1, Arrays.asList(
-                "Adgang til 3 medlemmer og 1 allieret fra start"),
+                "&6- &fAdgang til 3 medlemmer og 1 allieret fra start"),
                 new GangLevelRequirements())
         );
 
@@ -22,9 +22,9 @@ public class GangLevelManager {
                 2, 4, 2,
                 95, 100, false, false, false,
                 1, Arrays.asList(
-                        "Køb adgang op til 4 medlemmer",
-                        "Køb adgang op til 2 allierede",
-                        "Nedset bandeskade til 95%"),
+                        "&6- &fKøb adgang op til 4 medlemmer",
+                        "&6- &fKøb adgang op til 2 allierede",
+                        "&6- &fNedset bandeskade til 95%"),
                 new GangLevelRequirements(
                         new GangLevelRequirement(GangLevelRequirementType.BANK_BALANCE, 5000),
                         new GangLevelRequirement(GangLevelRequirementType.MEMBER_COUNT, 2)

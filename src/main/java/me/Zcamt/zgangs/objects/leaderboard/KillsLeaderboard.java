@@ -42,7 +42,7 @@ public class KillsLeaderboard extends Leaderboard {
     }
 
     @Override
-    public List<GangLeaderboardEntry> getLeaderBoard() {
+    public List<GangLeaderboardEntry> getLeaderboard() {
         return leaderboard;
     }
 

@@ -6,5 +6,5 @@ public enum LeaderboardType {
     BANK,
     LEVEL,
     GUARD_KILLS,
-    OFFICER_KILLS;
+    OFFICER_PLUS_KILLS;
 }

@@ -8,7 +8,7 @@ public abstract class Leaderboard {
 
     public abstract void update();
 
-    public abstract List<GangLeaderboardEntry> getLeaderBoard();
+    public abstract List<GangLeaderboardEntry> getLeaderboard();
 
     public long getLastUpdatedEpoch() {
         return lastUpdatedEpoch;

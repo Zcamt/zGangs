@@ -12,6 +12,13 @@ public class LeaderboardManager {
         killsLeaderboard.update();
     }
 
+    public Leaderboard getLeaderboardFromType(LeaderboardType leaderboardType) {
+        switch (leaderboardType) {
+            default:
+            case KILLS:
+                return getKillsLeaderboard();
+        }
+    }
 
     public KillsLeaderboard getKillsLeaderboard() {
         return killsLeaderboard;
