@@ -41,6 +41,7 @@ public class PlayerListener implements Listener {
 
         for (UUID memberUUID : gangMembers) {
             if(!Bukkit.getOfflinePlayer(memberUUID).isOnline()) continue;
+            if(memberUUID.equals(player.getUniqueId())) continue;
 
             GangPlayer gangMember = gangPlayerManager.findById(memberUUID);
             if(gangMember.getGangPlayerSettings().isReceiveMemberConnectNotification()){
