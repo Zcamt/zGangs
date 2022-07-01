@@ -60,6 +60,7 @@ public class ZGangs extends JavaPlugin {
     // - probably more
 
     //Todo: Make ally+gangchat
+    //Todo: Add an async schedule that'll update the leaderboards every once in a while
 
     //Todo: Implement confirm system, like input
 

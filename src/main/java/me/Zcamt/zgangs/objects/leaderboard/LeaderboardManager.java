@@ -6,6 +6,8 @@ public class LeaderboardManager {
 
     public LeaderboardManager() {
         this.killsLeaderboard = new KillsLeaderboard();
+
+        updateAllLeaderBoards();
     }
 
     public void updateAllLeaderBoards(){

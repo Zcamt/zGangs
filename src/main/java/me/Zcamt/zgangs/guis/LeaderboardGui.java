@@ -39,6 +39,8 @@ public class LeaderboardGui extends GUI {
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
 
 
+        //Todo: Could add a "last updated" section in the lore of each
+        // or a main button between the 2 pairs of 3 that'll display when they all where updated last
         setItem(37, new ItemCreator(Material.IRON_SWORD)
                 .setName("&a&lDrab" + (leaderboardType == LeaderboardType.KILLS ? " &a(aktiv)" : ""))
                 .addLore("&7Klik her for at:",
@@ -130,6 +132,13 @@ public class LeaderboardGui extends GUI {
                 setItem(i, new ItemCreator(Material.PLAYER_HEAD)
                         .setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(entryGang.getOwnerUUID()).getName())
                         .setName(placeColor+"&l#"+ place++ + " " + entryGang.getName())
+                        .addLore(
+                                (type == LeaderboardType.KILLS ? "&a&l" : "&7") + "Drab: " + entryGang.getGangStats().getKills(),
+                                (type == LeaderboardType.GUARD_KILLS ? "&a&l" : "&7") +"&7Vagt-drab: " + entryGang.getGangStats().getAllGuardKills(),
+                                (type == LeaderboardType.OFFICER_PLUS_KILLS ? "&a&l" : "&7") +"&7Officer+-drab: " + entryGang.getGangStats().getOfficer_plus_kills(),
+                                (type == LeaderboardType.DEATHS ? "&a&l" : "&7") +"&7Døde: " + entryGang.getGangStats().getDeaths(),
+                                (type == LeaderboardType.BANK ? "&a&l" : "&7") +"&7Bank: " + entryGang.getBank(),
+                                (type == LeaderboardType.LEVEL ? "&a&l" : "&7") +"&7Level: " + entryGang.getLevel())
                         .make());
             } else {
                 break;
