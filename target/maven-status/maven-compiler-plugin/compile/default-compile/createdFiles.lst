@@ -1,6 +1,7 @@
 me\Zcamt\zgangs\objects\gang\permissions\GangPermissions.class
 me\Zcamt\zgangs\objects\gang\stats\GangStatsAdapter.class
 me\Zcamt\zgangs\commands\MainCommand.class
+me\Zcamt\zgangs\guis\LeaderboardGui.class
 me\Zcamt\zgangs\guis\PlayerSettingsGui.class
 me\Zcamt\zgangs\config\Messages.class
 me\Zcamt\zgangs\guis\PlayerNotificationsGui$1.class
@@ -19,6 +20,8 @@ me\Zcamt\zgangs\objects\gang\itemdelivery\GangItemDelivery.class
 me\Zcamt\zgangs\objects\gang\GangManager.class
 me\Zcamt\zgangs\objects\gang\members\GangMembersAdapter.class
 me\Zcamt\zgangs\utils\ItemCreator.class
+me\Zcamt\zgangs\guis\InfoAndLeaderboardGui$1.class
+me\Zcamt\zgangs\guis\LeaderboardGui$1.class
 me\Zcamt\zgangs\objects\gang\stats\GangStats.class
 me\Zcamt\zgangs\commands\GangAdminCommand.class
 me\Zcamt\zgangs\objects\gangplayer\settings\GangPlayerSettings.class
@@ -61,6 +64,7 @@ me\Zcamt\zgangs\objects\leaderboard\KillsLeaderboard.class
 me\Zcamt\zgangs\guis\GangInfoGui.class
 me\Zcamt\zgangs\ZGangs.class
 me\Zcamt\zgangs\objects\gang\members\GangMembers.class
+me\Zcamt\zgangs\guis\InfoAndLeaderboardGui.class
 me\Zcamt\zgangs\listeners\InventoryListener.class
 me\Zcamt\zgangs\guis\MainGui.class
 me\Zcamt\zgangs\objects\gang\motd\GangMotdAdapter.class
@@ -70,3 +74,4 @@ me\Zcamt\zgangs\objects\leaderboard\LeaderboardManager.class
 me\Zcamt\zgangs\utils\PermissionUtil.class
 me\Zcamt\zgangs\guis\ExternalGangGui$1.class
 me\Zcamt\zgangs\utils\ConversionUtil.class
+me\Zcamt\zgangs\objects\leaderboard\LeaderboardManager$1.class

@@ -92,14 +92,14 @@ class PlayerNotificationsGui extends GUI {
         //Gang chat 12
         boolean gangChatEnabled = gangPlayer.getGangPlayerSettings().isReceiveGangChat();
         setItem(12, new ItemCreator(gangChatEnabled ? Material.GREEN_DYE : Material.RED_DYE)
-                .setName(gangChatEnabled ? "&a" : "&c" + "&lBandechat")
+                .setName((gangChatEnabled ? "&a" : "&c") + "&lBandechat")
                 .addLore("&7Klik her for at:",
                         "&6- " + (gangChatEnabled ? "&aAktiver" : "&cDeaktiver") + " &fbeskeder fra bandechatten")
                 .make());
         //Ally chat 14
         boolean allyChatEnabled = gangPlayer.getGangPlayerSettings().isReceiveAllyChat();
         setItem(14, new ItemCreator(allyChatEnabled ? Material.GREEN_DYE : Material.RED_DYE)
-                .setName(allyChatEnabled ? "&a" : "&c" + "&lAllychat")
+                .setName((allyChatEnabled ? "&a" : "&c") + "&lAllychat")
                 .addLore("&7Klik her for at:",
                         "&6- " + (allyChatEnabled ? "&aAktiver" : "&cDeaktiver") + " &fbeskeder fra allychatten")
                 .make());
@@ -107,14 +107,14 @@ class PlayerNotificationsGui extends GUI {
         //Member connect 21
         boolean memberConnectEnabled = gangPlayer.getGangPlayerSettings().isReceiveMemberConnectNotification();
         setItem(21, new ItemCreator(memberConnectEnabled ? Material.GREEN_DYE : Material.RED_DYE)
-                .setName(memberConnectEnabled ? "&a" : "&c" + "&lMedlem online")
+                .setName((memberConnectEnabled ? "&a" : "&c") + "&lMedlem online")
                 .addLore("&7Klik her for at:",
                         "&6- " + (memberConnectEnabled ? "&aAktiver" : "&cDeaktiver") + " &fonline-notifikationer for medlemmer")
                 .make());
         //Member disconnect 23
         boolean memberDisconnectEnabled = gangPlayer.getGangPlayerSettings().isReceiveMemberDisconnectNotification();
         setItem(23, new ItemCreator(memberDisconnectEnabled ? Material.GREEN_DYE : Material.RED_DYE)
-                .setName(memberDisconnectEnabled ? "&a" : "&c" + "&lMedlem offline")
+                .setName((memberDisconnectEnabled ? "&a" : "&c") + "&lMedlem offline")
                 .addLore("&7Klik her for at:",
                         "&6- " + (memberDisconnectEnabled ? "&aAktiver" : "&cDeaktiver") + " &foffline-notifikationer for medlemmer")
                 .make());
@@ -123,14 +123,14 @@ class PlayerNotificationsGui extends GUI {
         //Ally connect 30
         boolean allyConnectEnabled = gangPlayer.getGangPlayerSettings().isReceiveAllyConnectNotification();
         setItem(30, new ItemCreator(allyConnectEnabled ? Material.GREEN_DYE : Material.RED_DYE)
-                .setName(allyConnectEnabled ? "&a" : "&c" + "&lAllieret online")
+                .setName((allyConnectEnabled ? "&a" : "&c") + "&lAllieret online")
                 .addLore("&7Klik her for at:",
                         "&6- " + (allyConnectEnabled ? "&aAktiver" : "&cDeaktiver") + " &fonline-notifikationer for allierede")
                 .make());
         //Ally disconnect 32
         boolean allyDisconnectEnabled = gangPlayer.getGangPlayerSettings().isReceiveAllyDisconnectNotification();
         setItem(32, new ItemCreator(allyDisconnectEnabled ? Material.GREEN_DYE : Material.RED_DYE)
-                .setName(allyDisconnectEnabled ? "&a" : "&c" + "&lAllieret offline")
+                .setName((allyDisconnectEnabled ? "&a" : "&c") + "&lAllieret offline")
                 .addLore("&7Klik her for at:",
                         "&6- " + (allyDisconnectEnabled ? "&aAktiver" : "&cDeaktiver") + " &foffline-notifikationer for allierede")
                 .make());
