@@ -133,7 +133,7 @@ public class LeaderboardGui extends GUI {
                         .setSkullTextureFromePlayerName(Bukkit.getOfflinePlayer(entryGang.getOwnerUUID()).getName())
                         .setName(placeColor+"&l#"+ place++ + " " + entryGang.getName())
                         .addLore(
-                                "&8&l-----------------",
+                                "&8&l&m                    ",
                                 (type == LeaderboardType.KILLS ? "&a&l" : "&7") + "Drab: " + entryGang.getGangStats().getKills(),
                                 (type == LeaderboardType.GUARD_KILLS ? "&a&l" : "&7") +"Vagt-drab: " + entryGang.getGangStats().getAllGuardKills(),
                                 (type == LeaderboardType.OFFICER_PLUS_KILLS ? "&a&l" : "&7") +"Officer+-drab: " + entryGang.getGangStats().getOfficer_plus_kills(),
