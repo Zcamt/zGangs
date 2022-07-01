@@ -31,7 +31,7 @@ public class InfoAndLeaderboardGui extends GUI {
         this.gang = playerGang;
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
 
-        setItem(20, new ItemCreator()
+        setItem(20, new ItemCreator(Material.PAPER)
                 .setName("&a&lKommandoer i systemet")
                 .addLore("&6- &f/bandechat",
                         "&6- &f/allychat",

@@ -32,10 +32,10 @@ public class ItemCreator {
 
     /**
      * init ItemBuilder without argument
-     */
+
     public ItemCreator(){
         this(Material.AIR);
-    }
+    }*/
 
     /**
      * init ItemBuilder
@@ -806,7 +806,7 @@ public class ItemCreator {
      */
     public ItemCreator fromString(String string){
         String[] splitValues = new String[] {"\\{\\^}", "\\[\\^]", "`SECTION_TYPE`", "\\|", ","};
-        ItemCreator itemCreator = new ItemCreator();
+        ItemCreator itemCreator = new ItemCreator(Material.AIR);
         String[] sections = string.split(splitValues[0]);
         if (sections.length == 0 || Arrays.stream(sections).filter(s -> s.split(splitValues[2])[0]
                 .equalsIgnoreCase("item: ")).count() != 1)
