@@ -82,11 +82,11 @@ public class MainGui extends GUI{
             }
         }
         switch (clickedItem.getType()) {
+            case BARRIER -> player.closeInventory();
             case PLAYER_HEAD -> {
                 GangInfoGui gangInfoGui = new GangInfoGui(player, gang);
                 gangInfoGui.openTo(player);
             }
-            case BARRIER -> player.closeInventory();
             case REDSTONE_TORCH -> {
                 if(clickedItem.getItemMeta() == null) return;
                 String clickedItemName = clickedItem.getItemMeta().getDisplayName();
@@ -96,6 +96,10 @@ public class MainGui extends GUI{
                 } else if(clickedItemName.contains("Bande indstillinger")) {
                     ChatUtil.sendMessage(player, "&c&lÅbner bande indstillinger... når det er lavet");
                 }
+            }
+            case GOLDEN_SWORD -> {
+                InfoAndLeaderboardGui infoAndLeaderboardGui = new InfoAndLeaderboardGui(player, gang);
+                infoAndLeaderboardGui.openTo(player);
             }
         }
     }
