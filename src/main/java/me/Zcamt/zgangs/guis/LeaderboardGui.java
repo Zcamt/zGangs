@@ -134,11 +134,11 @@ public class LeaderboardGui extends GUI {
                         .setName(placeColor+"&l#"+ place++ + " " + entryGang.getName())
                         .addLore(
                                 (type == LeaderboardType.KILLS ? "&a&l" : "&7") + "Drab: " + entryGang.getGangStats().getKills(),
-                                (type == LeaderboardType.GUARD_KILLS ? "&a&l" : "&7") +"&7Vagt-drab: " + entryGang.getGangStats().getAllGuardKills(),
-                                (type == LeaderboardType.OFFICER_PLUS_KILLS ? "&a&l" : "&7") +"&7Officer+-drab: " + entryGang.getGangStats().getOfficer_plus_kills(),
-                                (type == LeaderboardType.DEATHS ? "&a&l" : "&7") +"&7Døde: " + entryGang.getGangStats().getDeaths(),
-                                (type == LeaderboardType.BANK ? "&a&l" : "&7") +"&7Bank: " + entryGang.getBank(),
-                                (type == LeaderboardType.LEVEL ? "&a&l" : "&7") +"&7Level: " + entryGang.getLevel())
+                                (type == LeaderboardType.GUARD_KILLS ? "&a&l" : "&7") +"Vagt-drab: " + entryGang.getGangStats().getAllGuardKills(),
+                                (type == LeaderboardType.OFFICER_PLUS_KILLS ? "&a&l" : "&7") +"Officer+-drab: " + entryGang.getGangStats().getOfficer_plus_kills(),
+                                (type == LeaderboardType.DEATHS ? "&a&l" : "&7") +"Døde: " + entryGang.getGangStats().getDeaths(),
+                                (type == LeaderboardType.BANK ? "&a&l" : "&7") +"Bank: " + entryGang.getBank(),
+                                (type == LeaderboardType.LEVEL ? "&a&l" : "&7") +"Level: " + entryGang.getLevel())
                         .make());
             } else {
                 break;
