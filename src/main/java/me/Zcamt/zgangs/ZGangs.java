@@ -42,6 +42,7 @@ import me.Zcamt.zgangs.objects.leaderboard.LeaderboardManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.PermissionUtil;
 import me.Zcamt.zgangs.utils.Permissions;
+import net.luckperms.api.LuckPerms;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -55,12 +56,10 @@ public class ZGangs extends JavaPlugin {
 
     //Todo: Listeners missing for
     // - stats
-    // - joins/leaves (notifications)
     // - Delivering stuff for item-delivery
     // - probably more
 
     //Todo: Make ally+gangchat
-    //Todo: Add an async schedule that'll update the leaderboards every once in a while
 
     //Todo: Implement confirm system, like input
 
@@ -89,6 +88,7 @@ public class ZGangs extends JavaPlugin {
     private static final GangLevelManager GANG_LEVEL_MANAGER = new GangLevelManager();
     private static final ChatInputManager CHAT_INPUT_MANAGER = new ChatInputManager();
     private static Economy ECONOMY;
+    private static LuckPerms LUCKPERMS;
 
     @Override
     public void onEnable() {
@@ -101,6 +101,14 @@ public class ZGangs extends JavaPlugin {
             return;
         }
 
+        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        if(provider != null) {
+            LUCKPERMS = provider.getProvider();
+        } else {
+            getLogger().severe("Disabled due to no Luckperms dependency found!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             getLeaderboardManager().updateAllLeaderBoards();
@@ -228,5 +236,9 @@ public class ZGangs extends JavaPlugin {
 
     public static Economy getEconomy() {
         return ECONOMY;
+    }
+
+    public static LuckPerms getLuckperms() {
+        return LUCKPERMS;
     }
 }

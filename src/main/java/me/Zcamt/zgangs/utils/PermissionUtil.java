@@ -1,13 +1,18 @@
 package me.Zcamt.zgangs.utils;
 
-import com.mojang.brigadier.Message;
-import me.Zcamt.zgangs.config.Config;
+import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Messages;
+import net.luckperms.api.model.group.Group;
+import net.luckperms.api.model.user.UserManager;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class PermissionUtil {
 
@@ -46,6 +51,29 @@ public class PermissionUtil {
             }
         }
         return false;
+    }
+
+    public static CompletableFuture<Boolean> isGuard(@NotNull UUID playerUUID) {
+        List<String> guardRanks = Arrays.asList(
+                "pvagt", "cvagt", "bvagt", "avagt", "officer", "inspektør", "vicedirektør", "direktør"
+        );
+        return ZGangs.getLuckperms().getUserManager().loadUser(playerUUID)
+                .thenApplyAsync(user -> {
+                    Collection<Group> inheritedGroups = user.getInheritedGroups(user.getQueryOptions());
+                    return inheritedGroups.stream().anyMatch(g ->
+                            guardRanks.contains(g.getName().toLowerCase()));
+                });
+    }
+    public static CompletableFuture<Boolean> isOfficerPlus(@NotNull UUID playerUUID) {
+        List<String> guardRanks = Arrays.asList(
+                "officer", "inspektør", "vicedirektør", "direktør"
+        );
+        return ZGangs.getLuckperms().getUserManager().loadUser(playerUUID)
+                .thenApplyAsync(user -> {
+                    Collection<Group> inheritedGroups = user.getInheritedGroups(user.getQueryOptions());
+                    return inheritedGroups.stream().anyMatch(g ->
+                            guardRanks.contains(g.getName().toLowerCase()));
+                });
     }
 
 }
