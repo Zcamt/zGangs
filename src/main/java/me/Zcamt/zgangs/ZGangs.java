@@ -81,7 +81,7 @@ public class ZGangs extends JavaPlugin {
             .disableHtmlEscaping()
             .create();
 
-    private static final ExecutorService THREAD_POOL = Executors.newCachedThreadPool();
+    private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(2);
     private static final Database DATABASE = new Database();
     private static final GangManager GANG_MANAGER = new GangManager(DATABASE);
     private static final GangPlayerManager GANG_PLAYER_MANAGER = new GangPlayerManager(DATABASE);
@@ -100,6 +100,11 @@ public class ZGangs extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            getLeaderboardManager().updateAllLeaderBoards();
+        }, 6000L, 72000L);
     }
 
     @Override
