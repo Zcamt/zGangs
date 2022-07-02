@@ -252,6 +252,7 @@ public class MainCommand extends BaseCommand {
     }
 
     @Subcommand("info")
+    @CommandCompletion("@players")
     public void onInfo(Player player, String[] args) {
         if(args.length != 1){
             ChatUtil.sendMessage(player, Messages.invalidUsage("/bk info <SPILLER>"));
