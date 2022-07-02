@@ -26,7 +26,7 @@ public class GangLevelRequirement {
                 return gang.getGangStats().getKills();
             }
             case GUARD_KILLS -> {
-                return gang.getGangStats().getAllGuardKills();
+                return gang.getGangStats().getTotal_guard_kills();
 
             }
             case GUARD_KILLS_IN_C -> {
@@ -65,7 +65,7 @@ public class GangLevelRequirement {
                 }
             }
             case GUARD_KILLS -> {
-                if(gang.getGangStats().getAllGuardKills() < getAmount()){
+                if(gang.getGangStats().getTotal_guard_kills() < getAmount()){
                     return false;
                 }
             }

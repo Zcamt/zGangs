@@ -1,24 +1,29 @@
-package me.Zcamt.zgangs.objects.leaderboard;
+package me.Zcamt.zgangs.objects.leaderboard.leaderboards;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
+import me.Zcamt.zgangs.objects.leaderboard.GangLeaderboardEntry;
+import me.Zcamt.zgangs.objects.leaderboard.Leaderboard;
+import me.Zcamt.zgangs.objects.leaderboard.LeaderboardType;
 import org.bson.Document;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class KillsLeaderboard extends Leaderboard {
+public class OfficerPlusLeaderboard extends Leaderboard {
+
     private final List<GangLeaderboardEntry> leaderboard = new ArrayList<>();
 
     @Override
     public void update() {
         ZGangs.getThreadPool().execute(() -> {
             List<GangLeaderboardEntry> leaderboard = new ArrayList<>();
-            FindIterable<Document> gangs = ZGangs.getDatabase().getGangCollection().find().sort(new BasicDBObject("kills", -1)).limit(10);
+            FindIterable<Document> gangs = ZGangs.getDatabase().getGangCollection().find()
+                    .sort(new BasicDBObject("gangStats.officer_plus_kills", -1)).limit(21);
             try (MongoCursor<Document> gangIterator = gangs.iterator()) {
                 while (gangIterator.hasNext()) {
                     Document gangDocument = gangIterator.next();
@@ -26,14 +31,14 @@ public class KillsLeaderboard extends Leaderboard {
                     GangLeaderboardEntry gangEntry = new GangLeaderboardEntry(
                             gang.getUUID(),
                             gang.getOwnerUUID(),
-                            LeaderboardType.KILLS,
-                            gang.getGangStats().getKills()
+                            LeaderboardType.OFFICER_PLUS_KILLS,
+                            gang.getGangStats().getOfficer_plus_kills()
                     );
                     leaderboard.add(gangEntry);
                 }
             }
 
-            leaderboard.removeIf(entry -> entry.getLeaderboardType() != LeaderboardType.KILLS);
+            leaderboard.removeIf(entry -> entry.getLeaderboardType() != LeaderboardType.OFFICER_PLUS_KILLS);
             setLastUpdatedEpoch(System.currentTimeMillis());
             leaderboard.sort(Comparator.comparing(GangLeaderboardEntry::getAmount));
             this.leaderboard.clear();
@@ -45,7 +50,4 @@ public class KillsLeaderboard extends Leaderboard {
     public List<GangLeaderboardEntry> getLeaderboard() {
         return leaderboard;
     }
-
-
-
 }

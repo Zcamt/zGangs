@@ -44,7 +44,7 @@ public class ExternalGangGui extends GUI {
                         "&c&lBank: &f" + this.targetGang.getBank(),
                         "&c&lDrab: &f" + this.targetGang.getGangStats().getKills(),
                         "&c&lDøde: &f" + this.targetGang.getGangStats().getDeaths(),
-                        "&c&lVagt drab: &f" + this.targetGang.getGangStats().getAllGuardKills(),
+                        "&c&lVagt drab: &f" + this.targetGang.getGangStats().getTotal_guard_kills(),
                         "&c&lOfficer+ drab: &f" + this.targetGang.getGangStats().getOfficer_plus_kills(),
                         "&c&lVagt drab i A: &f" + this.targetGang.getGangStats().getGuard_kills_in_a(),
                         "&c&lVagt drab i B: &f" + this.targetGang.getGangStats().getGuard_kills_in_b(),

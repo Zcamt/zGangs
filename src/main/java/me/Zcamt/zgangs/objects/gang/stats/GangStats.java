@@ -10,14 +10,18 @@ public class GangStats {
     private int guard_kills_in_c;
     private int guard_kills_in_b;
     private int guard_kills_in_a;
+    private int total_guard_kills;
     private int officer_plus_kills;
 
-    public GangStats(int kills, int deaths, int guard_kills_in_c, int guard_kills_in_b, int guard_kills_in_a, int officer_plus_kills) {
+    public GangStats(int kills, int deaths,
+                     int guard_kills_in_c, int guard_kills_in_b, int guard_kills_in_a, int total_guard_kills,
+                     int officer_plus_kills) {
         this.kills = kills;
         this.deaths = deaths;
         this.guard_kills_in_c = guard_kills_in_c;
         this.guard_kills_in_b = guard_kills_in_b;
         this.guard_kills_in_a = guard_kills_in_a;
+        this.total_guard_kills = total_guard_kills;
         this.officer_plus_kills = officer_plus_kills;
     }
 
@@ -47,6 +51,11 @@ public class GangStats {
         gang.serialize();
     }
 
+    public void setTotal_guard_kills(int total_guard_kills) {
+        this.total_guard_kills = total_guard_kills;
+        gang.serialize();
+    }
+
     public void setOfficer_plus_kills(int officer_plus_kills) {
         this.officer_plus_kills = officer_plus_kills;
         gang.serialize();
@@ -73,13 +82,14 @@ public class GangStats {
         return guard_kills_in_a;
     }
 
+    public int getTotal_guard_kills() {
+        return total_guard_kills;
+    }
+
     public int getOfficer_plus_kills() {
         return officer_plus_kills;
     }
 
-    public int getAllGuardKills() {
-        return guard_kills_in_a + guard_kills_in_b + guard_kills_in_c;
-    }
 
     public void setGang(Gang gang) {
         if(this.gang == null && gang != null) {

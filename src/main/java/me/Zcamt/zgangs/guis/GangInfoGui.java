@@ -48,7 +48,7 @@ public class GangInfoGui extends GUI {
                             "&c&lBank: &f" + gang.getBank(),
                             "&c&lDrab: &f" + gang.getGangStats().getKills(),
                             "&c&lDøde: &f" + gang.getGangStats().getDeaths(),
-                            "&c&lVagt drab: &f" + gang.getGangStats().getAllGuardKills(),
+                            "&c&lVagt drab: &f" + gang.getGangStats().getTotal_guard_kills(),
                             "&c&lOfficer+ drab: &f" + gang.getGangStats().getOfficer_plus_kills(),
                             "&c&lVagt drab i A: &f" + gang.getGangStats().getGuard_kills_in_a(),
                             "&c&lVagt drab i B: &f" + gang.getGangStats().getGuard_kills_in_b(),
