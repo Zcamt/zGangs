@@ -6,9 +6,7 @@ import co.aikar.commands.PaperCommandManager;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import me.Zcamt.zgangs.chatinput.ChatInputManager;
-import me.Zcamt.zgangs.commands.GangAdminCommand;
-import me.Zcamt.zgangs.commands.MainCommand;
-import me.Zcamt.zgangs.commands.MenuCommand;
+import me.Zcamt.zgangs.commands.*;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.database.Database;
@@ -55,11 +53,9 @@ import java.util.concurrent.Executors;
 public class ZGangs extends JavaPlugin {
 
     //Todo: Listeners missing for
-    // - stats
     // - Delivering stuff for item-delivery
     // - probably more
 
-    //Todo: Make ally+gangchat
 
     //Todo: Implement confirm system, like input
 
@@ -137,6 +133,8 @@ public class ZGangs extends JavaPlugin {
         commandManager.registerCommand(new GangAdminCommand());
         commandManager.registerCommand(new MainCommand());
         commandManager.registerCommand(new MenuCommand());
+        commandManager.registerCommand(new GangChatCommand());
+        commandManager.registerCommand(new AllyChatCommand());
 
         commandManager.getCommandConditions().addCondition("no-gang", context -> {
             BukkitCommandIssuer issuer = context.getIssuer();

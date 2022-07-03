@@ -1,5 +1,7 @@
 settings:
   prefix: "&6&l[zGangs]&r"
+  gangchat-prefix: "&c&l[BandeChat]&r"
+  allychat-prefix: "&a&l[AllyChat]&r"
 
 gangs:
   max-name-length: 15
