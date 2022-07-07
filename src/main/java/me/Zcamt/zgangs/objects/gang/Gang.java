@@ -5,6 +5,7 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Config;
+import me.Zcamt.zgangs.objects.gang.access.GangAccess;
 import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.level.GangLevel;
@@ -26,7 +27,6 @@ import java.util.UUID;
 
 public class Gang {
 
-    //Could make this into a gang info wrapper
     private final UUID uuid;
     private UUID ownerUUID;
     private final long creationDateMillis;
@@ -44,7 +44,7 @@ public class Gang {
     private final GangRivals gangRivals;
     private final GangPermissions gangPermissions;
     private final GangItemDelivery gangItemDelivery;
-    //Todo: Add area access
+    private final GangAccess gangAccess;
 
     public Gang(UUID uuid, UUID ownerUUID, long creationDateMillis, String name, int level, int bank,
                 GangMotd gangMotd,
@@ -53,7 +53,8 @@ public class Gang {
                 GangAllies gangAllies,
                 GangRivals gangRivals,
                 GangPermissions gangPermissions,
-                GangItemDelivery gangItemDelivery) {
+                GangItemDelivery gangItemDelivery,
+                GangAccess gangAccess) {
         this.uuid = uuid;
         this.ownerUUID = ownerUUID;
         this.creationDateMillis = creationDateMillis;
@@ -74,6 +75,8 @@ public class Gang {
         gangPermissions.setGang(this);
         this.gangItemDelivery = gangItemDelivery;
         gangItemDelivery.setGang(this);
+        this.gangAccess = gangAccess;
+        gangAccess.setGang(this);
     }
 
     public void setName(String name) {
@@ -207,6 +210,9 @@ public class Gang {
         return gangItemDelivery;
     }
 
+    public GangAccess getGangAccess() {
+        return gangAccess;
+    }
 
     @Override
     public boolean equals(Object o) {

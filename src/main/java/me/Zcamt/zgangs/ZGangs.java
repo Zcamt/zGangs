@@ -16,6 +16,8 @@ import me.Zcamt.zgangs.listeners.PlayerListener;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangAdapter;
 import me.Zcamt.zgangs.objects.gang.GangManager;
+import me.Zcamt.zgangs.objects.gang.access.GangAccess;
+import me.Zcamt.zgangs.objects.gang.access.GangAccessAdapter;
 import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.allies.GangAlliesAdapter;
 import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
@@ -56,6 +58,7 @@ public class ZGangs extends JavaPlugin {
     // - Delivering stuff for item-delivery
     // - probably more
 
+    //Todo: Gang shop
 
     //Todo: Implement confirm system, like input
 
@@ -69,6 +72,7 @@ public class ZGangs extends JavaPlugin {
             .registerTypeAdapter(GangMotd.class, new GangMotdAdapter())
             .registerTypeAdapter(GangPermissions.class, new GangPermissionsAdapter())
             .registerTypeAdapter(GangItemDelivery.class, new GangItemDeliveryAdapter())
+            .registerTypeAdapter(GangAccess.class, new GangAccessAdapter())
             .registerTypeAdapter(GangPlayer.class, new GangPlayerAdapter())
             .registerTypeAdapter(GangPlayerSettings.class, new GangPlayerSettingsAdapter())
             .setPrettyPrinting()

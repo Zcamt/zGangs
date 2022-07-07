@@ -76,9 +76,9 @@ public class GangInfoGui extends GUI {
             limitsLore.add("&7&lRivaler: &c" + gang.getGangRivals().getRivalCount() + " &7&l/ &c" + gang.getGangRivals().getMaxRivals());
             limitsLore.add("&7&lBande-skade: &c" + gang.getGangMembers().getMemberDamagePercent() + "&7%");
             limitsLore.add("&7&lAlly-skade: &c" + gang.getGangAllies().getAllyDamagePercent() + "&7%");
-            limitsLore.add("&7&lAdgang til bandeområde i &cC&7: &aja&7/&cnej");
-            limitsLore.add("&7&lAdgang til bandeområde i &bB&7: &aja&7/&cnej");
-            limitsLore.add("&7&lAdgang til bandeområde i &aA&7: &aja&7/&cnej");
+            limitsLore.add("&7&lAdgang til bandeområde i &cC&7:" + (gang.getGangAccess().isGangAreaCUnlocked() ? " &a✓" : " &c✘"));
+            limitsLore.add("&7&lAdgang til bandeområde i &bB&7:" + (gang.getGangAccess().isGangAreaBUnlocked() ? " &a✓" : " &c✘"));
+            limitsLore.add("&7&lAdgang til bandeområde i &aA&7:" + (gang.getGangAccess().isGangAreaAUnlocked() ? " &a✓" : " &c✘"));
             setItem(11, new ItemCreator(Material.IRON_HELMET)
                     .setName("&a&lBegrænsninger")
                     .addLore(limitsLore)

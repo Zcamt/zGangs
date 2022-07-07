@@ -4,6 +4,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.objects.gang.access.GangAccess;
 import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.members.GangMembers;
@@ -33,6 +34,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         writer.name("gangRivals").value(ZGangs.GSON.toJson(gang.getGangRivals()));
         writer.name("gangPermissions").value(ZGangs.GSON.toJson(gang.getGangPermissions()));
         writer.name("gangItemDelivery").value(ZGangs.GSON.toJson(gang.getGangItemDelivery()));
+        writer.name("gangAccess").value(ZGangs.GSON.toJson(gang.getGangAccess()));
         writer.endObject();
     }
 
@@ -51,6 +53,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
         GangRivals gangRivals = null;
         GangPermissions gangPermissions = null;
         GangItemDelivery gangItemDelivery = null;
+        GangAccess gangAccess = null;
         reader.beginObject();
 
         while (reader.hasNext()){
@@ -68,6 +71,7 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 case "gangRivals" -> gangRivals = ZGangs.GSON.fromJson(reader.nextString(), GangRivals.class);
                 case "gangPermissions" -> gangPermissions = ZGangs.GSON.fromJson(reader.nextString(), GangPermissions.class);
                 case "gangItemDelivery" -> gangItemDelivery = ZGangs.GSON.fromJson(reader.nextString(), GangItemDelivery.class);
+                case "gangAccess" -> gangAccess = ZGangs.GSON.fromJson(reader.nextString(), GangAccess.class);
             }
         }
 
@@ -82,7 +86,8 @@ public class GangAdapter extends TypeAdapter<Gang> {
                 gangAllies,
                 gangRivals,
                 gangPermissions,
-                gangItemDelivery);
+                gangItemDelivery,
+                gangAccess);
         reader.endObject();
         return gang;
     }

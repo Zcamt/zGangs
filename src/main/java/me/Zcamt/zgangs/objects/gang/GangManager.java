@@ -7,6 +7,7 @@ import com.mongodb.client.model.Collation;
 import com.mongodb.client.model.CollationStrength;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.database.Database;
+import me.Zcamt.zgangs.objects.gang.access.GangAccess;
 import me.Zcamt.zgangs.objects.gang.allies.GangAllies;
 import me.Zcamt.zgangs.objects.gang.itemdelivery.GangItemDelivery;
 import me.Zcamt.zgangs.objects.gang.members.GangMembers;
@@ -52,7 +53,7 @@ public class GangManager {
 
         Gang gang = new Gang(uuid, gangOwner.getUUID(), System.currentTimeMillis(), name, 1, 0,
                 new GangMotd(null, null, null, null, null, null, null),
-                new GangStats(0, 0, 0, 0, 0, 0),
+                new GangStats(0, 0, 0, 0, 0, 0, 0),
                 new GangMembers(memberLimitForLvl1, 100, memberList, new ArrayList<>()),
                 new GangAllies(allyLimitForLvl1, 100, new ArrayList<>(), new ArrayList<>(), new ArrayList<>()),
                 new GangRivals(new ArrayList<>(), new ArrayList<>()),
@@ -67,7 +68,8 @@ public class GangManager {
                         GangRank.CAPTAIN,
                         GangRank.CO_OWNER,
                         GangRank.CAPTAIN),
-                new GangItemDelivery(0, 0));
+                new GangItemDelivery(0, 0),
+                new GangAccess(false, false, false));
         addGangToCache(uuid, gang);
         gang.serialize();
         gangOwner.setGangID(gang.getUUID());
