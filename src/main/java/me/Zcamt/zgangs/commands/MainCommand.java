@@ -15,7 +15,6 @@ import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.Utils;
-import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -65,7 +64,7 @@ public class MainCommand extends BaseCommand {
         String name = args[0];
 
         if(!economy.has(player, Config.createGangCost)) {
-            ChatUtil.sendMessage(player, Messages.noEnoughMoney);
+            ChatUtil.sendMessage(player, Messages.notEnoughMoney);
             return;
         }
 
@@ -183,7 +182,7 @@ public class MainCommand extends BaseCommand {
         }
 
         if(!economy.has(player, amount)) {
-            ChatUtil.sendMessage(player, Messages.noEnoughMoney);
+            ChatUtil.sendMessage(player, Messages.notEnoughMoney);
             return;
         }
 

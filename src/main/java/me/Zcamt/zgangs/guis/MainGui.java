@@ -94,7 +94,8 @@ public class MainGui extends GUI{
                     PlayerSettingsGui playerSettingsGui = new PlayerSettingsGui(player, gang);
                     playerSettingsGui.openTo(player);
                 } else if(clickedItemName.contains("Bande indstillinger")) {
-                    ChatUtil.sendMessage(player, "&c&lÅbner bande indstillinger... når det er lavet");
+                    GangSettingsGui gangSettingsGui = new GangSettingsGui(player, gang);
+                    gangSettingsGui.openTo(player);
                 }
             }
             case GOLDEN_SWORD -> {

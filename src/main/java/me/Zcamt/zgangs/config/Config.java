@@ -17,7 +17,7 @@ public class Config {
     public static String prefix, gangchatPrefix, allychatPrefix, nameRegex;
 
     public static int maxNameLength, minNameLength;
-    public static int transferGangCost, createGangCost;
+    public static int transferGangCost, createGangCost, gangRenameCost;
 
     public static ImmutableList<String> bannedNames;
 
@@ -33,6 +33,7 @@ public class Config {
         minNameLength = config.getInt("gangs.min-name-length");
         transferGangCost = config.getInt("gangs.gang-transfer-cost");
         createGangCost = config.getInt("gangs.gang-create-cost");
+        gangRenameCost = config.getInt("gangs.gang-rename-cost");
 
         bannedNames = ImmutableList.copyOf(config.getStringList("gangs.banned-names"));
     }

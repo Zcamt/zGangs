@@ -21,7 +21,8 @@ public class Messages {
     public static String illegalGangName;
     public static String unknownCommand;
     public static String invalidInput;
-    public static String noEnoughMoney = "&cFejl: Det har du ikke penge nok til";
+    public static String notEnoughMoney = "&cFejl: Det har du ikke penge nok til";
+    public static String notEnoughGangMoney = "&cFejl: Det har din bande ikke penge nok til";
     public static String unexpectedError = "&cFejl: Noget gik galt, kontakt venligst en Admin";
     private static String inviteSentToPlayer = "&aDin bande har sendt en invitation til {player}";
     private static String inviteReceivedFrom = "&aInvitation modtaget fra {gang}, accepter den via /bk accept {gang} eller via /b";

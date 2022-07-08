@@ -57,7 +57,7 @@ public class NoGangGui extends GUI {
             case NETHER_STAR -> {
                 chatInputManager.newStringInput(player, name -> {
                     if(!economy.has(player, Config.createGangCost)) {
-                        ChatUtil.sendMessage(player, Messages.noEnoughMoney);
+                        ChatUtil.sendMessage(player, Messages.notEnoughMoney);
                         return;
                     }
                     EconomyResponse response = economy.withdrawPlayer(player, Config.createGangCost);
