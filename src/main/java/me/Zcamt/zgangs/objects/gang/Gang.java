@@ -182,6 +182,10 @@ public class Gang {
         return bank;
     }
 
+    public boolean hasMoney(int amount) {
+        return bank >= amount;
+    }
+
     public GangMotd getGangMotd() {
         return gangMotd;
     }
