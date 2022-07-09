@@ -24,11 +24,10 @@ import java.util.concurrent.TimeUnit;
 
 public class GangManager {
 
-    private final Database database;
+    private final Database database = ZGangs.getDatabase();
     private final Cache<UUID, Gang> gangCache;
 
-    public GangManager(Database database) {
-        this.database = database;
+    public GangManager() {
         this.gangCache = Caffeine.newBuilder()
                 .maximumSize(1000L)
                 .expireAfterAccess(3L, TimeUnit.MINUTES)
@@ -165,11 +164,13 @@ public class GangManager {
         for (UUID memberUUID : gang.getGangMembers().getMemberList()) {
             GangPlayer gangPlayer = gangPlayerManager.findById(memberUUID);
             gang.getGangMembers().removeGangPlayerFromGang(gangPlayer);
+            gangPlayerManager.invalidatePlayer(memberUUID);
         }
 
         for (UUID invitedUUID : gang.getGangMembers().getPlayerInvites()) {
             GangPlayer gangPlayer = gangPlayerManager.findById(invitedUUID);
             gang.getGangMembers().removePlayerFromInvites(gangPlayer);
+            gangPlayerManager.invalidatePlayer(invitedUUID);
         }
     }
 

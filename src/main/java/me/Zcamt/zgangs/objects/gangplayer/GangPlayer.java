@@ -37,6 +37,11 @@ public class GangPlayer {
     }
 
     public void setGangID(UUID gangUUID) {
+        if(gangUUID == null) {
+            this.gangUUID = null;
+            serialize();
+            return;
+        }
         if(gangUUID.toString().equalsIgnoreCase("")){
             gangUUID = null;
         }

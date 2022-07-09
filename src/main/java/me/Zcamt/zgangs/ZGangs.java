@@ -82,8 +82,8 @@ public class ZGangs extends JavaPlugin {
 
     private static final ExecutorService THREAD_POOL = Executors.newFixedThreadPool(2);
     private static final Database DATABASE = new Database();
-    private static final GangManager GANG_MANAGER = new GangManager(DATABASE);
-    private static final GangPlayerManager GANG_PLAYER_MANAGER = new GangPlayerManager(DATABASE);
+    private static final GangManager GANG_MANAGER = new GangManager();
+    private static final GangPlayerManager GANG_PLAYER_MANAGER = new GangPlayerManager();
     private static final LeaderboardManager LEADERBOARD_MANAGER = new LeaderboardManager();
     private static final GangLevelManager GANG_LEVEL_MANAGER = new GangLevelManager();
     private static final ChatInputManager CHAT_INPUT_MANAGER = new ChatInputManager();

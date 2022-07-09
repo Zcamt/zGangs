@@ -16,11 +16,10 @@ import java.util.concurrent.TimeUnit;
 
 public class GangPlayerManager {
 
-    private final Database database;
+    private final Database database = ZGangs.getDatabase();
     private final Cache<UUID, GangPlayer> gangPlayerCache;
 
-    public GangPlayerManager(Database database) {
-        this.database = database;
+    public GangPlayerManager() {
         this.gangPlayerCache = Caffeine.newBuilder()
                 .maximumSize(1000L)
                 .expireAfterWrite(10L, TimeUnit.MINUTES)
@@ -69,5 +68,13 @@ public class GangPlayerManager {
     public boolean idExistsInDatabase(UUID uuid){
         long count = database.getGangPlayerCollection().countDocuments(new Document("_id", uuid.toString()));
         return count > 0;
+    }
+
+    public void invalidatePlayer(UUID uuid) {
+        gangPlayerCache.invalidate(uuid);
+    }
+
+    public void invalidateCache() {
+        gangPlayerCache.invalidateAll();
     }
 }
