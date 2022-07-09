@@ -118,6 +118,8 @@ public class ZGangs extends JavaPlugin {
     @Override
     public void onDisable() {
         super.onDisable();
+        GANG_PLAYER_MANAGER.invalidateCache();
+        GANG_MANAGER.invalidateCache();
     }
 
     private void loadConfig(){

@@ -1,5 +1,6 @@
 package me.Zcamt.zgangs.objects.gang.rivals;
 
+import com.google.common.collect.ImmutableList;
 import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
 
@@ -73,11 +74,11 @@ public class GangRivals {
     }
 
     public List<UUID> getRivalGangs() {
-        return Collections.unmodifiableList(rivalGangs);
+        return ImmutableList.copyOf(rivalGangs);
     }
 
     public List<UUID> getRivalGangsAgainst() {
-        return Collections.unmodifiableList(rivalGangsAgainst);
+        return ImmutableList.copyOf(rivalGangsAgainst);
     }
 
     public int getRivalCount() {

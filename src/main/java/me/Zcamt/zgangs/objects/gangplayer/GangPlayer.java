@@ -1,5 +1,6 @@
 package me.Zcamt.zgangs.objects.gangplayer;
 
+import com.google.common.collect.ImmutableList;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import me.Zcamt.zgangs.ZGangs;
@@ -111,7 +112,7 @@ public class GangPlayer {
     }
 
     public List<UUID> getGangInvites() {
-        return Collections.unmodifiableList(gangInvites);
+        return ImmutableList.copyOf(gangInvites);
     }
 
     public GangPlayerSettings getGangPlayerSettings() {

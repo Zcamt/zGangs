@@ -1,5 +1,6 @@
 package me.Zcamt.zgangs.objects.gang.allies;
 
+import com.google.common.collect.ImmutableList;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
@@ -141,15 +142,15 @@ public class GangAllies {
     }
 
     public List<UUID> getAlliedGangs() {
-        return Collections.unmodifiableList(alliedGangs);
+        return ImmutableList.copyOf(alliedGangs);
     }
 
     public List<UUID> getAlliedGangInvitesIncoming() {
-        return Collections.unmodifiableList(alliedGangInvitesIncoming);
+        return ImmutableList.copyOf(alliedGangInvitesIncoming);
     }
 
     public List<UUID> getAlliedGangInvitesOutgoing() {
-        return Collections.unmodifiableList(alliedGangInvitesOutgoing);
+        return ImmutableList.copyOf(alliedGangInvitesOutgoing);
     }
 
 

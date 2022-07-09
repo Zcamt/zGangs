@@ -1,14 +1,11 @@
 package me.Zcamt.zgangs.objects.gang.members;
 
-import me.Zcamt.zgangs.config.Config;
+import com.google.common.collect.ImmutableList;
 import me.Zcamt.zgangs.config.Messages;
-import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangRank;
-import me.Zcamt.zgangs.utils.ChatUtil;
-import org.bukkit.entity.Player;
+import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -92,11 +89,11 @@ public class GangMembers {
 
 
     public List<UUID> getMemberList() {
-        return Collections.unmodifiableList(memberList);
+        return ImmutableList.copyOf(memberList);
     }
 
     public List<UUID> getPlayerInvites() {
-        return Collections.unmodifiableList(playerInvites);
+        return ImmutableList.copyOf(playerInvites);
     }
 
     public int getMaxMembers() {

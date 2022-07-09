@@ -130,8 +130,9 @@ public class GangSettingsGui extends GUI {
 
                 if(gangManager.deleteGang(gang)) {
                     ChatUtil.sendMessage(player, Config.prefix + " &a&lDin bande er nu slettet");
+                    player.closeInventory();
                 } else {
-                    ChatUtil.sendMessage(player, Config.prefix + " &cFejl: Din bande kunne ikke slettes, hver sikker på at du er alene i den!");
+                    ChatUtil.sendMessage(player, Config.prefix + " &cFejl: Din bande kunne ikke slettes, vær' sikker på at du er alene i den!");
                 }
             }
             //Members
