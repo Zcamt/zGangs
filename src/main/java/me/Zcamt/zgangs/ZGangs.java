@@ -60,6 +60,8 @@ public class ZGangs extends JavaPlugin {
 
     //Todo: Gang shop
 
+    //Todo: Make numbers in menus+chat formatted
+
     //Todo: Implement confirm system, like input
 
     //Todo: Checks for adapter variables being null
