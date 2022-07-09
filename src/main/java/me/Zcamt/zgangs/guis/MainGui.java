@@ -60,6 +60,7 @@ public class MainGui extends GUI{
                         "&6- &fÆndre adgang for bandens roller",
                         "&6- &fSætte bandens MOTD",
                         "&6- &fHåndtere bandens medlemmer",
+                        "&6- &fIndsætte penge i bandebanken",
                         "&6- &fOg meget mere...")
                 .make());
         setItem(49, new ItemCreator(Material.BARRIER).setName("&cLuk").make());
