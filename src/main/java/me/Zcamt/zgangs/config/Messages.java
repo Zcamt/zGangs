@@ -12,7 +12,7 @@ public class Messages {
     public static YamlConfiguration config;
 
     private static String invalidUsage;
-    private static String neededGangRank = "&cFejl: Du skal være &4{rank} &ci din bande for at gøre dette";
+    private static String neededGangRank = "&cFejl: Du skal være mindst &4{rank} &ci din bande for at gøre dette";
     public static String noPerm;
     public static String notInGang;
     public static String cantWhileInGang = "&cFejl: Det kan du ikke gøre når du er medlem af en bande";
