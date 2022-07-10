@@ -193,7 +193,7 @@ public class MainCommand extends BaseCommand {
         }
 
         gang.setBank(gang.getBank() + amount);
-        ChatUtil.sendMessage(player, Config.prefix + " " + Messages.bankDeposit(amount));
+        ChatUtil.sendMessage(player, Config.prefix + " " + Messages.bankDeposit(Utils.formattedCurrency(amount)));
     }
 
     @Subcommand("ally")

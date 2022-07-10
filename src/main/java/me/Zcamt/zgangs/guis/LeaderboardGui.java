@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import org.checkerframework.checker.units.qual.N;
 
 import java.util.Iterator;
 import java.util.List;
@@ -24,17 +25,15 @@ public class LeaderboardGui extends GUI {
 
     private final LeaderboardType leaderboardType;
     private final Player player;
-    private final Gang gang;
     private final GangPlayer gangPlayer;
     private final GangManager gangManager = ZGangs.getGangManager();
     private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
     private final LeaderboardManager leaderboardManager = ZGangs.getLeaderboardManager();
 
-    protected LeaderboardGui(Player player, Gang playerGang, LeaderboardType leaderboardType) {
+    protected LeaderboardGui(Player player, LeaderboardType leaderboardType) {
         super(54, ChatUtil.CC("&c&lLeaderboards"));
         generateGuiBorder();
         this.player = player;
-        this.gang = playerGang;
         this.leaderboardType = leaderboardType;
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
 
@@ -83,31 +82,37 @@ public class LeaderboardGui extends GUI {
         if(!gangPlayer.isInGang()) return;
         switch (clickedItem.getType()) {
             case BARRIER -> {
-                InfoAndLeaderboardGui infoAndLeaderboardGui = new InfoAndLeaderboardGui(player, gang);
-                infoAndLeaderboardGui.openTo(player);
+                if(gangPlayer.isInGang()) {
+                    Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
+                    InfoAndLeaderboardGui infoAndLeaderboardGui = new InfoAndLeaderboardGui(player, playerGang);
+                    infoAndLeaderboardGui.openTo(player);
+                } else {
+                    NoGangGui noGangGui = new NoGangGui(player);
+                    noGangGui.openTo(player);
+                }
             }
             case IRON_SWORD -> {
-                LeaderboardGui leaderboardGui = new LeaderboardGui(player, gang, LeaderboardType.KILLS);
+                LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.KILLS);
                 leaderboardGui.openTo(player);
             }
             case GOLDEN_HELMET -> {
-                LeaderboardGui leaderboardGui = new LeaderboardGui(player, gang, LeaderboardType.GUARD_KILLS);
+                LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.GUARD_KILLS);
                 leaderboardGui.openTo(player);
             }
             case CHAINMAIL_HELMET -> {
-                LeaderboardGui leaderboardGui = new LeaderboardGui(player, gang, LeaderboardType.OFFICER_PLUS_KILLS);
+                LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.OFFICER_PLUS_KILLS);
                 leaderboardGui.openTo(player);
             }
             case SKELETON_SKULL -> {
-                LeaderboardGui leaderboardGui = new LeaderboardGui(player, gang, LeaderboardType.DEATHS);
+                LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.DEATHS);
                 leaderboardGui.openTo(player);
             }
             case GOLD_INGOT -> {
-                LeaderboardGui leaderboardGui = new LeaderboardGui(player, gang, LeaderboardType.BANK);
+                LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.BANK);
                 leaderboardGui.openTo(player);
             }
             case NETHER_STAR -> {
-                LeaderboardGui leaderboardGui = new LeaderboardGui(player, gang, LeaderboardType.LEVEL);
+                LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.LEVEL);
                 leaderboardGui.openTo(player);
             }
         }

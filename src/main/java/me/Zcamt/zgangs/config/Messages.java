@@ -56,7 +56,7 @@ public class Messages {
         return inviteReceivedFrom.replace("{gang}", gangName);
     }
 
-    public static String bankDeposit(int amount) {
+    public static String bankDeposit(String amount) {
         return bankDeposit.replace("{amount}", String.valueOf(amount));
     }
 

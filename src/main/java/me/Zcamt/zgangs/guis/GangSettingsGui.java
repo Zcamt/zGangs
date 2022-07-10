@@ -113,6 +113,7 @@ public class GangSettingsGui extends GUI {
                         return;
                     }
                     gang.setBank(gang.getBank() + amount);
+                    ChatUtil.sendMessage(player, Config.prefix + " " + Messages.bankDeposit(Utils.formattedCurrency(amount)));
                 });
                 ChatUtil.sendMessage(player, Config.prefix + " &a&lSkriv den mængde du ønsker at sætte ind i bandebanken! " +
                         "- Hvis du ønsker at afbryde processen tast '&c&l-afbryd&a&l'");

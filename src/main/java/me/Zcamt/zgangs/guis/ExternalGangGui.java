@@ -41,14 +41,14 @@ public class ExternalGangGui extends GUI {
                         "&c&lNavn: &f" + this.targetGang.getName(),
                         "&c&lLevel: &f" + this.targetGang.getLevel(),
                         "&c&lEjer: &f" + Bukkit.getOfflinePlayer(this.targetGang.getOwnerUUID()).getName(),
-                        "&c&lBank: &f" + this.targetGang.getBank(),
-                        "&c&lDrab: &f" + this.targetGang.getGangStats().getKills(),
-                        "&c&lDøde: &f" + this.targetGang.getGangStats().getDeaths(),
-                        "&c&lVagt drab: &f" + this.targetGang.getGangStats().getTotal_guard_kills(),
-                        "&c&lOfficer+ drab: &f" + this.targetGang.getGangStats().getOfficer_plus_kills(),
-                        "&c&lVagt drab i A: &f" + this.targetGang.getGangStats().getGuard_kills_in_a(),
-                        "&c&lVagt drab i B: &f" + this.targetGang.getGangStats().getGuard_kills_in_b(),
-                        "&c&lVagt drab i C: &f" + this.targetGang.getGangStats().getGuard_kills_in_c(),
+                        "&c&lBank: &f" + Utils.formattedCurrency(this.targetGang.getBank()),
+                        "&c&lDrab: &f" + Utils.formattedNumber(this.targetGang.getGangStats().getKills()),
+                        "&c&lDøde: &f" + Utils.formattedNumber(this.targetGang.getGangStats().getDeaths()),
+                        "&c&lVagt drab: &f" + Utils.formattedNumber(this.targetGang.getGangStats().getTotal_guard_kills()),
+                        "&c&lOfficer+ drab: &f" + Utils.formattedNumber(this.targetGang.getGangStats().getOfficer_plus_kills()),
+                        "&c&lVagt drab i A: &f" + Utils.formattedNumber(this.targetGang.getGangStats().getGuard_kills_in_a()),
+                        "&c&lVagt drab i B: &f" + Utils.formattedNumber(this.targetGang.getGangStats().getGuard_kills_in_b()),
+                        "&c&lVagt drab i C: &f" + Utils.formattedNumber(this.targetGang.getGangStats().getGuard_kills_in_c()),
                         "&c&lOprettet: &f" + Utils.formatDateFromEpochMilli(this.targetGang.getCreationDateMillis())
                 ).make());
 

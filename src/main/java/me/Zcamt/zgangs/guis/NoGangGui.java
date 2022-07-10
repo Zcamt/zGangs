@@ -8,6 +8,7 @@ import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
+import me.Zcamt.zgangs.objects.leaderboard.LeaderboardType;
 import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.ItemCreator;
 import net.milkbowl.vault.economy.Economy;
@@ -30,6 +31,18 @@ public class NoGangGui extends GUI {
         generateGuiBorder();
         this.player = player;
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+
+        setItem(20, new ItemCreator(Material.GOLDEN_SWORD)
+                .setName("&6&lLeaderboards")
+                .addLore("&7Klik her for at se",
+                        "&7følgende leaderboards:",
+                        "&6- &fFlest drab",
+                        "&6- &fFlest vagt-drab",
+                        "&6- &fFlest officer+-drab",
+                        "&6- &fFlest penge",
+                        "&6- &fFlest døde",
+                        "&6- &fHøjest level")
+                .make());
 
         setItem(22, new ItemCreator(Material.NETHER_STAR)
                 .setName("&a&lOpret en bande").addLore(
@@ -71,6 +84,10 @@ public class NoGangGui extends GUI {
                 ChatUtil.sendMessage(player, Config.prefix + " &a&lSkriv navnet på din nye bande i chatten! " +
                         "- Hvis du ønsker at afbryde processen tast '&c&l-afbryd&a&l'");
                 player.closeInventory();
+            }
+            case GOLDEN_SWORD -> {
+                LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.KILLS);
+                leaderboardGui.openTo(player);
             }
         }
     }

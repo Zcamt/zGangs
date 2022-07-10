@@ -45,14 +45,14 @@ public class GangInfoGui extends GUI {
                             "&c&lNavn: &f" + gang.getName(),
                             "&c&lLevel: &f" + gang.getLevel(),
                             "&c&lEjer: &f" + Bukkit.getOfflinePlayer(gang.getOwnerUUID()).getName(),
-                            "&c&lBank: &f" + gang.getBank(),
-                            "&c&lDrab: &f" + gang.getGangStats().getKills(),
-                            "&c&lDøde: &f" + gang.getGangStats().getDeaths(),
-                            "&c&lVagt drab: &f" + gang.getGangStats().getTotal_guard_kills(),
-                            "&c&lOfficer+ drab: &f" + gang.getGangStats().getOfficer_plus_kills(),
-                            "&c&lVagt drab i A: &f" + gang.getGangStats().getGuard_kills_in_a(),
-                            "&c&lVagt drab i B: &f" + gang.getGangStats().getGuard_kills_in_b(),
-                            "&c&lVagt drab i C: &f" + gang.getGangStats().getGuard_kills_in_c(),
+                            "&c&lBank: &f" + Utils.formattedCurrency(gang.getBank()),
+                            "&c&lDrab: &f" + Utils.formattedNumber(gang.getGangStats().getKills()),
+                            "&c&lDøde: &f" + Utils.formattedNumber(gang.getGangStats().getDeaths()),
+                            "&c&lVagt drab: &f" + Utils.formattedNumber(gang.getGangStats().getTotal_guard_kills()),
+                            "&c&lOfficer+ drab: &f" + Utils.formattedNumber(gang.getGangStats().getOfficer_plus_kills()),
+                            "&c&lVagt drab i A: &f" + Utils.formattedNumber(gang.getGangStats().getGuard_kills_in_a()),
+                            "&c&lVagt drab i B: &f" + Utils.formattedNumber(gang.getGangStats().getGuard_kills_in_b()),
+                            "&c&lVagt drab i C: &f" + Utils.formattedNumber(gang.getGangStats().getGuard_kills_in_c()),
                             "&c&lOprettet: &f" + Utils.formatDateFromEpochMilli(gang.getCreationDateMillis())
                     ).make());
 

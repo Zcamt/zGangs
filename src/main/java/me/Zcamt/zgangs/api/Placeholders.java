@@ -45,8 +45,8 @@ public class Placeholders extends PlaceholderExpansion {
             return null;
         }
 
-        /* %zgangs_gangNameFormatted%
-        if(identifier.equalsIgnoreCase("gangNameFormatted")){
+        /* %zgangs_gang_name%
+        if(identifier.equalsIgnoreCase("zgangs_gang_name")){
 
         }*/
 

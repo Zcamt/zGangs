@@ -68,7 +68,7 @@ public class InfoAndLeaderboardGui extends GUI {
                 mainGui.openTo(player);
             }
             case GOLDEN_SWORD -> {
-                LeaderboardGui leaderboardGui = new LeaderboardGui(player, gang, LeaderboardType.KILLS);
+                LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.KILLS);
                 leaderboardGui.openTo(player);
             }
         }
