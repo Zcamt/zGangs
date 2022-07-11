@@ -3,18 +3,20 @@ package me.Zcamt.zgangs.objects.gang;
 import java.util.HashMap;
 
 public enum GangRank {
-    OWNER(5, "Ejer"),
-    CO_OWNER(4, "Med-Ejer"),
-    CAPTAIN(3, "Kaptajn"),
-    MEMBER(2, "Medlem"),
-    RECRUIT(1, "Rekrut");
+    OWNER(5, "Ejer", "&4"),
+    CO_OWNER(4, "Med-Ejer", "&c"),
+    CAPTAIN(3, "Kaptajn", "&e"),
+    MEMBER(2, "Medlem", "&a"),
+    RECRUIT(1, "Rekrut", "&8");
 
     private final int ID;
     private final String name;
+    private final String colorCode;
     private static final HashMap<Integer, GangRank> BY_ID = new HashMap<>();
-    GangRank(int id, String name) {
+    GangRank(int id, String name, String colorCode) {
         ID = id;
         this.name = name;
+        this.colorCode = colorCode;
     }
 
     public int getID() {
@@ -23,6 +25,10 @@ public enum GangRank {
 
     public String getName() {
         return name;
+    }
+
+    public String getColorCode() {
+        return colorCode;
     }
 
     public static GangRank getRank(int id) {
