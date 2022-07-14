@@ -6,8 +6,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
 
 public class Config {
 
@@ -19,7 +17,7 @@ public class Config {
     public static int maxNameLength, minNameLength;
     public static int transferGangCost, createGangCost, gangRenameCost;
 
-    public static ImmutableList<String> bannedNames;
+    public static ImmutableList<String> bannedWords;
 
     public static void reload() {
         config = YamlConfiguration.loadConfiguration(configFile);
@@ -35,7 +33,7 @@ public class Config {
         createGangCost = config.getInt("gangs.gang-create-cost");
         gangRenameCost = config.getInt("gangs.gang-rename-cost");
 
-        bannedNames = ImmutableList.copyOf(config.getStringList("gangs.banned-names"));
+        bannedWords = ImmutableList.copyOf(config.getStringList("gangs.banned-words"));
     }
 
 }

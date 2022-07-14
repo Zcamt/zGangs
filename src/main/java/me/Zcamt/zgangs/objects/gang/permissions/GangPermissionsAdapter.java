@@ -3,7 +3,6 @@ package me.Zcamt.zgangs.objects.gang.permissions;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.GangRank;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ public class GangPermissionsAdapter extends TypeAdapter<GangPermissions> {
         writer.name("minRankToManageInvites").value(gangPermissions.getMinRankToInvitePlayers().getID());
         writer.name("minRankToKickMembers").value(gangPermissions.getMinRankToKickMembers().getID());
         writer.name("minRankToUseShop").value(gangPermissions.getMinRankToUseShop().getID());
-        writer.name("minRankToRankUp").value(gangPermissions.getMinRankToRankUp().getID());
+        writer.name("minRankToLevelUpGang").value(gangPermissions.getMinRankToLevelUpGang().getID());
         writer.name("minRankToManageMOTD").value(gangPermissions.getMinRankToManageMOTD().getID());
         writer.name("minRankToManageAllies").value(gangPermissions.getMinRankToManageAllies().getID());
         writer.name("minRankToManageRivals").value(gangPermissions.getMinRankToManageRivals().getID());
@@ -31,7 +30,7 @@ public class GangPermissionsAdapter extends TypeAdapter<GangPermissions> {
         GangRank minRankToManageInvites = GangRank.CAPTAIN;
         GangRank minRankToKickMembers = GangRank.CAPTAIN;
         GangRank minRankToUseShop = GangRank.CAPTAIN;
-        GangRank minRankToRankUp = GangRank.CAPTAIN;
+        GangRank minRankToLevelUpGang = GangRank.CAPTAIN;
         GangRank minRankToManageMOTD = GangRank.CO_OWNER;
         GangRank minRankToManageAllies = GangRank.CAPTAIN;
         GangRank minRankToManageRivals = GangRank.CAPTAIN;
@@ -44,7 +43,7 @@ public class GangPermissionsAdapter extends TypeAdapter<GangPermissions> {
                 case "minRankToManageInvites" -> minRankToManageInvites = GangRank.getRank(reader.nextInt());
                 case "minRankToKickMembers" -> minRankToKickMembers = GangRank.getRank(reader.nextInt());
                 case "minRankToUseShop" -> minRankToUseShop = GangRank.getRank(reader.nextInt());
-                case "minRankToRankUp" -> minRankToRankUp = GangRank.getRank(reader.nextInt());
+                case "minRankToLevelUpGang" -> minRankToLevelUpGang = GangRank.getRank(reader.nextInt());
                 case "minRankToManageMOTD" -> minRankToManageMOTD = GangRank.getRank(reader.nextInt());
                 case "minRankToManageAllies" -> minRankToManageAllies = GangRank.getRank(reader.nextInt());
                 case "minRankToManageRivals" -> minRankToManageRivals = GangRank.getRank(reader.nextInt());
@@ -59,7 +58,7 @@ public class GangPermissionsAdapter extends TypeAdapter<GangPermissions> {
                 minRankToManageInvites,
                 minRankToKickMembers,
                 minRankToUseShop,
-                minRankToRankUp,
+                minRankToLevelUpGang,
                 minRankToManageMOTD,
                 minRankToManageAllies,
                 minRankToManageRivals,

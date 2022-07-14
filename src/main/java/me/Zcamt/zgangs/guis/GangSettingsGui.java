@@ -19,6 +19,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.nio.file.attribute.UserPrincipalNotFoundException;
+
 public class GangSettingsGui extends GUI {
 
     private final Player player;
@@ -29,7 +31,7 @@ public class GangSettingsGui extends GUI {
     private final ChatInputManager chatInputManager = ZGangs.getChatInputManager();
     private final Economy economy = ZGangs.getEconomy();
 
-    public GangSettingsGui(Player player, Gang playerGang) {
+    protected GangSettingsGui(Player player, Gang playerGang) {
         super(54, ChatUtil.CC("&c&lBande indstillinger"));
         generateGuiBorder();
         this.player = player;
@@ -39,28 +41,52 @@ public class GangSettingsGui extends GUI {
         setItem(49, new ItemCreator(Material.BARRIER).setName("&cTilbage").make());
 
         //Rename
-        setItem(10, new ItemCreator(Material.NAME_TAG).setName("&aSkift navn").make());
+        setItem(10, new ItemCreator(Material.NAME_TAG).setName("&aSkift navn")
+                .addLore("&7Klik her for at:",
+                        "&6- &fNOGET")
+                .make());
 
         //Manage members
-        setItem(12, new ItemCreator(Material.PLAYER_HEAD).setName("&aHåndter medlemmer").make());
+        setItem(12, new ItemCreator(Material.PLAYER_HEAD).setName("&aHåndter medlemmer")
+                .addLore("&7Klik her for at:",
+                        "&6- &fNOGET")
+                .make());
 
         //Manage MOTD
-        setItem(14, new ItemCreator(Material.BOOK).setName("&aHåndter MOTD").make());
+        setItem(14, new ItemCreator(Material.BOOK).setName("&aHåndter MOTD")
+                .addLore("&7Klik her for at:",
+                        "&6- &fNOGET")
+                .make());
 
         //Manage allies
-        setItem(16, new ItemCreator(Material.GREEN_BANNER).setName("&aHåndter allierede").make());
+        setItem(16, new ItemCreator(Material.GREEN_BANNER).setName("&aHåndter allierede")
+                .addLore("&7Klik her for at:",
+                        "&6- &fNOGET")
+                .make());
 
         //Bank-deposit
-        setItem(28, new ItemCreator(Material.GOLD_NUGGET).setName("&aIndsæt penge").make());
+        setItem(28, new ItemCreator(Material.GOLD_NUGGET).setName("&aIndsæt penge")
+                .addLore("&7Klik her for at:",
+                        "&6- &fNOGET")
+                .make());
 
         //Manage gang-rank permissions
-        setItem(30, new ItemCreator(Material.GOLDEN_SWORD).setName("&aHåndter adgang for bande-roller").make());
+        setItem(30, new ItemCreator(Material.GOLDEN_SWORD).setName("&aHåndter adgang for bande-roller")
+                .addLore("&7Klik her for at:",
+                        "&6- &fNOGET")
+                .make());
 
         //Delete gang
-        setItem(32, new ItemCreator(Material.RED_DYE).setName("&aSlet bande").make());
+        setItem(32, new ItemCreator(Material.RED_DYE).setName("&aSlet bande")
+                .addLore("&7Klik her for at:",
+                        "&6- &fNOGET")
+                .make());
 
         //Manage rivals
-        setItem(34, new ItemCreator(Material.RED_BANNER).setName("&aHåndter rivaler").make());
+        setItem(34, new ItemCreator(Material.RED_BANNER).setName("&aHåndter rivaler")
+                .addLore("&7Klik her for at:",
+                        "&6- &fNOGET")
+                .make());
     }
 
     @Override
@@ -136,7 +162,58 @@ public class GangSettingsGui extends GUI {
                     ChatUtil.sendMessage(player, Config.prefix + " &cFejl: Din bande kunne ikke slettes, vær' sikker på at du er alene i den!");
                 }
             }
-            //Members
+            //Rank permissions
+            case GOLDEN_SWORD -> {
+                GangRank requiredRank = GangRank.OWNER;
+                GangRank playerRank = gangPlayer.getGangRank();
+
+                if(!playerRank.isHigherOrEqualThan(requiredRank)) {
+                    ChatUtil.sendMessage(player, Messages.neededGangRank(requiredRank.getName()));
+                    return;
+                }
+
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
+            }
+            //MOTD
+            case BOOK -> {
+                GangRank requiredRank = gang.getGangPermissions().getMinRankToManageMOTD();
+                GangRank playerRank = gangPlayer.getGangRank();
+
+                if(!playerRank.isHigherOrEqualThan(requiredRank)) {
+                    ChatUtil.sendMessage(player, Messages.neededGangRank(requiredRank.getName()));
+                    return;
+                }
+
+                ManageMOTDGui manageMOTDGui = new ManageMOTDGui(player, gang);
+                manageMOTDGui.openTo(player);
+            }
+
+            //Allies MANGLER
+            case GREEN_BANNER -> {
+                GangRank requiredRank = gang.getGangPermissions().getMinRankToManageAllies();
+                GangRank playerRank = gangPlayer.getGangRank();
+
+                if(!playerRank.isHigherOrEqualThan(requiredRank)) {
+                    ChatUtil.sendMessage(player, Messages.neededGangRank(requiredRank.getName()));
+                    return;
+                }
+
+                //Open Menu
+            }
+            //Rivals MANGLER
+            case RED_BANNER -> {
+                GangRank requiredRank = gang.getGangPermissions().getMinRankToManageRivals();
+                GangRank playerRank = gangPlayer.getGangRank();
+
+                if(!playerRank.isHigherOrEqualThan(requiredRank)) {
+                    ChatUtil.sendMessage(player, Messages.neededGangRank(requiredRank.getName()));
+                    return;
+                }
+
+                //Open Menu
+            }
+            //Members MANGLER
             case PLAYER_HEAD -> {
                 GangRank minimumRankRequired;
                 GangRank requiredRankToMangeMemberRanks = gang.getGangPermissions().getMinRankToManageMemberRanks();
@@ -155,55 +232,359 @@ public class GangSettingsGui extends GUI {
 
                 //Open Menu
             }
-            //MOTD
+        }
+    }
+}
+
+class ManagePermissionsGui extends GUI {
+    private final Player player;
+    private final Gang gang;
+    private final GangPlayer gangPlayer;
+    private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
+
+    protected ManagePermissionsGui(Player player, Gang playerGang) {
+        super(54, ChatUtil.CC("&c&lBanderollers adgang"));
+        generateGuiBorder();
+        this.player = player;
+        this.gang = playerGang;
+        this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+
+        //minRankToInvitePlayers 10
+        GangRank requiredRankToInvitePlayer = gang.getGangPermissions().getMinRankToInvitePlayers();
+        setItem(10, new ItemCreator(Material.NETHER_STAR)
+                .setName("&aInviter spillere til banden")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToInvitePlayer.getFormatedNamed()),
+                        "&6- &fInvitere andre til banden")
+                .make());
+        //minRankToManageInvites 19
+        GangRank requiredRankToManageInvites = gang.getGangPermissions().getMinRankToManageInvites();
+        setItem(19, new ItemCreator(Material.PAPER)
+                .setName("&aHåndter invitationer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToManageInvites.getFormatedNamed()),
+                        "&6- &fInvitere andre til banden",
+                        "&6- &fHåndtere udgående invitationer")
+                .make());
+
+        //minRankToKickMembers 12
+        GangRank requiredRankToKick = gang.getGangPermissions().getMinRankToKickMembers();
+        setItem(12, new ItemCreator(Material.SKELETON_SKULL)
+                .setName("&aKick medlemmer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToKick.getFormatedNamed()),
+                        "&6- &fFjerne medlemmer fra banden")
+                .make());
+        //minRankToManageMemberRanks 21
+        GangRank requiredRankToManageMemberRanks = gang.getGangPermissions().getMinRankToManageMemberRanks();
+        setItem(21, new ItemCreator(Material.PLAYER_HEAD)
+                .setName("&aHåndter invitationer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToManageMemberRanks.getFormatedNamed()),
+                        "&6- &fHåndtere nuværende medlemmer i banden")
+                .make());
+        //minRankToUseShop 30
+        GangRank requiredRankToUseShop = gang.getGangPermissions().getMinRankToManageMemberRanks();
+        setItem(30, new ItemCreator(Material.GOLD_INGOT)
+                .setName("&aHåndter invitationer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToUseShop.getFormatedNamed()),
+                        "&6- &fBruge bandeshoppen")
+                .make());
+
+        //minRankToRankUp 14
+        GangRank requiredRankToRankUp = gang.getGangPermissions().getMinRankToLevelUpGang();
+        setItem(14, new ItemCreator(Material.EXPERIENCE_BOTTLE)
+                .setName("&aHåndter invitationer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToRankUp.getFormatedNamed()),
+                        "&6- &fLevel banden op")
+                .make());
+        //minRankToManageMOTD 23
+        GangRank requiredRankToManageMOTD = gang.getGangPermissions().getMinRankToManageMOTD();
+        setItem(23, new ItemCreator(Material.BOOK)
+                .setName("&aHåndter invitationer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToManageMOTD.getFormatedNamed()),
+                        "&6- &fHåndtere bandens MOTD")
+                .make());
+        //minRankToRenameGang 32
+        GangRank requiredRankToRenameGang = gang.getGangPermissions().getMinRankToRenameGang();
+        setItem(32, new ItemCreator(Material.NAME_TAG)
+                .setName("&aHåndter invitationer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToRenameGang.getFormatedNamed()),
+                        "&6- &fÆndre bandens navn")
+                .make());
+
+        //minRankToManageAllies 16
+        GangRank requiredRankToManageAllies = gang.getGangPermissions().getMinRankToManageAllies();
+        setItem(32, new ItemCreator(Material.GREEN_BANNER)
+                .setName("&aHåndter invitationer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToManageAllies.getFormatedNamed()),
+                        "&6- &fHåndtere bandens allierede")
+                .make());
+        //minRankToManageRivals 25
+        GangRank requiredRankToManageRivals = gang.getGangPermissions().getMinRankToManageRivals();
+        setItem(32, new ItemCreator(Material.RED_BANNER)
+                .setName("&aHåndter invitationer")
+                .addLore("&7Med denne adgang vil medlemmer der er",
+                        "{rank} eller derover kunne:"
+                                .replace("{rank}", requiredRankToManageRivals.getFormatedNamed()),
+                        "&6- &fHåndtere bandens rivaler")
+                .make());
+
+    }
+
+    @Override
+    public void onClick(InventoryClickEvent event) {
+        ItemStack clickedItem = event.getCurrentItem();
+        if(clickedItem == null) return;
+        if(!gangPlayer.isInGang()) return;
+        boolean isLeftClick = event.isLeftClick();
+        switch (clickedItem.getType()) {
+            case BARRIER -> {
+                GangSettingsGui gangSettingsGui = new GangSettingsGui(player, gang);
+                gangSettingsGui.openTo(player);
+            }
+            case NETHER_STAR -> {
+                GangRank currentMinRankToInvitePlayers = gang.getGangPermissions().getMinRankToInvitePlayers();
+                GangRank newMinRankToInvitePlayers;
+                if(isLeftClick) {
+                    newMinRankToInvitePlayers = GangRank.getRank(currentMinRankToInvitePlayers.getID() + 1);
+                } else {
+                    newMinRankToInvitePlayers = GangRank.getRank(currentMinRankToInvitePlayers.getID() - 1);
+                }
+                gang.getGangPermissions().setMinRankToInvitePlayers(newMinRankToInvitePlayers);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
+            }
+            case PAPER -> {
+                GangRank currentMinRankToManageInvites = gang.getGangPermissions().getMinRankToManageInvites();
+                GangRank newMinRankToManageInvites;
+                if(isLeftClick) {
+                    newMinRankToManageInvites = GangRank.getRank(currentMinRankToManageInvites.getID() + 1);
+                } else {
+                    newMinRankToManageInvites = GangRank.getRank(currentMinRankToManageInvites.getID() - 1);
+                }
+                gang.getGangPermissions().setMinRankToManageInvites(newMinRankToManageInvites);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
+            }
+            case SKELETON_SKULL -> {
+                GangRank currentMinRankToKickMembers = gang.getGangPermissions().getMinRankToKickMembers();
+                GangRank newMinRankToKickMembers;
+                if(isLeftClick) {
+                    newMinRankToKickMembers = GangRank.getRank(currentMinRankToKickMembers.getID() + 1);
+                } else {
+                    newMinRankToKickMembers = GangRank.getRank(currentMinRankToKickMembers.getID() - 1);
+                }
+                gang.getGangPermissions().setMinRankToKickMembers(newMinRankToKickMembers);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
+            }
+            case PLAYER_HEAD -> {
+                GangRank currentMinRankToManageMembers = gang.getGangPermissions().getMinRankToManageMemberRanks();
+                GangRank newMinRankToManageMembers;
+                if(isLeftClick) {
+                    newMinRankToManageMembers = GangRank.getRank(currentMinRankToManageMembers.getID() + 1);
+                } else {
+                    newMinRankToManageMembers = GangRank.getRank(currentMinRankToManageMembers.getID() - 1);
+                }
+                gang.getGangPermissions().setMinRankToManageMemberRanks(newMinRankToManageMembers);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
+            }
+            case GOLD_INGOT -> {
+                GangRank currentMinRankToUseShop = gang.getGangPermissions().getMinRankToUseShop();
+                GangRank newMinRankToUseShop;
+                if(isLeftClick) {
+                    newMinRankToUseShop = GangRank.getRank(currentMinRankToUseShop.getID() + 1);
+                } else {
+                    newMinRankToUseShop = GangRank.getRank(currentMinRankToUseShop.getID() - 1);
+                }
+                gang.getGangPermissions().setMinRankToUseShop(newMinRankToUseShop);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
+            }
+            case EXPERIENCE_BOTTLE -> {
+                GangRank currentMinRankToLevelUpGang = gang.getGangPermissions().getMinRankToLevelUpGang();
+                GangRank newMinRankToLevelUpGang;
+                if(isLeftClick) {
+                    newMinRankToLevelUpGang = GangRank.getRank(currentMinRankToLevelUpGang.getID() + 1);
+                } else {
+                    newMinRankToLevelUpGang = GangRank.getRank(currentMinRankToLevelUpGang.getID() - 1);
+                }
+                gang.getGangPermissions().setMinRankToLevelUpGang(newMinRankToLevelUpGang);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
+            }
             case BOOK -> {
-                GangRank requiredRank = gang.getGangPermissions().getMinRankToManageMOTD();
-                GangRank playerRank = gangPlayer.getGangRank();
-
-                if(!playerRank.isHigherOrEqualThan(requiredRank)) {
-                    ChatUtil.sendMessage(player, Messages.neededGangRank(requiredRank.getName()));
-                    return;
+                GangRank currentMinRankToManageMOTD = gang.getGangPermissions().getMinRankToManageMOTD();
+                GangRank newMinRankToManageMOTD;
+                if(isLeftClick) {
+                    newMinRankToManageMOTD = GangRank.getRank(currentMinRankToManageMOTD.getID() + 1);
+                } else {
+                    newMinRankToManageMOTD = GangRank.getRank(currentMinRankToManageMOTD.getID() - 1);
                 }
-
-                //Open Menu
+                gang.getGangPermissions().setMinRankToManageMOTD(newMinRankToManageMOTD);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
             }
-            //Allies
+            case NAME_TAG -> {
+                GangRank currentMinRankToRename = gang.getGangPermissions().getMinRankToRenameGang();
+                GangRank newMinRankToRename;
+                if(isLeftClick) {
+                    newMinRankToRename = GangRank.getRank(currentMinRankToRename.getID() + 1);
+                } else {
+                    newMinRankToRename = GangRank.getRank(currentMinRankToRename.getID() - 1);
+                }
+                gang.getGangPermissions().setMinRankToRenameGang(newMinRankToRename);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
+            }
             case GREEN_BANNER -> {
-                GangRank requiredRank = gang.getGangPermissions().getMinRankToManageAllies();
-                GangRank playerRank = gangPlayer.getGangRank();
-
-                if(!playerRank.isHigherOrEqualThan(requiredRank)) {
-                    ChatUtil.sendMessage(player, Messages.neededGangRank(requiredRank.getName()));
-                    return;
+                GangRank currentMinRankToManageAllies = gang.getGangPermissions().getMinRankToManageAllies();
+                GangRank newMinRankToManageAllies;
+                if(isLeftClick) {
+                    newMinRankToManageAllies = GangRank.getRank(currentMinRankToManageAllies.getID() + 1);
+                } else {
+                    newMinRankToManageAllies = GangRank.getRank(currentMinRankToManageAllies.getID() - 1);
                 }
-
-                //Open Menu
+                gang.getGangPermissions().setMinRankToManageAllies(newMinRankToManageAllies);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
             }
-            //Rivals
             case RED_BANNER -> {
-                GangRank requiredRank = gang.getGangPermissions().getMinRankToManageRivals();
-                GangRank playerRank = gangPlayer.getGangRank();
-
-                if(!playerRank.isHigherOrEqualThan(requiredRank)) {
-                    ChatUtil.sendMessage(player, Messages.neededGangRank(requiredRank.getName()));
-                    return;
+                GangRank currentMinRankToManageRivals = gang.getGangPermissions().getMinRankToManageRivals();
+                GangRank newMinRankToManageRivals;
+                if(isLeftClick) {
+                    newMinRankToManageRivals = GangRank.getRank(currentMinRankToManageRivals.getID() + 1);
+                } else {
+                    newMinRankToManageRivals = GangRank.getRank(currentMinRankToManageRivals.getID() - 1);
                 }
-
-                //Open Menu
-            }
-            //Rank permissions
-            case GOLDEN_SWORD -> {
-                GangRank requiredRank = GangRank.OWNER;
-                GangRank playerRank = gangPlayer.getGangRank();
-
-                if(!playerRank.isHigherOrEqualThan(requiredRank)) {
-                    ChatUtil.sendMessage(player, Messages.neededGangRank(requiredRank.getName()));
-                    return;
-                }
-
-                //Open Menu
+                gang.getGangPermissions().setMinRankToManageRivals(newMinRankToManageRivals);
+                ManagePermissionsGui managePermissionsGui = new ManagePermissionsGui(player, gang);
+                managePermissionsGui.openTo(player);
             }
         }
     }
+}
 
+
+class ManageMOTDGui extends GUI {
+    private final Player player;
+    private final Gang gang;
+    private final GangPlayer gangPlayer;
+    private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
+    private final ChatInputManager chatInputManager = ZGangs.getChatInputManager();
+
+    protected ManageMOTDGui(Player player, Gang playerGang) {
+        super(54, ChatUtil.CC("&c&lBandens MOTD"));
+        generateGuiBorder();
+        this.player = player;
+        this.gang = playerGang;
+        this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
+
+        setItem(13, new ItemCreator(Material.BOOK).addLore(gang.getGangMotd().getFullMotd()).make());
+
+        setItem(19, new ItemCreator(Material.PAPER).setName("MOTD Linje 1")
+                .addLore("&7Nuværende linje: ",
+                        gang.getGangMotd().getLine1() == null ? "" : gang.getGangMotd().getLine1())
+                .setAmount(1)
+                .make());
+        setItem(21, new ItemCreator(Material.PAPER).setAmount(2).setName("MOTD Linje 2")
+                .addLore("&7Nuværende linje: ",
+                        gang.getGangMotd().getLine2() == null ? "" : gang.getGangMotd().getLine2())
+                .setAmount(1)
+                .make());
+        setItem(23, new ItemCreator(Material.PAPER).setAmount(3).setName("MOTD Linje 3")
+                .addLore("&7Nuværende linje: ",
+                        gang.getGangMotd().getLine3() == null ? "" : gang.getGangMotd().getLine3())
+                .setAmount(1)
+                .make());
+        setItem(25, new ItemCreator(Material.PAPER).setAmount(4).setName("MOTD Linje 4")
+                .addLore("&7Nuværende linje: ",
+                        gang.getGangMotd().getLine4() == null ? "" : gang.getGangMotd().getLine4())
+                .setAmount(1)
+                .make());
+        setItem(29, new ItemCreator(Material.PAPER).setAmount(5).setName("MOTD Linje 5")
+                .addLore("&7Nuværende linje: ",
+                        gang.getGangMotd().getLine5() == null ? "" : gang.getGangMotd().getLine5())
+                .setAmount(1)
+                .make());
+        setItem(31, new ItemCreator(Material.PAPER).setAmount(6).setName("MOTD Linje 6")
+                .addLore("&7Nuværende linje: ",
+                        gang.getGangMotd().getLine6() == null ? "" : gang.getGangMotd().getLine6())
+                .setAmount(1)
+                .make());
+        setItem(33, new ItemCreator(Material.PAPER).setAmount(7).setName("MOTD Linje 7")
+                .addLore("&7Nuværende linje: ",
+                        gang.getGangMotd().getLine7() == null ? "" : gang.getGangMotd().getLine7())
+                .setAmount(1)
+                .make());
+
+        setItem(49, new ItemCreator(Material.BARRIER).setName("&cTilbage").make());
+    }
+
+    @Override
+    public void onClick(InventoryClickEvent event) {
+        ItemStack clickedItem = event.getCurrentItem();
+        if(clickedItem == null) return;
+        if(!gangPlayer.isInGang()) return;
+        boolean isLeftClick = event.isLeftClick();
+        switch (clickedItem.getType()) {
+            case BARRIER -> {
+                GangSettingsGui gangSettingsGui = new GangSettingsGui(player, gang);
+                gangSettingsGui.openTo(player);
+            }
+            case PAPER -> {
+                int amount = clickedItem.getAmount();
+                chatInputManager.newStringInput(player, input -> {
+                    if(input.length() > 32) {
+                        ChatUtil.sendMessage(player, "&cFejl: Hver linje i bandens MOTD må være max 32 tegn");
+                        return;
+                    }
+                    switch (amount) {
+                        default -> {
+                            ChatUtil.sendMessage(player, Messages.unexpectedError);
+                            return;
+                        }
+                        case 1 -> {
+                            gang.getGangMotd().setLine1(input);
+                        }
+                        case 2 -> {
+                            gang.getGangMotd().setLine2(input);
+                        }
+                        case 3 -> {
+                            gang.getGangMotd().setLine3(input);
+                        }
+                        case 4 -> {
+                            gang.getGangMotd().setLine4(input);
+                        }
+                        case 5 -> {
+                            gang.getGangMotd().setLine5(input);
+                        }
+                        case 6 -> {
+                            gang.getGangMotd().setLine6(input);
+                        }
+                        case 7 -> {
+                            gang.getGangMotd().setLine7(input);
+                        }
+                    }
+                    ChatUtil.sendMessage(player, Config.prefix + " Du har nu ændret linje " + amount + " af bandens MOTD");
+                });
+            }
+        }
+    }
 }

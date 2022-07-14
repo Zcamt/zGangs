@@ -4,10 +4,6 @@ package me.Zcamt.zgangs.objects.gang.permissions;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangRank;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-
 public class GangPermissions {
 
     private Gang gang;
@@ -15,7 +11,7 @@ public class GangPermissions {
     private GangRank minRankToManageInvites;
     private GangRank minRankToKickMembers;
     private GangRank minRankToUseShop;
-    private GangRank minRankToRankUp;
+    private GangRank minRankToLevelUpGang;
     private GangRank minRankToManageMOTD;
     private GangRank minRankToManageAllies;
     private GangRank minRankToManageRivals;
@@ -26,7 +22,7 @@ public class GangPermissions {
                            GangRank minRankToManageInvites,
                            GangRank minRankToKickMembers,
                            GangRank minRankToUseShop,
-                           GangRank minRankToRankUp,
+                           GangRank minRankToLevelUpGang,
                            GangRank minRankToManageMOTD,
                            GangRank minRankToManageAllies,
                            GangRank minRankToManageRivals,
@@ -36,7 +32,7 @@ public class GangPermissions {
         this.minRankToManageInvites = minRankToManageInvites;
         this.minRankToKickMembers = minRankToKickMembers;
         this.minRankToUseShop = minRankToUseShop;
-        this.minRankToRankUp = minRankToRankUp;
+        this.minRankToLevelUpGang = minRankToLevelUpGang;
         this.minRankToManageMOTD = minRankToManageMOTD;
         this.minRankToManageAllies = minRankToManageAllies;
         this.minRankToManageRivals = minRankToManageRivals;
@@ -65,8 +61,8 @@ public class GangPermissions {
         gang.serialize();
     }
 
-    public void setMinRankToRankUp(GangRank minRankToRankUp) {
-        this.minRankToRankUp = minRankToRankUp;
+    public void setMinRankToLevelUpGang(GangRank minRankToLevelUpGang) {
+        this.minRankToLevelUpGang = minRankToLevelUpGang;
         gang.serialize();
     }
 
@@ -112,8 +108,8 @@ public class GangPermissions {
         return minRankToUseShop;
     }
 
-    public GangRank getMinRankToRankUp() {
-        return minRankToRankUp;
+    public GangRank getMinRankToLevelUpGang() {
+        return minRankToLevelUpGang;
     }
 
     public GangRank getMinRankToManageMOTD() {

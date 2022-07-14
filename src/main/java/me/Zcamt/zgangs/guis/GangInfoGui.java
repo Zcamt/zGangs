@@ -29,7 +29,7 @@ public class GangInfoGui extends GUI {
     private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
     private final GangLevelManager gangLevelManager = ZGangs.getGangLevelManager();
 
-    public GangInfoGui(Player player, Gang playerGang) {
+    protected GangInfoGui(Player player, Gang playerGang) {
         super(54, ChatUtil.CC("&c&lDin bande " + playerGang.getName()));
         generateGuiBorder();
         this.player = player;
@@ -128,7 +128,7 @@ public class GangInfoGui extends GUI {
                         + " ["+requirementProgress+"/"+requirementAmount+"]");
 
             }
-            setItem(31, new ItemCreator(Material.NETHER_STAR)
+            setItem(31, new ItemCreator(Material.EXPERIENCE_BOTTLE)
                     .setName("&a&lLevel op")
                     .addLore(levelUpLore)
                     .make());

@@ -6,7 +6,8 @@ settings:
 gangs:
   max-name-length: 15
   min-name-length: 3
-  banned-names:
+  #Banned words are illegal to use in MOTD and in gangnames
+  banned-words:
     - "fuck"
   name-regex: "([A-Za-z0-9æøåÆØÅ])+"
   gang-transfer-cost: 50000

@@ -59,6 +59,7 @@ public class ZGangs extends JavaPlugin {
     // - probably more
 
     //Todo: Gang shop
+    //Todo: Allow for rankup in GangInfo GUI
 
     //Todo: Make numbers in menus+chat formatted
 

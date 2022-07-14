@@ -31,6 +31,10 @@ public enum GangRank {
         return colorCode;
     }
 
+    public String getFormatedNamed() {
+        return colorCode+name;
+    }
+
     public static GangRank getRank(int id) {
         if(id > 5) {
             id = 5;

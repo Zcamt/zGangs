@@ -65,8 +65,6 @@ public class MainGui extends GUI{
                 .make());
         setItem(49, new ItemCreator(Material.BARRIER).setName("&cLuk").make());
 
-        //Butik
-
     }
 
     @Override

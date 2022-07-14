@@ -17,7 +17,7 @@ public class Utils {
         if(ZGangs.getGangManager().nameExistsInDatabase(name)) return false;
         if(nameLength < Config.minNameLength) return false;
         if(nameLength > Config.maxNameLength) return false;
-        if(Config.bannedNames.contains(name.toLowerCase())) return false;
+        if(Config.bannedWords.contains(name.toLowerCase())) return false;
 
         return name.matches(Config.nameRegex);
     }
