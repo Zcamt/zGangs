@@ -63,6 +63,11 @@ public class ZGangs extends JavaPlugin {
 
     //Todo: Make numbers in menus+chat formatted
 
+    //Todo: Add "previous menu" as a parameter for menus to allow for precise and correct back-tracking via the back button.
+    // Null would be "close menu", shouldn't be the exact last instance but open a new instance.
+
+    //Todo: Change use of "unexpectedError" message in Messages class, is currently used for everything and shouldn't be.
+
     //Todo: Implement confirm system, like input
 
     //Todo: Checks for adapter variables being null
