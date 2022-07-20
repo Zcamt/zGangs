@@ -5,6 +5,7 @@ E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\utils\MenuUtil.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\leaderboard\leaderboards\DeathLeaderboard.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\utils\ConversionUtil.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\gang\members\GangMembers.java
+E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\guis\ManageRivalsGui.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\listeners\ChatInputListener.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\gang\level\GangLevelRequirement.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\guis\ExternalGangGui.java
@@ -52,14 +53,17 @@ E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\database\Database.ja
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\guis\LeaderboardGui.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\gangplayer\settings\GangPlayerSettings.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\leaderboard\leaderboards\GuardKillsLeaderboard.java
+E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\guis\ReceivedGangInvitesGui.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\gang\GangAdapter.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\gang\rivals\GangRivals.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\api\Placeholders.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\guis\GangInfoGui.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\listeners\PlayerListener.java
+E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\guis\ManageMembersGui.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\guis\GUI.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\gang\GangManager.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\config\Config.java
+E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\guis\ManageAlliesGui.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\gang\members\GangMembersAdapter.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\objects\gang\stats\GangStats.java
 E:\IdeaProjects\server\zGangs\src\main\java\me\Zcamt\zgangs\chatinput\ChatInputManager.java
