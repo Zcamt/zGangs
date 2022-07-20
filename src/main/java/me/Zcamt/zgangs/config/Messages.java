@@ -33,6 +33,8 @@ public class Messages {
     private static String playerLeftGang = "&a&l{player} har forladt banden!";
     private static String allyInviteIncoming = "&a&lDin bande har modtaget en invitation om at blive allierede fra {gang}";
     private static String allyInviteOutgoing = "&a&lDin bande har sendt en invitation om at blive allierede til {gang}";
+    private static String newAlly = "&a&lDin bande er nu allierede med {gang}";
+    private static String noLongerAlly = "&al&lDin bande er ikke længere allierede med {gang}";
     private static String newRival = "&a&lDin bande har lige gjort {gang} til en rival";
     private static String newRivalAgainst = "&a&l{gang} har lige gjort din bande til en rival";
     private static String memberConnected = "&a&l{player} &aer nu online";
@@ -74,6 +76,14 @@ public class Messages {
 
     public static String allyInviteOutgoing(String gangName) {
         return allyInviteOutgoing.replace("{gang}", gangName);
+    }
+
+    public static String noLongerAlly(String gangName) {
+        return noLongerAlly.replace("{gang}", gangName);
+    }
+
+    public static String newAlly(String gangName) {
+        return newAlly.replace("{gang}", gangName);
     }
 
     public static String newRival(String gangName) {
