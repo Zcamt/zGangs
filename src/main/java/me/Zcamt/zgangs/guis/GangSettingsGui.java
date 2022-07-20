@@ -352,6 +352,7 @@ class ManagePermissionsGui extends GUI {
         if(clickedItem == null) return;
         if(!gangPlayer.isInGang()) return;
         boolean isLeftClick = event.isLeftClick();
+        boolean isRightClick = event.isRightClick();
         switch (clickedItem.getType()) {
             case BARRIER -> {
                 GangSettingsGui gangSettingsGui = new GangSettingsGui(player, gang);
@@ -359,10 +360,10 @@ class ManagePermissionsGui extends GUI {
             }
             case NETHER_STAR -> {
                 GangRank currentMinRankToInvitePlayers = gang.getGangPermissions().getMinRankToInvitePlayers();
-                GangRank newMinRankToInvitePlayers;
+                GangRank newMinRankToInvitePlayers = currentMinRankToInvitePlayers;
                 if(isLeftClick) {
                     newMinRankToInvitePlayers = GangRank.getRank(currentMinRankToInvitePlayers.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToInvitePlayers = GangRank.getRank(currentMinRankToInvitePlayers.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToInvitePlayers(newMinRankToInvitePlayers);
@@ -371,10 +372,10 @@ class ManagePermissionsGui extends GUI {
             }
             case PAPER -> {
                 GangRank currentMinRankToManageInvites = gang.getGangPermissions().getMinRankToManageInvites();
-                GangRank newMinRankToManageInvites;
+                GangRank newMinRankToManageInvites = currentMinRankToManageInvites;
                 if(isLeftClick) {
                     newMinRankToManageInvites = GangRank.getRank(currentMinRankToManageInvites.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToManageInvites = GangRank.getRank(currentMinRankToManageInvites.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToManageInvites(newMinRankToManageInvites);
@@ -383,10 +384,10 @@ class ManagePermissionsGui extends GUI {
             }
             case SKELETON_SKULL -> {
                 GangRank currentMinRankToKickMembers = gang.getGangPermissions().getMinRankToKickMembers();
-                GangRank newMinRankToKickMembers;
+                GangRank newMinRankToKickMembers = currentMinRankToKickMembers;
                 if(isLeftClick) {
                     newMinRankToKickMembers = GangRank.getRank(currentMinRankToKickMembers.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToKickMembers = GangRank.getRank(currentMinRankToKickMembers.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToKickMembers(newMinRankToKickMembers);
@@ -395,10 +396,10 @@ class ManagePermissionsGui extends GUI {
             }
             case PLAYER_HEAD -> {
                 GangRank currentMinRankToManageMembers = gang.getGangPermissions().getMinRankToManageMemberRanks();
-                GangRank newMinRankToManageMembers;
+                GangRank newMinRankToManageMembers = currentMinRankToManageMembers;
                 if(isLeftClick) {
                     newMinRankToManageMembers = GangRank.getRank(currentMinRankToManageMembers.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToManageMembers = GangRank.getRank(currentMinRankToManageMembers.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToManageMemberRanks(newMinRankToManageMembers);
@@ -407,10 +408,10 @@ class ManagePermissionsGui extends GUI {
             }
             case GOLD_INGOT -> {
                 GangRank currentMinRankToUseShop = gang.getGangPermissions().getMinRankToUseShop();
-                GangRank newMinRankToUseShop;
+                GangRank newMinRankToUseShop = currentMinRankToUseShop;
                 if(isLeftClick) {
                     newMinRankToUseShop = GangRank.getRank(currentMinRankToUseShop.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToUseShop = GangRank.getRank(currentMinRankToUseShop.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToUseShop(newMinRankToUseShop);
@@ -419,10 +420,10 @@ class ManagePermissionsGui extends GUI {
             }
             case EXPERIENCE_BOTTLE -> {
                 GangRank currentMinRankToLevelUpGang = gang.getGangPermissions().getMinRankToLevelUpGang();
-                GangRank newMinRankToLevelUpGang;
+                GangRank newMinRankToLevelUpGang = currentMinRankToLevelUpGang;
                 if(isLeftClick) {
                     newMinRankToLevelUpGang = GangRank.getRank(currentMinRankToLevelUpGang.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToLevelUpGang = GangRank.getRank(currentMinRankToLevelUpGang.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToLevelUpGang(newMinRankToLevelUpGang);
@@ -431,10 +432,10 @@ class ManagePermissionsGui extends GUI {
             }
             case BOOK -> {
                 GangRank currentMinRankToManageMOTD = gang.getGangPermissions().getMinRankToManageMOTD();
-                GangRank newMinRankToManageMOTD;
+                GangRank newMinRankToManageMOTD = currentMinRankToManageMOTD;
                 if(isLeftClick) {
                     newMinRankToManageMOTD = GangRank.getRank(currentMinRankToManageMOTD.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToManageMOTD = GangRank.getRank(currentMinRankToManageMOTD.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToManageMOTD(newMinRankToManageMOTD);
@@ -443,10 +444,10 @@ class ManagePermissionsGui extends GUI {
             }
             case NAME_TAG -> {
                 GangRank currentMinRankToRename = gang.getGangPermissions().getMinRankToRenameGang();
-                GangRank newMinRankToRename;
+                GangRank newMinRankToRename = currentMinRankToRename;
                 if(isLeftClick) {
                     newMinRankToRename = GangRank.getRank(currentMinRankToRename.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToRename = GangRank.getRank(currentMinRankToRename.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToRenameGang(newMinRankToRename);
@@ -455,10 +456,10 @@ class ManagePermissionsGui extends GUI {
             }
             case GREEN_BANNER -> {
                 GangRank currentMinRankToManageAllies = gang.getGangPermissions().getMinRankToManageAllies();
-                GangRank newMinRankToManageAllies;
+                GangRank newMinRankToManageAllies = currentMinRankToManageAllies;
                 if(isLeftClick) {
                     newMinRankToManageAllies = GangRank.getRank(currentMinRankToManageAllies.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToManageAllies = GangRank.getRank(currentMinRankToManageAllies.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToManageAllies(newMinRankToManageAllies);
@@ -467,10 +468,10 @@ class ManagePermissionsGui extends GUI {
             }
             case RED_BANNER -> {
                 GangRank currentMinRankToManageRivals = gang.getGangPermissions().getMinRankToManageRivals();
-                GangRank newMinRankToManageRivals;
+                GangRank newMinRankToManageRivals = currentMinRankToManageRivals;
                 if(isLeftClick) {
                     newMinRankToManageRivals = GangRank.getRank(currentMinRankToManageRivals.getID() + 1);
-                } else {
+                } else if (isRightClick) {
                     newMinRankToManageRivals = GangRank.getRank(currentMinRankToManageRivals.getID() - 1);
                 }
                 gang.getGangPermissions().setMinRankToManageRivals(newMinRankToManageRivals);
