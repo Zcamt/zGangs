@@ -28,6 +28,8 @@ public class GangAllies {
 
 
     public boolean addAlly(Gang newAlly) {
+        removeAllyInviteIncoming(newAlly);
+        removeAllyInviteOutgoing(newAlly);
         if(gang.getGangRivals().isRival(newAlly.getUUID())) return false;
         if(gang.getGangRivals().isRivalAgainst(newAlly.getUUID())) return false;
         if(alliedGangs.size() >= maxAllies) return false;
