@@ -189,7 +189,7 @@ public class GangSettingsGui extends GUI {
                 manageMOTDGui.openTo(player);
             }
 
-            //Allies MANGLER
+            //Allies
             case GREEN_BANNER -> {
                 GangRank requiredRank = gang.getGangPermissions().getMinRankToManageAllies();
                 GangRank playerRank = gangPlayer.getGangRank();
@@ -199,7 +199,8 @@ public class GangSettingsGui extends GUI {
                     return;
                 }
 
-                //Open Menu
+                ManageAlliesGui manageAlliesGui = new ManageAlliesGui(player, gang);
+                manageAlliesGui.openTo(player);
             }
             //Rivals MANGLER
             case RED_BANNER -> {
