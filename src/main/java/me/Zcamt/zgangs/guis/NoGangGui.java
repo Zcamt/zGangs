@@ -89,6 +89,10 @@ public class NoGangGui extends GUI {
                 LeaderboardGui leaderboardGui = new LeaderboardGui(player, LeaderboardType.KILLS);
                 leaderboardGui.openTo(player);
             }
+            case PAPER -> {
+                ReceivedGangInvitesGui receivedGangInvitesGui = new ReceivedGangInvitesGui(player);
+                receivedGangInvitesGui.openTo(player);
+            }
         }
     }
 }
