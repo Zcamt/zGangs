@@ -59,6 +59,10 @@ public enum GangRank {
         return this.getID() - compareTo.getID() >= 0;
     }
 
+    public boolean isHigherThan(GangRank compareTo) {
+        return this.getID() - compareTo.getID() > 0;
+    }
+
     static {
         for(GangRank rank : values()) {
             BY_ID.put(rank.getID(), rank);
