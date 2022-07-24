@@ -202,7 +202,7 @@ public class GangSettingsGui extends GUI {
                 ManageAlliesGui manageAlliesGui = new ManageAlliesGui(player, gang);
                 manageAlliesGui.openTo(player);
             }
-            //Rivals MANGLER
+            //Rivals
             case RED_BANNER -> {
                 GangRank requiredRank = gang.getGangPermissions().getMinRankToManageRivals();
                 GangRank playerRank = gangPlayer.getGangRank();
@@ -212,9 +212,10 @@ public class GangSettingsGui extends GUI {
                     return;
                 }
 
-                //Open Menu
+                ManageRivalsGui manageRivalsGui = new ManageRivalsGui(player, gang);
+                manageRivalsGui.openTo(player);
             }
-            //Members MANGLER
+            //Members
             case PLAYER_HEAD -> {
                 GangRank minimumRankRequired;
                 GangRank requiredRankToMangeMemberRanks = gang.getGangPermissions().getMinRankToManageMemberRanks();
@@ -231,7 +232,8 @@ public class GangSettingsGui extends GUI {
                     return;
                 }
 
-                //Open Menu
+                ManageMembersGui manageMembersGui = new ManageMembersGui(player, gang);
+                manageMembersGui.openTo(player);
             }
         }
     }
@@ -482,7 +484,6 @@ class ManagePermissionsGui extends GUI {
         }
     }
 }
-
 
 class ManageMOTDGui extends GUI {
     private final Player player;
