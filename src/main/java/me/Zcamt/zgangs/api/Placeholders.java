@@ -82,7 +82,7 @@ public class Placeholders extends PlaceholderExpansion {
             Gang playerGang = gangManager.findById(gangPlayer.getGangUUID());
             if(playerGang == null) return String.valueOf(0);
 
-            return String.valueOf(playerGang.getGangMembers().getMemberList().size());
+            return String.valueOf(playerGang.getGangMembers().getOnlineMembers().size());
         }
 
         //%zgangs_gangplayer_rank%
