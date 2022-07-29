@@ -59,9 +59,8 @@ public class ZGangs extends JavaPlugin {
     // - probably more
 
     //Todo: Gang shop
-    //Todo: Allow for rankup in GangInfo GUI
 
-    //Todo: Make numbers in menus+chat formatted
+    //Todo: Admins commands
 
     //Todo: Add "previous menu" as a parameter for menus to allow for precise and correct back-tracking via the back button.
     // Null would be "close menu", shouldn't be the exact last instance but open a new instance.
