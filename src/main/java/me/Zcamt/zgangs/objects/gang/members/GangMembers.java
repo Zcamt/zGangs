@@ -5,7 +5,10 @@ import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangRank;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -85,6 +88,17 @@ public class GangMembers {
         }
         this.memberDamagePercent = memberDamagePercent;
         gang.serialize();
+    }
+
+    public List<UUID> getOnlineMembers() {
+        List<UUID> onlineMembers = new ArrayList<>();
+        for (UUID uuid : getMemberList()) {
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
+            if(offlinePlayer.isOnline()) {
+                onlineMembers.add(uuid);
+            }
+        }
+        return onlineMembers;
     }
 
 
