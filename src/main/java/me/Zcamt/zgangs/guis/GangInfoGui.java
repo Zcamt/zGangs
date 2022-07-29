@@ -1,6 +1,7 @@
 package me.Zcamt.zgangs.guis;
 
 import me.Zcamt.zgangs.ZGangs;
+import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.objects.gang.level.GangLevel;
@@ -152,6 +153,20 @@ public class GangInfoGui extends GUI {
             case BARRIER -> {
                 MainGui mainGui = new MainGui(player, gang);
                 mainGui.openTo(player);
+            }
+            case EXPERIENCE_BOTTLE -> {
+                int gangLevelInt = gang.getLevel();
+                GangLevel nextGangLevel = gangLevelManager.getGangLevelFromInt(gangLevelInt+1);
+                if(nextGangLevel.requirementsMet(gang)) {
+                    gang.setBank(gang.getBank() - nextGangLevel.getCost());
+                    gang.setLevel(gangLevelInt + 1);
+                    gang.sendMessageToOnlineMembers(Messages.gangReachedNewLevel(gangLevelInt+1));
+                    GangInfoGui gangInfoGui = new GangInfoGui(player, gang);
+                    gangInfoGui.openTo(player);
+                } else {
+                    ChatUtil.sendMessage(player, Messages.levelRequirementsNotMet);
+                    return;
+                }
             }
         }
     }
