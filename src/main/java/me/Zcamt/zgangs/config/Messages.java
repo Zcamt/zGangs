@@ -24,6 +24,8 @@ public class Messages {
     public static String notEnoughMoney = "&cFejl: Det har du ikke penge nok til";
     public static String notEnoughGangMoney = "&cFejl: Det har din bande ikke penge nok til";
     public static String unexpectedError = "&cFejl: Noget gik galt, kontakt venligst en Admin";
+    public static String levelRequirementsNotMet = "&cFejl: Din bande har ikke opnået alle krav endnu";
+    private static String gangReachedNewLevel = "&aDin bande er nu i level {level}";
     private static String inviteSentToPlayer = "&aDin bande har sendt en invitation til {player}";
     private static String inviteReceivedFrom = "&aInvitation modtaget fra {gang}, accepter den via /bk accept {gang} eller via /b";
     private static String bankDeposit = "&a&lDu har sat &c&l{amount} &a&lind i bandebanken";
@@ -51,6 +53,10 @@ public class Messages {
 
     public static String neededGangRank(String neededRank) {
         return neededGangRank.replace("{rank}", neededRank);
+    }
+
+    public static String gangReachedNewLevel(int level) {
+        return gangReachedNewLevel.replace("{level}", String.valueOf(level));
     }
 
     public static String inviteSentToPlayer(String playerName) {
