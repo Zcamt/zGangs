@@ -13,6 +13,7 @@ import me.Zcamt.zgangs.confirmaction.ConfirmActionManager;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.listeners.ChatInputListener;
 import me.Zcamt.zgangs.listeners.InventoryListener;
+import me.Zcamt.zgangs.listeners.NpcListener;
 import me.Zcamt.zgangs.listeners.PlayerListener;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangAdapter;
@@ -55,16 +56,14 @@ import java.util.concurrent.Executors;
 
 public class ZGangs extends JavaPlugin {
 
-    //Todo: Listeners missing for
-    // - Delivering stuff for item-delivery
-    // - probably more
-
     //Todo: Gang shop
+    // Remember to add "is-gang-cig" as NBT boolean to blaze-rod cigs
 
-    //Todo: Admins commands
+
+    //Todo: Admin commands
 
     //Todo: Add "previous menu" as a parameter for menus to allow for precise and correct back-tracking via the back button.
-    // Null would be "close menu", shouldn't be the exact last instance but open a new instance.
+    // Null would be "close menu", shouldn't be the exact last instance but open a new instance of previous menu.
 
     //Todo: Change use of "unexpectedError" message in Messages class, is currently used for everything and shouldn't be.
 
@@ -203,6 +202,7 @@ public class ZGangs extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
         getServer().getPluginManager().registerEvents(new ChatInputListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
+        getServer().getPluginManager().registerEvents(new NpcListener(), this);
     }
 
     private boolean setupEconomy() {
