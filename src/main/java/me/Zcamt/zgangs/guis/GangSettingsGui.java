@@ -19,8 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.nio.file.attribute.UserPrincipalNotFoundException;
-
 public class GangSettingsGui extends GUI {
 
     private final Player player;
@@ -43,49 +41,49 @@ public class GangSettingsGui extends GUI {
         //Rename
         setItem(10, new ItemCreator(Material.NAME_TAG).setName("&aSkift navn")
                 .addLore("&7Klik her for at:",
-                        "&6- &fNOGET")
+                        "&6- &fSkifte bandens navn")
                 .make());
 
         //Manage members
         setItem(12, new ItemCreator(Material.PLAYER_HEAD).setName("&aHåndter medlemmer")
                 .addLore("&7Klik her for at:",
-                        "&6- &fNOGET")
+                        "&6- &fKunne håndtere de forskellige medlemmer i banden")
                 .make());
 
         //Manage MOTD
         setItem(14, new ItemCreator(Material.BOOK).setName("&aHåndter MOTD")
                 .addLore("&7Klik her for at:",
-                        "&6- &fNOGET")
+                        "&6- &fHåndtere bandens MOTD")
                 .make());
 
         //Manage allies
         setItem(16, new ItemCreator(Material.GREEN_BANNER).setName("&aHåndter allierede")
                 .addLore("&7Klik her for at:",
-                        "&6- &fNOGET")
+                        "&6- &fHåndtere bandens allierede")
                 .make());
 
         //Bank-deposit
         setItem(28, new ItemCreator(Material.GOLD_NUGGET).setName("&aIndsæt penge")
                 .addLore("&7Klik her for at:",
-                        "&6- &fNOGET")
+                        "&6- &fSætte penge ind i bandens bank")
                 .make());
 
         //Manage gang-rank permissions
         setItem(30, new ItemCreator(Material.GOLDEN_SWORD).setName("&aHåndter adgang for bande-roller")
                 .addLore("&7Klik her for at:",
-                        "&6- &fNOGET")
+                        "&6- &fÆndre hvad de forskellige roller i banden har adgang til")
                 .make());
 
         //Delete gang
         setItem(32, new ItemCreator(Material.RED_DYE).setName("&aSlet bande")
                 .addLore("&7Klik her for at:",
-                        "&6- &fNOGET")
+                        "&6- &fSlette banden")
                 .make());
 
         //Manage rivals
         setItem(34, new ItemCreator(Material.RED_BANNER).setName("&aHåndter rivaler")
                 .addLore("&7Klik her for at:",
-                        "&6- &fNOGET")
+                        "&6- &fHåndtere bandens rivaler")
                 .make());
     }
 
