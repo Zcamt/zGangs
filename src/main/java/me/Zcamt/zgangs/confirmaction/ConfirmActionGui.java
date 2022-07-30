@@ -2,6 +2,7 @@ package me.Zcamt.zgangs.confirmaction;
 
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.guis.GUI;
+import me.Zcamt.zgangs.utils.ChatUtil;
 import me.Zcamt.zgangs.utils.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,7 +18,7 @@ public class ConfirmActionGui extends GUI {
     private final ConfirmActionManager confirmActionManager = ZGangs.getConfirmActionManager();
 
     protected ConfirmActionGui(Player player) {
-        super(54, "&aBekræft handling");
+        super(54, ChatUtil.CC("&a&lBekræft handling"));
         generateGuiBorder();
         this.player = player;
 
