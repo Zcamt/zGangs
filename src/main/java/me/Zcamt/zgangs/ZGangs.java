@@ -9,6 +9,7 @@ import me.Zcamt.zgangs.chatinput.ChatInputManager;
 import me.Zcamt.zgangs.commands.*;
 import me.Zcamt.zgangs.config.Config;
 import me.Zcamt.zgangs.config.Messages;
+import me.Zcamt.zgangs.confirmaction.ConfirmActionManager;
 import me.Zcamt.zgangs.database.Database;
 import me.Zcamt.zgangs.listeners.ChatInputListener;
 import me.Zcamt.zgangs.listeners.InventoryListener;
@@ -67,8 +68,6 @@ public class ZGangs extends JavaPlugin {
 
     //Todo: Change use of "unexpectedError" message in Messages class, is currently used for everything and shouldn't be.
 
-    //Todo: Implement confirm system, like input
-
     //Todo: Checks for adapter variables being null
     public static final Gson GSON = new GsonBuilder()
             .registerTypeAdapter(Gang.class, new GangAdapter())
@@ -94,6 +93,7 @@ public class ZGangs extends JavaPlugin {
     private static final LeaderboardManager LEADERBOARD_MANAGER = new LeaderboardManager();
     private static final GangLevelManager GANG_LEVEL_MANAGER = new GangLevelManager();
     private static final ChatInputManager CHAT_INPUT_MANAGER = new ChatInputManager();
+    private static final ConfirmActionManager CONFIRM_ACTION_MANAGER = new ConfirmActionManager();
     private static Economy ECONOMY;
     private static LuckPerms LUCKPERMS;
 
@@ -243,6 +243,10 @@ public class ZGangs extends JavaPlugin {
 
     public static ChatInputManager getChatInputManager() {
         return CHAT_INPUT_MANAGER;
+    }
+
+    public static ConfirmActionManager getConfirmActionManager() {
+        return CONFIRM_ACTION_MANAGER;
     }
 
     public static Economy getEconomy() {
