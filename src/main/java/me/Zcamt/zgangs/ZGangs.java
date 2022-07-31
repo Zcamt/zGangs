@@ -56,11 +56,9 @@ import java.util.concurrent.Executors;
 
 public class ZGangs extends JavaPlugin {
 
-    //Todo: Gang shop
-    // Remember to add "is-gang-cig" as NBT boolean to blaze-rod cigs
-
-
     //Todo: Admin commands
+
+    //Todo: Damage system
 
     //Todo: Add "previous menu" as a parameter for menus to allow for precise and correct back-tracking via the back button.
     // Null would be "close menu", shouldn't be the exact last instance but open a new instance of previous menu.

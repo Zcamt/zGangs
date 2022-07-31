@@ -34,6 +34,8 @@ public class GangMotd {
     }
 
 
+    //Todo: Adder getters and setters that takes int input as line number.
+
     public void setLine1(@Nullable String line1) {
         this.line1 = line1;
         gang.serialize();
