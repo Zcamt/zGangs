@@ -7,6 +7,7 @@ import me.Zcamt.zgangs.config.Messages;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
 import me.Zcamt.zgangs.objects.gang.GangRank;
+import me.Zcamt.zgangs.objects.gang.level.GangLevelManager;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
@@ -489,6 +490,7 @@ class ManageMOTDGui extends GUI {
     private final GangPlayer gangPlayer;
     private final GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
     private final ChatInputManager chatInputManager = ZGangs.getChatInputManager();
+    private final GangLevelManager gangLevelManager = ZGangs.getGangLevelManager();
 
     protected ManageMOTDGui(Player player, Gang playerGang) {
         super(54, ChatUtil.CC("&c&lBandens MOTD"));
@@ -497,42 +499,55 @@ class ManageMOTDGui extends GUI {
         this.gang = playerGang;
         this.gangPlayer = gangPlayerManager.findById(player.getUniqueId());
 
+        int motdLinesAvailable = gangLevelManager.getGangLevelFromInt(gang.getLevel()).getMotdLines();
+
         setItem(13, new ItemCreator(Material.BOOK).addLore(gang.getGangMotd().getFullMotd()).make());
 
-        setItem(19, new ItemCreator(Material.PAPER).setName("MOTD Linje 1")
+        setItem(19, new ItemCreator(Material.PAPER).setAmount(1).setName("MOTD Linje 1")
                 .addLore("&7Nuværende linje: ",
                         gang.getGangMotd().getLine1() == null ? "" : gang.getGangMotd().getLine1())
-                .setAmount(1)
                 .make());
-        setItem(21, new ItemCreator(Material.PAPER).setAmount(2).setName("MOTD Linje 2")
+
+        setItem(21, new ItemCreator(motdLinesAvailable >= 2 ? Material.PAPER : Material.RED_DYE)
+                .setAmount(2)
+                .setName("MOTD Linje 2" + (motdLinesAvailable >= 2 ? "" : " &cLåst"))
                 .addLore("&7Nuværende linje: ",
                         gang.getGangMotd().getLine2() == null ? "" : gang.getGangMotd().getLine2())
-                .setAmount(1)
                 .make());
-        setItem(23, new ItemCreator(Material.PAPER).setAmount(3).setName("MOTD Linje 3")
+
+        setItem(23, new ItemCreator(motdLinesAvailable >= 3 ? Material.PAPER : Material.RED_DYE)
+                .setAmount(3)
+                .setName("MOTD Linje 3" + (motdLinesAvailable >= 3 ? "" : " &cLåst"))
                 .addLore("&7Nuværende linje: ",
                         gang.getGangMotd().getLine3() == null ? "" : gang.getGangMotd().getLine3())
-                .setAmount(1)
                 .make());
-        setItem(25, new ItemCreator(Material.PAPER).setAmount(4).setName("MOTD Linje 4")
+
+        setItem(25, new ItemCreator(motdLinesAvailable >= 4 ? Material.PAPER : Material.RED_DYE)
+                .setAmount(4)
+                .setName("MOTD Linje 4" + (motdLinesAvailable >= 4 ? "" : " &cLåst"))
                 .addLore("&7Nuværende linje: ",
                         gang.getGangMotd().getLine4() == null ? "" : gang.getGangMotd().getLine4())
-                .setAmount(1)
                 .make());
-        setItem(29, new ItemCreator(Material.PAPER).setAmount(5).setName("MOTD Linje 5")
+
+        setItem(29, new ItemCreator(motdLinesAvailable >= 5 ? Material.PAPER : Material.RED_DYE)
+                .setAmount(5)
+                .setName("MOTD Linje 5" + (motdLinesAvailable >= 5 ? "" : " &cLåst"))
                 .addLore("&7Nuværende linje: ",
                         gang.getGangMotd().getLine5() == null ? "" : gang.getGangMotd().getLine5())
-                .setAmount(1)
                 .make());
-        setItem(31, new ItemCreator(Material.PAPER).setAmount(6).setName("MOTD Linje 6")
+
+        setItem(31, new ItemCreator(motdLinesAvailable >= 6 ? Material.PAPER : Material.RED_DYE)
+                .setAmount(6)
+                .setName("MOTD Linje 6" + (motdLinesAvailable >= 6 ? "" : " &cLåst"))
                 .addLore("&7Nuværende linje: ",
                         gang.getGangMotd().getLine6() == null ? "" : gang.getGangMotd().getLine6())
-                .setAmount(1)
                 .make());
-        setItem(33, new ItemCreator(Material.PAPER).setAmount(7).setName("MOTD Linje 7")
+
+        setItem(33, new ItemCreator(motdLinesAvailable >= 7 ? Material.PAPER : Material.RED_DYE)
+                .setAmount(7)
+                .setName("MOTD Linje 7" + (motdLinesAvailable >= 7 ? "" : " &cLåst"))
                 .addLore("&7Nuværende linje: ",
                         gang.getGangMotd().getLine7() == null ? "" : gang.getGangMotd().getLine7())
-                .setAmount(1)
                 .make());
 
         setItem(49, new ItemCreator(Material.BARRIER).setName("&cTilbage").make());
@@ -544,6 +559,7 @@ class ManageMOTDGui extends GUI {
         if(clickedItem == null) return;
         if(!gangPlayer.isInGang()) return;
         boolean isLeftClick = event.isLeftClick();
+        boolean isRightClick = event.isRightClick();
         switch (clickedItem.getType()) {
             case BARRIER -> {
                 GangSettingsGui gangSettingsGui = new GangSettingsGui(player, gang);
@@ -551,40 +567,77 @@ class ManageMOTDGui extends GUI {
             }
             case PAPER -> {
                 int amount = clickedItem.getAmount();
-                chatInputManager.newStringInput(player, input -> {
-                    if(input.length() > 32) {
-                        ChatUtil.sendMessage(player, "&cFejl: Hver linje i bandens MOTD må være max 32 tegn");
-                        return;
-                    }
+
+                if(isRightClick) {
                     switch (amount) {
                         default -> {
                             ChatUtil.sendMessage(player, Messages.unexpectedError);
                             return;
                         }
                         case 1 -> {
-                            gang.getGangMotd().setLine1(input);
+                            gang.getGangMotd().setLine1(null);
                         }
                         case 2 -> {
-                            gang.getGangMotd().setLine2(input);
+                            gang.getGangMotd().setLine2(null);
                         }
                         case 3 -> {
-                            gang.getGangMotd().setLine3(input);
+                            gang.getGangMotd().setLine3(null);
                         }
                         case 4 -> {
-                            gang.getGangMotd().setLine4(input);
+                            gang.getGangMotd().setLine4(null);
                         }
                         case 5 -> {
-                            gang.getGangMotd().setLine5(input);
+                            gang.getGangMotd().setLine5(null);
                         }
                         case 6 -> {
-                            gang.getGangMotd().setLine6(input);
+                            gang.getGangMotd().setLine6(null);
                         }
                         case 7 -> {
-                            gang.getGangMotd().setLine7(input);
+                            gang.getGangMotd().setLine7(null);
                         }
                     }
-                    ChatUtil.sendMessage(player, Config.prefix + " Du har nu ændret linje " + amount + " af bandens MOTD");
-                });
+                    ManageMOTDGui manageMOTDGui = new ManageMOTDGui(player, gang);
+                    manageMOTDGui.openTo(player);
+                    return;
+                }
+                if(isLeftClick) {
+                    chatInputManager.newStringInput(player, input -> {
+                        if (input.length() > 32) {
+                            ChatUtil.sendMessage(player, "&cFejl: Hver linje i bandens MOTD må være max 32 tegn");
+                            return;
+                        }
+                        switch (amount) {
+                            default -> {
+                                ChatUtil.sendMessage(player, Messages.unexpectedError);
+                                return;
+                            }
+                            case 1 -> {
+                                gang.getGangMotd().setLine1(input);
+                            }
+                            case 2 -> {
+                                gang.getGangMotd().setLine2(input);
+                            }
+                            case 3 -> {
+                                gang.getGangMotd().setLine3(input);
+                            }
+                            case 4 -> {
+                                gang.getGangMotd().setLine4(input);
+                            }
+                            case 5 -> {
+                                gang.getGangMotd().setLine5(input);
+                            }
+                            case 6 -> {
+                                gang.getGangMotd().setLine6(input);
+                            }
+                            case 7 -> {
+                                gang.getGangMotd().setLine7(input);
+                            }
+                        }
+                        ManageMOTDGui manageMOTDGui = new ManageMOTDGui(player, gang);
+                        manageMOTDGui.openTo(player);
+                        ChatUtil.sendMessage(player, Config.prefix + " Du har nu ændret linje " + amount + " af bandens MOTD");
+                    });
+                }
             }
         }
     }
