@@ -65,6 +65,10 @@ public class GangLevel {
         return allyDamageLimit;
     }
 
+    public int getMotdLines() {
+        return motdLines;
+    }
+
     public boolean isGangAreaCPurchaseable() {
         return gangAreaCPurchaseable;
     }
