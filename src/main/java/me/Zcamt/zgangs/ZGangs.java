@@ -58,7 +58,9 @@ public class ZGangs extends JavaPlugin {
 
     //Todo: Admin commands
 
-    //Todo: Damage system
+    //Todo: Add confirm action system in the places where it is needed
+
+    //Todo: Could add information in infoGUI about how gangdamage and allydamage work
 
     //Todo: Add "previous menu" as a parameter for menus to allow for precise and correct back-tracking via the back button.
     // Null would be "close menu", shouldn't be the exact last instance but open a new instance of previous menu.
