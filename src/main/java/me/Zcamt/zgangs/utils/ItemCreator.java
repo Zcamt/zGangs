@@ -32,10 +32,10 @@ public class ItemCreator {
 
     /**
      * init ItemBuilder without argument
-
+     **/
     public ItemCreator(){
-        this(Material.AIR);
-    }*/
+        this(Material.STONE);
+    }
 
     /**
      * init ItemBuilder
@@ -75,11 +75,11 @@ public class ItemCreator {
     }
 
     /**
-     * Set item
+     * Set material
      * @param material
      * @return
      */
-    public ItemCreator setItem(Material material){
+    public ItemCreator setMaterial(Material material){
         this.itemStack.setType(material);
         return this;
     }
@@ -155,13 +155,13 @@ public class ItemCreator {
 
     /**
      * Add lore from String list
-     * @param lores
+     * @param lore
      * @return
      */
-    public ItemCreator addLore(List<String> lores){
+    public ItemCreator addLore(List<String> lore){
         ItemMeta itemMeta = itemStack.getItemMeta();
         List<String> newLore = new ArrayList<>();
-        lores.forEach(s -> newLore.add(ChatUtil.CC(s)));
+        lore.forEach(s -> newLore.add(ChatUtil.CC(s)));
         itemMeta.setLore(newLore);
         itemStack.setItemMeta(itemMeta);
         this.itemMeta = itemMeta;
@@ -170,11 +170,11 @@ public class ItemCreator {
 
     /**
      * Add lore from String...
-     * @param lores
+     * @param lore
      * @return
      */
-    public ItemCreator addLore(String... lores){
-        addLore(Arrays.asList(lores));
+    public ItemCreator addLore(String... lore){
+        addLore(Arrays.asList(lore));
         return this;
     }
 
@@ -840,7 +840,7 @@ public class ItemCreator {
         Arrays.asList(object).forEach(s -> {
             if (!s.equalsIgnoreCase(sectionType[0])){
                 if (s.startsWith("type: "))
-                    itemCreator.setItem(Material.valueOf(s.replace("type: ", "")));
+                    itemCreator.setMaterial(Material.valueOf(s.replace("type: ", "")));
                 if (s.startsWith("data: "))
                     itemCreator.setData(Integer.parseInt(s.replace("data: ", "")));
                 if (s.startsWith("amount: "))
