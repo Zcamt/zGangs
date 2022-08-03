@@ -3,7 +3,6 @@ package me.Zcamt.zgangs.guis;
 import me.Zcamt.zgangs.ZGangs;
 import me.Zcamt.zgangs.objects.gang.Gang;
 import me.Zcamt.zgangs.objects.gang.GangManager;
-import me.Zcamt.zgangs.objects.gang.motd.GangMotd;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayer;
 import me.Zcamt.zgangs.objects.gangplayer.GangPlayerManager;
 import me.Zcamt.zgangs.utils.ChatUtil;
@@ -14,9 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-
-public class MainGui extends GUI{
+public class MainGui extends GUI {
 
     private int eastereggCounter;
     private final Player player;
@@ -48,6 +45,12 @@ public class MainGui extends GUI{
                         "&6- &fSe bande leaderboards",
                         "&6- &fSe information om din bandes næste level",
                         "&6- &fSe hvilke kommandoer der findes i systemet")
+                .make());
+
+        setItem(31, new ItemCreator(Material.GOLD_BLOCK).setName("&a&lButik")
+                .addLore("&7Klik her for at:",
+                        "&6- &fKøbe opgraderinger til banden",
+                        "&6- &fKøbe specifikke items")
                 .make());
 
         setItem(47, new ItemCreator(Material.REDSTONE_TORCH).setName("&cPersonlige indstillinger")
@@ -100,6 +103,9 @@ public class MainGui extends GUI{
             case GOLDEN_SWORD -> {
                 InfoAndLeaderboardGui infoAndLeaderboardGui = new InfoAndLeaderboardGui(player, gang);
                 infoAndLeaderboardGui.openTo(player);
+            }
+            case GOLD_BLOCK -> {
+                ChatUtil.sendMessage(player, "Den her åbner bande-shopppen på et tidspunkt");
             }
         }
     }
