@@ -17,9 +17,11 @@ import net.minecraft.server.v1_16_R3.PacketPlayOutChat;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -33,6 +35,36 @@ public class PlayerListener implements Listener {
 
     GangManager gangManager = ZGangs.getGangManager();
     GangPlayerManager gangPlayerManager = ZGangs.getGangPlayerManager();
+
+    @EventHandler
+    public void onDamage(EntityDamageByEntityEvent event) {
+        Entity attackerEntity = event.getDamager();
+        Entity victimEntity = event.getEntity();
+        if(attackerEntity instanceof Player attacker && victimEntity instanceof Player victim) {
+            GangPlayer gangAttacker = gangPlayerManager.findById(attacker.getUniqueId());
+            GangPlayer gangVictim = gangPlayerManager.findById(victim.getUniqueId());
+
+            Gang attackerGang = gangManager.findById(gangAttacker.getGangUUID());
+            Gang victimGang = gangManager.findById(gangVictim.getGangUUID());
+
+            //Same gang
+            if(attackerGang.equals(victimGang)) {
+                double gangDamagePercent = attackerGang.getGangMembers().getMemberDamagePercent();
+                double eventDamage = event.getDamage();
+                double finalDamage = ((gangDamagePercent/100) * eventDamage);
+
+                event.setDamage(finalDamage);
+            }
+            //Allied gangs
+            else if(attackerGang.getGangAllies().getAlliedGangs().contains(victimGang.getUUID())){
+                double allyDamagePercent = attackerGang.getGangAllies().getAllyDamagePercent();
+                double eventDamage = event.getDamage();
+                double finalDamage = ((allyDamagePercent/100) * eventDamage);
+
+                event.setDamage(finalDamage);
+            }
+        }
+    }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
