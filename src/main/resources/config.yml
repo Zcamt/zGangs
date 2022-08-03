@@ -13,3 +13,20 @@ gangs:
   gang-transfer-cost: 50000
   gang-create-cost: 5000
   gang-rename-cost: 75000
+  shop:
+    cig-price: 2500
+    gang-area-a-price: 5750000
+    gang-area-b-price: 2750000
+    gang-area-c-price: 175000
+    gang-damage:
+      start-price: 12500
+      pr-upgrade-increase-coefficient: 1.2
+    ally-damage:
+      start-price: 7500
+      pr-upgrade-increase-coefficient: 1.2
+    member-count:
+      start-price: 5000
+      pr-upgrade-increase-coefficient: 1.1
+    ally-count:
+      start-price: 4000
+      pr-upgrade-increase-coefficient: 1.1
